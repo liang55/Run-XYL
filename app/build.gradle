@@ -1,0 +1,81 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        applicationId "com.anjoyo.xyl.run"
+        minSdkVersion 15
+        targetSdkVersion 22
+        versionCode 4
+        versionName "1.2.3"
+    }
+    dexOptions {
+        javaMaxHeapSize "2g"
+        // 对于dex 的--multi-dex 选项设置与预编译的library工程有冲突,如果你的应 //
+        // 用中包含引用的lirary工程,需要将预编译设置为false:
+        preDexLibraries = true
+    }
+    /*sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }*/
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+
+    //这个是解决lint报错的代码
+    lintOptions {
+        abortOnError false
+        // 防止在发布的时候出现因MissingTranslation导致Build Failed!
+        disable 'MissingTranslation'
+    }
+    signingConfigs {
+        debug {
+            // No debug config
+        }
+
+        release {
+            //签名所在路径，可以是相对路径，也可以是绝对路径
+            storeFile file("./doc/xyl_keystore")
+            storePassword "521334"
+            keyAlias "keyxyl"
+            keyPassword "521334"
+        }
+    }
+    buildTypes {
+        debug{
+            signingConfig signingConfigs.release
+        }
+        release {
+            minifyEnabled false
+            zipAlignEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk') &&!'debug'.equals(variant.buildType.name)) {
+                // 输出apk名称为heiba-signed-svn9634_preview.apk ${variant.productFlavors[0].name variant.buildType.name
+                def fileName = "Run-XYL-${defaultConfig.versionName}-${variant.buildType.name}.apk"
+                output.outputFile = new File(outputFile.parent, fileName)
+            }
+        }
+    }
+}
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    provided fileTree(dir: 'lib', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile project(':PushSDK')
+    compile 'com.squareup.okhttp:okhttp:2.4.0'
+}

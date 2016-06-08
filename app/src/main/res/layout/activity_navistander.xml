@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <com.amap.api.navi.AMapNaviView
+        android:id="@+id/standernavimap"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="5dp" 
+        android:layout_marginTop="100dp">
+
+        <ImageView
+            android:id="@+id/speed_value_add_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/speed_value_add_bg_selector" />
+
+        <TextView
+            android:id="@+id/speed_value_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="500km/h" />
+
+        <ImageView
+            android:id="@+id/speed_value_des_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/speed_value_des_bg_selector" />
+    </LinearLayout>
+
+</RelativeLayout>
