@@ -66,13 +66,14 @@ public class NaviEmulatorActivity extends Activity
 		super.onCreate(savedInstanceState);
 		mToast = Toast.makeText(this, "请在手机设置里打开允许模拟位置", Toast.LENGTH_SHORT);
 		try {
-			mLocationManager = ((LocationManager) getSystemService(Context.LOCATION_SERVICE));
+			mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 			mLocationManager.addTestProvider("gps", false, false, false, false,
 					false, false, false, 0, 0);
 			mLocationManager.setTestProviderEnabled("gps", true);
 			SensorManager sensor_manager_original = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 			mLocationManager = null;
 			mToast.show();
 		}
