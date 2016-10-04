@@ -9,6 +9,7 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
 
+import com.anjoyo.xyl.run.BuildConfig;
 import com.anjoyo.xyl.run.R;
 
 /**
@@ -19,8 +20,9 @@ public class NaviSettingActivity extends PreferenceActivity
         OnSharedPreferenceChangeListener,
         OnPreferenceChangeListener {
     private EditTextPreference mEditTextPreference;
-    private EditTextPreference userEditTextPreference;
-    private EditTextPreference addValueTextPreference;
+//    private EditTextPreference userEditTextPreference;
+//    private EditTextPreference addValueTextPreference;
+    private Preference verisionPreference;
     public static boolean isShowToast;
 
     @Override
@@ -32,8 +34,10 @@ public class NaviSettingActivity extends PreferenceActivity
                 .registerOnSharedPreferenceChangeListener(this);
         addPreferencesFromResource(R.xml.preference);
         this.mEditTextPreference = (EditTextPreference) findPreference("magnification");
-        userEditTextPreference = (EditTextPreference) findPreference("userid");
-        addValueTextPreference = (EditTextPreference) findPreference("addvalue");
+//        userEditTextPreference = (EditTextPreference) findPreference("userid");
+//        addValueTextPreference = (EditTextPreference) findPreference("addvalue");
+        verisionPreference= (Preference) findPreference("versionNumber");
+        verisionPreference.setSummary(BuildConfig.VERSION_NAME);
         changeSummary();
         isShowToast = true;
     }
@@ -55,10 +59,10 @@ public class NaviSettingActivity extends PreferenceActivity
         if (this.mEditTextPreference != null) {
             this.mEditTextPreference.setSummary(getPreferenceManager()
                     .getSharedPreferences().getString("magnification", "50"));
-            this.userEditTextPreference.setSummary(getPreferenceManager()
-                    .getSharedPreferences().getString("userid", ""));
-            this.addValueTextPreference.setSummary(getPreferenceManager()
-                    .getSharedPreferences().getString("addvalue", "0"));
+//            this.userEditTextPreference.setSummary(getPreferenceManager()
+//                    .getSharedPreferences().getString("userid", "默认自己UID"));
+//            this.addValueTextPreference.setSummary(getPreferenceManager()
+//                    .getSharedPreferences().getString("addvalue", "0"));
         }
     }
 

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_set_yodo_num"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
+
+    <Button
+        android:id="@+id/sendcode_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="开始测试验证码"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/hint_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="打开悦动客户端一次，获取请求参数"
+        android:paddingTop="8dp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/signkey_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/hint_tv"
+        android:hint="获取本地悦动signkey中..."
+        android:padding="8dp" />
+
+    <TextView
+        android:id="@+id/xyy_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signkey_tv"
+        android:hint="获取本地悦动xyy中..."
+        android:padding="8dp" />
+
+    <TextView
+        android:id="@+id/uid_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/xyy_tv"
+        android:hint="获取本地悦动uid中..."
+        android:padding="8dp" />
+    <TextView
+        android:id="@+id/cur_num_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/uid_tv"
+        android:text="当前步数:"
+        android:padding="8dp" />
+    <EditText
+        android:id="@+id/num_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cur_num_tv"
+        android:hint="输入要修改步数"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/addnum_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/num_tv"
+        android:layout_alignBottom="@+id/num_tv"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/num_tv"
+        android:text="修改" />
+
+    <EditText
+        android:id="@+id/result_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/addnum_tv"
+        android:background="@null"
+        android:gravity="top"
+        android:hint="请求结果"
+        android:inputType="textMultiLine"
+        android:padding="4dp"
+        android:textSize="12sp" />
+</RelativeLayout>

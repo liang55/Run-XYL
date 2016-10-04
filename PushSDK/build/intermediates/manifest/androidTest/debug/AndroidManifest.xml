@@ -23,8 +23,7 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
- <!-- 可选 -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> <!-- 可选 -->
     <uses-permission android:name="android.permission.BROADCAST_PACKAGE_ADDED" />
     <uses-permission android:name="android.permission.BROADCAST_PACKAGE_CHANGED" />
     <uses-permission android:name="android.permission.BROADCAST_PACKAGE_INSTALL" />
@@ -134,8 +133,7 @@
             <intent-filter>
                 <action android:name="com.umeng.message.autoupdate.handler.action" />
             </intent-filter>
-        </service>
- <!-- If you donot want to use the standard notification bar in SDK, you can define IntentService instead to handle message. -->
+        </service> <!-- If you donot want to use the standard notification bar in SDK, you can define IntentService instead to handle message. -->
         <service
             android:name="com.umeng.message.UmengDownloadResourceService"
             android:exported="false" />

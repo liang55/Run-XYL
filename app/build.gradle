@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
+    compileSdkVersion 19
     buildToolsVersion "23.0.2"
 
     defaultConfig {
         applicationId "com.anjoyo.xyl.run"
         minSdkVersion 15
-        targetSdkVersion 22
-        versionCode 4
-        versionName "1.2.3"
+        targetSdkVersion 16
+        versionCode 5
+        versionName "1.2.5"
     }
     dexOptions {
         javaMaxHeapSize "2g"
@@ -50,7 +50,7 @@ android {
         }
     }
     buildTypes {
-        debug{
+        debug {
             signingConfig signingConfigs.release
         }
         release {
@@ -64,7 +64,7 @@ android {
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
             def outputFile = output.outputFile
-            if (outputFile != null && outputFile.name.endsWith('.apk') &&!'debug'.equals(variant.buildType.name)) {
+            if (outputFile != null && outputFile.name.endsWith('.apk') && !'debug'.equals(variant.buildType.name)) {
                 // 输出apk名称为heiba-signed-svn9634_preview.apk ${variant.productFlavors[0].name variant.buildType.name
                 def fileName = "Run-XYL-${defaultConfig.versionName}-${variant.buildType.name}.apk"
                 output.outputFile = new File(outputFile.parent, fileName)
@@ -75,7 +75,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     provided fileTree(dir: 'lib', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
     compile project(':PushSDK')
-    compile 'com.squareup.okhttp:okhttp:2.4.0'
+    compile 'com.squareup.okhttp3:okhttp:3.3.1'
+    compile 'com.android.support:appcompat-v7:19.1.0'
 }

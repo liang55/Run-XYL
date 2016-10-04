@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="悦动设定">
-        <EditTextPreference
-            android:defaultValue=""
-            android:inputType="number"
-            android:key="userid"
-            android:summary=""
-            android:title="悦动id" />
-        <EditTextPreference
-            android:defaultValue="0"
-            android:inputType="number"
-            android:key="addvalue"
-            android:summary="0"
-            android:title="增加步数" />
-    </PreferenceCategory>
+    <!--<PreferenceCategory android:title="悦动设定">-->
+        <!--<Preference-->
+            <!--android:summary="直接修改一次悦动发送步数参数，出现多次不成功重启再试"-->
+            <!--android:title="提示" />-->
+        <!--<EditTextPreference-->
+            <!--android:defaultValue=""-->
+            <!--android:inputType="number"-->
+            <!--android:key="userid"-->
+            <!--android:summary=""-->
+            <!--android:title="悦动id" />-->
+        <!--<EditTextPreference-->
+            <!--android:defaultValue="0"-->
+            <!--android:inputType="number"-->
+            <!--android:key="addvalue"-->
+            <!--android:summary="0"-->
+            <!--android:title="增加步数" />-->
+    <!--</PreferenceCategory>-->
     <PreferenceCategory android:title="全局设定">
+        <Preference
+            android:summary="步数模拟功能需要在真机上使用，并且装有X框架成功启动小熊跑步模块"
+            android:title="提示" />
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="allautoincrement"
+            android:key="increment"
             android:summaryOff="关闭"
             android:summaryOn="开启"
             android:title="启动加倍" />
@@ -60,7 +66,8 @@
                 android:data="http://shang.qq.com/wpa/qunwpa?idkey=6919b55f9daf042d635b2c3570c9fd629b34bbf70126dface36f85023b291fd9" />
         </Preference>
         <Preference
-            android:summary="1.2.2"
+            android:key="versionNumber"
+            android:summary="1.2.5"
             android:title="关于">
             <intent
                 android:action="android.intent.action.VIEW"

@@ -16,6 +16,7 @@ public class MainApplication extends Application {
 		// TODO Auto-generated method stub
 		super.onCreate();
 		MobclickAgent.setDebugMode(false);
+		MobclickAgent.setCatchUncaughtExceptions(true);
 		instance = this;
 	}
 	// 单例模式中获取唯一的MyApplication实例
