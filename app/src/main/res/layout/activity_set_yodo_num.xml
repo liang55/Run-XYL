@@ -123,6 +123,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/hint_tv"
-        android:hint="(多次同步数据不成功，请检查X框架状态、开启模块后是否重启、悦动版本号，具体教程关注模拟跑步吧或入群咨询)"
+        android:hint="(多次同步数据不成功，请检查X框架状态、开启模块后是否重启、悦动版本号，具体教程关注模拟跑步吧或入群544175265咨询)"
         android:textSize="10sp" />
 </RelativeLayout>

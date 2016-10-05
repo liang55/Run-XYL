@@ -7,10 +7,11 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.anjoyo.xyl.run.BuildConfig;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -73,15 +74,15 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                     @Override
                     protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param)
                             throws Throwable {
-                        Log.d("xxx", "makeSig str=="
-                                + param.args[0].toString() + "++++str2=" + param.args[1].toString() + "++++str3=" + param.args[3].toString());
+                        if (BuildConfig.DEBUG)
+                            Log.d("xyl", "makeSig str=="
+                                    + param.args[0].toString() + "++++str2=" + param.args[1].toString() + "++++str3=" + param.args[3].toString());
                         HashMap<String, String> hashMap = (HashMap<String, String>) param.args[2];
                         if (hashMap != null) {
-                            Log.d("xxx", "makeSig hashMap=="
-                                    + hashMap.toString());
+                            if (BuildConfig.DEBUG)
+                                Log.d("xyl", "makeSig hashMap=="
+                                        + hashMap.toString());
                         }
-                        Log.d("xxx", "MainHook.addValue=="
-                                + MainHook.addValue);
                         if (MainHook.addValue < 1) {
                             return;
                         }
@@ -133,7 +134,6 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                         super.afterHookedMethod(param);
                         String signkey = param.getResult().toString();
-                        Log.d("xxx", "getSignkey signkey==>" + signkey);
                         Intent intent = new Intent("com.anjoyo.xyl.run.yd_info");
                         intent.putExtra("action", 0);
                         intent.putExtra("signkey", signkey);
@@ -152,11 +152,7 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                         super.afterHookedMethod(param);
                         Integer uid = (Integer) param.thisObject.getClass().getDeclaredMethod("uid", new Class[]{}).invoke(param.thisObject);
-                        Log.d("xxx", "getuid uid==>"
-                                + uid);
                         String xyy = param.getResult().toString();
-                        Log.d("xxx", "ydAccount xyy==>"
-                                + xyy);
                         Intent intent = new Intent("com.anjoyo.xyl.run.yd_info");
                         intent.putExtra("action", 1);
                         intent.putExtra("uid", uid);
@@ -218,8 +214,9 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
             XposedBridge.log(e);
         }
         initData();
-        Log.d("xxx", "loadpackageName=="
-                + loadPackageParam.packageName);
+        if (BuildConfig.DEBUG)
+            Log.d("xyl", "loadpackageName=="
+                    + loadPackageParam.packageName);
         if (TextUtils.equals("com.yuedong.sport", loadPackageParam.packageName)) {
             final Class<?> openSignEL = XposedHelpers.findClass(
                     "com.yuedong.common.utils.OpenSign",
@@ -240,7 +237,8 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
             }
         }
         if (!incrementValue) {
-            Log.d("xxx", "自动加速关闭");
+            if (BuildConfig.DEBUG)
+                Log.d("xyl", "自动加速关闭");
             return;
         }
         Class<?> sensorEL;
