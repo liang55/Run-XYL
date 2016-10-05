@@ -1,12 +1,12 @@
 package com.anjoyo.xyl.run.activity;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -61,7 +61,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NaviStartActivity extends Activity
+public class NaviStartActivity extends AppCompatActivity
         implements
         OnClickListener,
         OnCheckedChangeListener,

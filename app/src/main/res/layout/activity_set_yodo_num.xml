@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/tools"
     android:id="@+id/activity_set_yodo_num"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -20,9 +22,23 @@
         android:id="@+id/hint_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="打开悦动客户端一次，获取请求参数"
+        android:paddingBottom="8dp"
         android:paddingTop="8dp"
-        android:textStyle="bold"/>
+        android:text="打开悦动客户端一次，获取请求参数"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/getyd_prama_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/hint_tv"
+        android:layout_alignBottom="@+id/hint_tv"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/hint_tv"
+        android:paddingBottom="@dimen/margin_bottom"
+        android:paddingTop="@dimen/margin_top"
+        android:text="同步"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/signkey_tv"
@@ -47,19 +63,21 @@
         android:layout_below="@+id/xyy_tv"
         android:hint="获取本地悦动uid中..."
         android:padding="8dp" />
+
     <TextView
         android:id="@+id/cur_num_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/uid_tv"
-        android:text="当前步数:"
-        android:padding="8dp" />
+        android:padding="8dp"
+        android:text="当前步数:" />
+
     <EditText
         android:id="@+id/num_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/cur_num_tv"
-        android:hint="输入要修改步数"
+        android:hint="输入要增加步数"
         android:inputType="number" />
 
     <Button
@@ -70,7 +88,10 @@
         android:layout_alignBottom="@+id/num_tv"
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@+id/num_tv"
-        android:text="修改" />
+        android:paddingBottom="@dimen/margin_bottom"
+        android:paddingTop="@dimen/margin_top"
+        android:text="修改"
+        android:textSize="14sp" />
 
     <EditText
         android:id="@+id/result_tv"
@@ -82,5 +103,17 @@
         android:hint="请求结果"
         android:inputType="textMultiLine"
         android:padding="4dp"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:visibility="invisible" />
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="8dp"
+        android:src="@drawable/ic_add_white_24dp"
+        fab:fab_colorNormal="@color/primary"
+        fab:fab_colorPressed="@color/primary_pressed"
+        fab:fab_colorRipple="@color/ripple" />
 </RelativeLayout>

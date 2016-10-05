@@ -32,7 +32,7 @@ public class SetReceicver extends BroadcastReceiver {
                 toast.show();
                 break;
             default:
-                if (!NaviSettingActivity.isShowToast) {
+                if (!SettingFragment.isShowToast) {
                     return;
                 }
                 if (toast != null) {
