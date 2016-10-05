@@ -1,11 +1,7 @@
 package com.anjoyo.xyl.run.activity;
 
-import java.util.HashMap;
-import java.util.Random;
-
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -19,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amap.api.location.LocationManagerProxy;
 import com.amap.api.navi.AMapNavi;
 import com.amap.api.navi.AMapNaviListener;
 import com.amap.api.navi.AMapNaviView;
@@ -31,9 +26,10 @@ import com.anjoyo.xyl.run.MainApplication;
 import com.anjoyo.xyl.run.R;
 import com.anjoyo.xyl.run.TTSController;
 import com.anjoyo.xyl.run.util.Converter;
-import com.anjoyo.xyl.run.util.Utils;
 import com.umeng.analytics.MobclickAgent;
-import com.umeng.message.PushAgent;
+
+import java.util.HashMap;
+import java.util.Random;
 
 /**
  * 模拟导航显示界面

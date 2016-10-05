@@ -55,7 +55,8 @@
         <meta-data
             android:name="BaiduMobAd_APP_ID"
             android:value="ea0c0c7b" />
-
+        <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
+        <service android:name="com.amap.api.location.APSService" />
         <activity
             android:name="com.baidu.mobads.AppActivity"
             android:configChanges="keyboard|keyboardHidden|orientation" />

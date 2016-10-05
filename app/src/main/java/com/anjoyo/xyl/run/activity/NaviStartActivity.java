@@ -1,16 +1,10 @@
 package com.anjoyo.xyl.run.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
-import android.location.Location;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.text.InputType;
@@ -33,12 +27,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.amap.api.location.LocationManagerProxy;
-import com.amap.api.location.LocationProviderProxy;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.AMap.OnMapClickListener;
 import com.amap.api.maps.CameraUpdateFactory;
+import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.LatLng;
@@ -61,11 +56,16 @@ import com.baidu.mobads.InterstitialAdListener;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
 
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class NaviStartActivity extends Activity
         implements
         OnClickListener,
         OnCheckedChangeListener,
-        OnMapClickListener {
+        OnMapClickListener, LocationSource {
     // --------------View基本控件---------------------
     private MapView mMapView;// 地图控件
     private RadioGroup mNaviMethodGroup;// 步行驾车选择控件
@@ -102,7 +102,7 @@ public class NaviStartActivity extends Activity
     private Marker mStartMarker;
     private Marker mWayMarker;
     private Marker mEndMarker;
-    private Marker mGPSMarker;
+    //    private Marker mGPSMarker;
     private boolean mIsGetGPS = false;// 记录GPS定位是否成功
     private boolean mIsStart = false;// 记录是否已我的位置发起路径规划
 
@@ -135,57 +135,39 @@ public class NaviStartActivity extends Activity
     private final static int CALCULATESUCCESS = 2;// 启动路径计算成功状态
 
     // 定位
-    private LocationManagerProxy mLocationManger;
     private InterstitialAd interAd;
-    private AMapLocationListener mLocationListener = new AMapLocationListener() {
-
+    //声明AMapLocationClient类对象
+    public AMapLocationClient mLocationClient = null;
+    //声明定位回调监听器
+    public AMapLocationListener mLocationListener = new AMapLocationListener() {
         @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void onLocationChanged(Location location) {
-            // TODO Auto-generated method stub
-
-        }
-
-        @Override
-        public void onLocationChanged(AMapLocation location) {
-            if (location != null
-                    && location.getAMapException().getErrorCode() == 0) {
-                mIsGetGPS = true;
-                mStartPoint = new NaviLatLng(location.getLatitude(),
-                        location.getLongitude());
-                mGPSMarker.setPosition(new LatLng(mStartPoint.getLatitude(),
-                        mStartPoint.getLongitude()));
-                mStartPoints.clear();
-                mStartPoints.add(mStartPoint);
-                if (mIsStart) {
-                    dissmissGPSProgressDialog();
-                    calculateRoute();
+        public void onLocationChanged(AMapLocation amapLocation) {
+            if (mListener != null && amapLocation != null) {
+                if (amapLocation != null
+                        && amapLocation.getErrorCode() == 0) {
+                    mListener.onLocationChanged(amapLocation);
+                    mIsGetGPS = true;
+                    mStartPoint = new NaviLatLng(amapLocation.getLatitude(),
+                            amapLocation.getLongitude());
+//                    mGPSMarker.setPosition(new LatLng(mStartPoint.getLatitude(),
+//                            mStartPoint.getLongitude()));
+                    mStartPoints.clear();
+                    mStartPoints.add(mStartPoint);
+                    if (mIsStart) {
+                        dissmissGPSProgressDialog();
+                        calculateRoute();
+                    } else {
+                        mAmap.animateCamera(
+                                CameraUpdateFactory.newLatLngZoom(new LatLng(mStartPoint.getLatitude(),
+                                        mStartPoint.getLongitude()), 12f));
+                    }
                 } else {
-                    mAmap.animateCamera(
-                            CameraUpdateFactory.newLatLngZoom(mGPSMarker.getPosition(), 12f));
+                    showToast("定位失败," + amapLocation.getErrorCode() + ": " + amapLocation.getErrorInfo());
                 }
-            } else {
-                showToast("定位出现异常");
             }
         }
     };
+    private LocationSource.OnLocationChangedListener mListener = null;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -300,13 +282,18 @@ public class NaviStartActivity extends Activity
     private void calculateRoute() {
         if (mStartPointMethod == BY_MY_POSITION && !mIsGetGPS && mStartPoints.isEmpty()) {
             mIsStart = true;
-            if (mLocationManger == null) {
-                mLocationManger = LocationManagerProxy.getInstance(this);
+//            if (mLocationManger == null) {
+//                mLocationManger = LocationManagerProxy.getInstance(this);
+//            }
+//            // 进行一次定位
+//            mLocationManger.requestLocationData(
+//                    LocationProviderProxy.AMapNetwork, -1, 15,
+//                    mLocationListener);
+            if (mLocationClient == null) {
+                showToast("定位异常");
+                return;
             }
-            // 进行一次定位
-            mLocationManger.requestLocationData(
-                    LocationProviderProxy.AMapNetwork, -1, 15,
-                    mLocationListener);
+            mLocationClient.startLocation();
             showGPSProgressDialog();
             return;
 
@@ -501,7 +488,7 @@ public class NaviStartActivity extends Activity
         findViewById(R.id.yodo_button).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(NaviStartActivity.this,SetYoDoNumActivity.class);
+                Intent intent = new Intent(NaviStartActivity.this, SetYoDoNumActivity.class);
                 startActivity(intent);
             }
         });
@@ -526,15 +513,21 @@ public class NaviStartActivity extends Activity
         mEndMarker = mAmap.addMarker(new MarkerOptions()
                 .icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
                         .decodeResource(getResources(), R.drawable.end))));
-        mGPSMarker = mAmap.addMarker(new MarkerOptions()
-                .icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
-                        .decodeResource(getResources(),
-                                R.drawable.location_marker))));
-        mLocationManger = LocationManagerProxy.getInstance(this);
-        // 进行一次定位
-        mLocationManger.requestLocationData(
-                LocationProviderProxy.AMapNetwork, -1, 15,
-                mLocationListener);
+//        mGPSMarker = mAmap.addMarker(new MarkerOptions()
+//                .icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
+//                        .decodeResource(getResources(),
+//                                R.drawable.location_marker))));
+//        mLocationManger = LocationManagerProxy.getInstance(this);
+//        // 进行一次定位
+//        mLocationManger.requestLocationData(
+//                LocationProviderProxy.AMapNetwork, -1, 15,
+//                mLocationListener);
+        mAmap.setLocationSource(this);// 设置定位监听
+        mAmap.getUiSettings().setMyLocationButtonEnabled(false);// 设置默认定位按钮是否显示
+        mAmap.getUiSettings().setMyLocationButtonEnabled(true);
+        mAmap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
+        // 设置定位的类型为定位模式 ，可以由定位、跟随或地图根据面向方向旋转几种
+        mAmap.setMyLocationType(AMap.LOCATION_TYPE_LOCATE);
     }
 
     // ----------------------事件处理---------------------------
@@ -953,6 +946,46 @@ public class NaviStartActivity extends Activity
         super.onDestroy();
         mMapView.onDestroy();
         mAmapNavi.destroy();
+        if (mLocationClient != null) {
+            mLocationClient.onDestroy();
+            mLocationClient = null;
+        }
     }
 
+    /**
+     * 激活定位
+     */
+    @Override
+    public void activate(OnLocationChangedListener listener) {
+        mListener = listener;
+        if (mLocationClient == null) {
+            mLocationClient = new AMapLocationClient(this);
+            AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
+            //设置定位监听
+            mLocationClient.setLocationListener(mLocationListener);
+            //设置为高精度定位模式
+            mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+            mLocationOption.setOnceLocation(true);
+            //设置定位参数
+            mLocationClient.setLocationOption(mLocationOption);
+            // 此方法为每隔固定时间会发起一次定位请求，为了减少电量消耗或网络流量消耗，
+            // 注意设置合适的定位时间的间隔（最小间隔支持为2000ms），并且在合适时间调用stopLocation()方法来取消定位请求
+            // 在定位结束后，在合适的生命周期调用onDestroy()方法
+            // 在单次定位情况下，定位无论成功与否，都无需调用stopLocation()方法移除请求，定位sdk内部会移除
+            mLocationClient.startLocation();
+        }
+    }
+
+    /**
+     * 停止定位
+     */
+    @Override
+    public void deactivate() {
+        mListener = null;
+        if (mLocationClient != null) {
+            mLocationClient.stopLocation();
+            mLocationClient.onDestroy();
+        }
+        mLocationClient = null;
+    }
 }
