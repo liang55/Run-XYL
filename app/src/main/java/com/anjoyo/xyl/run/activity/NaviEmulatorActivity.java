@@ -51,7 +51,7 @@ public class NaviEmulatorActivity extends Activity
         public void handleMessage(Message msg) {
             // TODO Auto-generated method stub
             super.handleMessage(msg);
-            int roomInt = (int) (Math.random() * 3) + 1;
+            int roomInt = (int) (Math.random() * 1) + 1;
             if (roomInt + speedValue > maxSpeedValue) {
                 speedValue -= roomInt;
             } else {
@@ -107,7 +107,7 @@ public class NaviEmulatorActivity extends Activity
                 // TODO: handle exception
                 speedValue = 5;
             }
-            maxSpeedValue = speedValue + 3;
+            maxSpeedValue = speedValue + 2;
         }
         initSpeedView();
         // 开启模拟导航
