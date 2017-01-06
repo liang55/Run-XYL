@@ -31,6 +31,5 @@ public class XYLHookReceicver extends BroadcastReceiver {
                 "allautoincrement", true);
         MainHook.incrementValue = intent.getExtras().getBoolean("increment",
                 true);
-
     }
 }

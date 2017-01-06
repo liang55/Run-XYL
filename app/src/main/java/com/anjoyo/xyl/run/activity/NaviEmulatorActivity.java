@@ -2,12 +2,15 @@ package com.anjoyo.xyl.run.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -81,6 +84,10 @@ public class NaviEmulatorActivity extends Activity
         init(savedInstanceState);
         MainApplication.getInstance().addActivity(this);
         handler.sendEmptyMessageDelayed(0, 60 * 1000l);
+        SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putBoolean("controlIsFromMockProvider", true);
+        editor.commit();
     }
 
     /**
@@ -160,6 +167,12 @@ public class NaviEmulatorActivity extends Activity
                 localLocation.setSpeed(aMapNaviLocation.m_CameraSpeed);
                 localLocation.setAccuracy(accuracy);
                 localLocation.setTime(System.currentTimeMillis());
+
+                SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(NaviEmulatorActivity.this);
+                SharedPreferences.Editor editor=sharedPreferences.edit();
+                editor.putFloat("latitude", (float) localLocation.getLatitude());
+                editor.putFloat("longtitude",(float) localLocation.getLongitude());
+                editor.commit();
                 return localLocation;
             }
 
@@ -215,6 +228,12 @@ public class NaviEmulatorActivity extends Activity
                 localLocation.setSpeed(aMapNaviLocation.getSpeed());
                 localLocation.setAccuracy(accuracy);
                 localLocation.setTime(System.currentTimeMillis());
+
+                SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(NaviEmulatorActivity.this);
+                SharedPreferences.Editor editor=sharedPreferences.edit();
+                editor.putFloat("latitude", (float) localLocation.getLatitude());
+                editor.putFloat("longtitude",(float) localLocation.getLongitude());
+                editor.commit();
                 return localLocation;
             }
 
@@ -385,6 +404,10 @@ public class NaviEmulatorActivity extends Activity
         mAmapAMapNaviView.onDestroy();
         // 界面结束 停止语音播报
         TTSController.getInstance(this).stopSpeaking();
+        SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putBoolean("controlIsFromMockProvider", false);
+        editor.commit();
     }
 
     @Override
