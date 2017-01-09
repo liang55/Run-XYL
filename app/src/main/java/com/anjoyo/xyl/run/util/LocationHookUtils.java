@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 /**
@@ -31,7 +32,7 @@ import de.robv.android.xposed.XposedHelpers;
  */
 
 public class LocationHookUtils {
-    public static void HookAndChange(ClassLoader classLoader, final double latitude, final double longtitude, final int lac, final int cid) {
+    public static void HookAndChange(ClassLoader classLoader,final int lac, final int cid) {
 
         XposedHelpers.findAndHookMethod("android.telephony.TelephonyManager", classLoader,
                 "getCellLocation", new XC_MethodHook() {
@@ -175,6 +176,10 @@ public class LocationHookUtils {
         XposedHelpers.findAndHookMethod(LocationManager.class, "getLastLocation", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                XSharedPreferences xSharedPreferences = new XSharedPreferences("com.anjoyo.xyl.run");
+                xSharedPreferences.reload();
+                double latitude=xSharedPreferences.getFloat("latitude",0);
+                double longtitude=xSharedPreferences.getFloat("longtitude",0);
                 Location l = new Location(LocationManager.GPS_PROVIDER);
                 l.setLatitude(latitude);
                 l.setLongitude(longtitude);
@@ -190,6 +195,10 @@ public class LocationHookUtils {
         XposedHelpers.findAndHookMethod(LocationManager.class, "getLastKnownLocation", String.class, new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                XSharedPreferences xSharedPreferences = new XSharedPreferences("com.anjoyo.xyl.run");
+                xSharedPreferences.reload();
+                double latitude=xSharedPreferences.getFloat("latitude",0);
+                double longtitude=xSharedPreferences.getFloat("longtitude",0);
                 Location l = new Location(LocationManager.GPS_PROVIDER);
                 l.setLatitude(latitude);
                 l.setLongitude(longtitude);
@@ -303,6 +312,10 @@ public class LocationHookUtils {
                                     break;
                                 }
                             }
+                            XSharedPreferences xSharedPreferences = new XSharedPreferences("com.anjoyo.xyl.run");
+                            xSharedPreferences.reload();
+                            double latitude=xSharedPreferences.getFloat("latitude",0);
+                            double longtitude=xSharedPreferences.getFloat("longtitude",0);
                             Location l = new Location(LocationManager.GPS_PROVIDER);
                             l.setLatitude(latitude);
                             l.setLongitude(longtitude);
@@ -345,6 +358,10 @@ public class LocationHookUtils {
 
                             try {
                                 if (m != null) {
+                                    XSharedPreferences xSharedPreferences = new XSharedPreferences("com.anjoyo.xyl.run");
+                                    xSharedPreferences.reload();
+                                    double latitude=xSharedPreferences.getFloat("latitude",0);
+                                    double longtitude=xSharedPreferences.getFloat("longtitude",0);
                                     Location l = new Location(LocationManager.GPS_PROVIDER);
                                     l.setLatitude(latitude);
                                     l.setLongitude(longtitude);

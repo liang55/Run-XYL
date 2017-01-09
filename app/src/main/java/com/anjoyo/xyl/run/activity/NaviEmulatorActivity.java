@@ -404,10 +404,10 @@ public class NaviEmulatorActivity extends Activity
         mAmapAMapNaviView.onDestroy();
         // 界面结束 停止语音播报
         TTSController.getInstance(this).stopSpeaking();
-        SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor=sharedPreferences.edit();
-        editor.putBoolean("controlIsFromMockProvider", false);
-        editor.commit();
+//        SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(this);
+//        SharedPreferences.Editor editor=sharedPreferences.edit();
+//        editor.putBoolean("controlIsFromMockProvider", false);
+//        editor.commit();
     }
 
     @Override

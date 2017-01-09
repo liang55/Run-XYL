@@ -38,6 +38,7 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
     XSharedPreferences mXSharedPreferences;
     static Context context = null;
     static XYLHookReceicver mXYLHookReceicver;
+    static boolean controlIsFromMockProvider;
     static {
         mmCount = 0;
         qqCount = 0;
@@ -64,6 +65,8 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                 .intValue();
         userId =
                 this.mXSharedPreferences.getString("userid", "");
+
+        controlIsFromMockProvider = mXSharedPreferences.getBoolean("controlIsFromMockProvider", false);
         XposedBridge.log("magnificationValue=" + magnificationValue + ";autoincrementValue=" + autoincrementValue + ";allautoincrementValue=" + allautoincrementValue + ";incrementValue=" + incrementValue + ";addValue=" + addValue + ";userId=" + userId);
     }
 
@@ -194,17 +197,19 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 //                }
 //        );
     }
+
     public void handleIsFromMockProvider(Class<?> locationEL) {
         XposedBridge.hookAllMethods(locationEL, "isFromMockProvider",
                 new XC_MethodHook() {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                         super.afterHookedMethod(param);
-                         param.setResult(false);
+                        param.setResult(false);
                     }
                 }
         );
     }
+
     public void handleLoadPackage(LoadPackageParam loadPackageParam) {
         try {
             context = (Context) XposedHelpers.callMethod(XposedHelpers
@@ -225,27 +230,26 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
         }
         initData();
         if (BuildConfig.DEBUG)
-            Log.d("xyl", "++loadpackageName=="
-                    + loadPackageParam.packageName);
-        boolean controlIsFromMockProvider=this.mXSharedPreferences.getBoolean("controlIsFromMockProvider",false);
-        if (controlIsFromMockProvider){
-            Log.d("xyl", controlIsFromMockProvider+"++loadpackageName=="
-                    + loadPackageParam.packageName);
-            double latitude=this.mXSharedPreferences.getFloat("latitude",0);
-            double longtitude=this.mXSharedPreferences.getFloat("longtitude",0);;
-            int lac=this.mXSharedPreferences.getInt("lac",-1);
-            int cid=this.mXSharedPreferences.getInt("cid",-1);
-            LocationHookUtils.HookAndChange(loadPackageParam.classLoader,latitude,longtitude,lac,cid);
-            //屏蔽android.location.Location.isFromMockProvider()
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            Log.d("xyl", controlIsFromMockProvider+ "++loadpackageName==" + loadPackageParam.packageName);
+        if (controlIsFromMockProvider||TextUtils.equals("com.yuedong.sport", loadPackageParam.packageName)){
+        double latitude = this.mXSharedPreferences.getFloat("latitude", 0);
+        double longtitude = this.mXSharedPreferences.getFloat("longtitude", 0);
+        Log.d("xyl", controlIsFromMockProvider + "++latitude==" + latitude);
+        int lac = this.mXSharedPreferences.getInt("lac", -1);
+        int cid = this.mXSharedPreferences.getInt("cid", -1);
+//        if (!loadPackageParam.packageName.startsWith("com.android")) {
+//            LocationHookUtils.HookAndChange(loadPackageParam.classLoader, lac, cid);
+//        }
+        //屏蔽android.location.Location.isFromMockProvider()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
 
-                Class<?> locationEL = XposedHelpers.findClass(
-                        "android.location.Location",
-                        loadPackageParam.classLoader);
-                if (locationEL!=null){
-                    handleIsFromMockProvider(locationEL);
-                }
+            Class<?> locationEL = XposedHelpers.findClass(
+                    "android.location.Location",
+                    loadPackageParam.classLoader);
+            if (locationEL != null) {
+                handleIsFromMockProvider(locationEL);
             }
+        }
         }
         if (TextUtils.equals("com.yuedong.sport", loadPackageParam.packageName)) {
             final Class<?> openSignEL = XposedHelpers.findClass(
