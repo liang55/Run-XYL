@@ -63,8 +63,8 @@ public class SettingFragment extends PreferenceFragment
 
     private void changeSummary() {
         if (this.mEditTextPreference != null) {
-//            this.mEditTextPreference.setSummary(getPreferenceManager()
-//                    .getSharedPreferences().getString("magnification", "50"));
+            this.mEditTextPreference.setSummary(getPreferenceManager()
+                    .getSharedPreferences().getString("magnification", "50"));
 //            this.userEditTextPreference.setSummary(getPreferenceManager()
 //                    .getSharedPreferences().getString("userid", "默认自己UID"));
 //            this.addValueTextPreference.setSummary(getPreferenceManager()
@@ -90,8 +90,8 @@ public class SettingFragment extends PreferenceFragment
 
     public void getKey() {
         Intent intent = new Intent("com.anjoyo.xyl.run.HOOK_SETTING_CHANGED");
-//        intent.putExtra("magnification", getPreferenceManager()
-//                .getSharedPreferences().getString("magnification", "50"));
+        intent.putExtra("magnification", getPreferenceManager()
+                .getSharedPreferences().getString("magnification", "50"));
         intent.putExtra("userid", getPreferenceManager()
                 .getSharedPreferences().getString("userid", ""));
         intent.putExtra("addvalue", getPreferenceManager()

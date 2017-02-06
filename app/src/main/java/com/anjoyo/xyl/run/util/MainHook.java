@@ -3,7 +3,6 @@ package com.anjoyo.xyl.run.util;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.location.Location;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
@@ -35,7 +34,7 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 //    static int magnificationValue;
     static long addValue;
     static String userId;
-    static boolean autoincrementValue;
+    public static boolean isAuto = true;
     static boolean allautoincrementValue = true;
     static boolean incrementValue = true;
     XSharedPreferences mXSharedPreferences;
@@ -52,10 +51,10 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 
     private void initData() {
         this.mXSharedPreferences.reload();
-//        magnificationValue = Integer.valueOf(
-//                this.mXSharedPreferences.getString("magnification", "50"))
-//                .intValue();
-        autoincrementValue = this.mXSharedPreferences.getBoolean(
+        m = Integer.valueOf(
+                this.mXSharedPreferences.getString("magnification", "50"))
+                .intValue();
+        isAuto = this.mXSharedPreferences.getBoolean(
                 "autoincrement", false);
         allautoincrementValue = this.mXSharedPreferences.getBoolean(
                 "allautoincrement", true);
@@ -67,7 +66,7 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                 this.mXSharedPreferences.getString("userid", "");
 
         controlIsFromMockProvider = mXSharedPreferences.getBoolean("controlIsFromMockProvider", false);
-        XposedBridge.log(";autoincrementValue=" + autoincrementValue + ";allautoincrementValue=" + allautoincrementValue + ";incrementValue=" + incrementValue + ";addValue=" + addValue + ";userId=" + userId);
+        XposedBridge.log( "allautoincrementValue=" + allautoincrementValue + ";incrementValue=" + incrementValue + ";addValue=" + addValue + ";userId=" + userId);
     }
 
     public void handleYDAddNum(Class<?> openSignEL) {

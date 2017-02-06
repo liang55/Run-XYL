@@ -23,7 +23,7 @@ class RunMethodHook extends XC_MethodHook {
     public static final String CODOON = "com.codoon.gps";
     public static final String WEIBO = "com.sina.weibo";
     public static final String ZHIFUBAO = "com.eg.android.AlipayGphone";
-    private static boolean isWeixin = true, isQQ = true, isAuto = true, isLedong = true, isYuedong = true, isPingan = true, isCodoon = true, isWeibo = true, isAlipay = true;
+    private static boolean isWeixin = true, isQQ = true,  isLedong = true, isYuedong = true, isPingan = true, isCodoon = true, isWeibo = true, isAlipay = true;
     final/* synthetic */ LoadPackageParam loadPackageParam;
     final/* synthetic */ MainHook mMainHook;
     final Context mContext;
@@ -127,7 +127,7 @@ class RunMethodHook extends XC_MethodHook {
             }
             if (sensor.getType() == Sensor.TYPE_STEP_COUNTER || sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
                 if ((isWeixin && loadPackageParam.packageName.equals(WEXIN))) {
-                    if (isAuto) {
+                    if (MainHook.isAuto) {
                         if (MainHook.m * MainHook.weixinCount <= MainHook.max) {
                             ((float[]) param.args[1])[0] = ((float[]) param.args[1])[0] + MainHook.m * MainHook.weixinCount;
                             MainHook.weixinCount += 1;
@@ -139,7 +139,7 @@ class RunMethodHook extends XC_MethodHook {
                     }
                 }
                 if ((isQQ && loadPackageParam.packageName.equals(QQ))) {
-                    if (isAuto) {
+                    if (MainHook.isAuto) {
                         if (MainHook.m * MainHook.qqCount <= MainHook.max) {
                             ((float[]) param.args[1])[0] = ((float[]) param.args[1])[0] + MainHook.m * MainHook.qqCount;
                             MainHook.qqCount += 1;

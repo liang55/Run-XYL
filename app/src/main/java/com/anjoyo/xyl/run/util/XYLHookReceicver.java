@@ -17,15 +17,15 @@ public class XYLHookReceicver extends BroadcastReceiver {
     }
 
     public void onReceive(Context context, Intent intent) {
-//        MainHook.magnificationValue = Integer.valueOf(
-//                intent.getExtras().getString("magnification", "100"))
-//                .intValue();
+        MainHook.m = Integer.valueOf(
+                intent.getExtras().getString("magnification", "100"))
+                .intValue();
         MainHook.addValue = Long.valueOf(
                 intent.getExtras().getString("addvalue", "0"))
                 .intValue();
         MainHook.userId =
                 intent.getExtras().getString("userid", "");
-        MainHook.autoincrementValue = intent.getExtras().getBoolean(
+        MainHook.isAuto = intent.getExtras().getBoolean(
                 "autoincrement", false);
         MainHook.allautoincrementValue = intent.getExtras().getBoolean(
                 "allautoincrement", true);

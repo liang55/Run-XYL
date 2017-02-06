@@ -39,13 +39,14 @@
             android:summaryOff="倍率增加"
             android:summaryOn="自动增加"
             android:title="修改方式" />
-<!--
         <EditTextPreference
             android:defaultValue="50"
             android:inputType="number"
             android:key="magnification"
             android:summary="50"
             android:title="倍率" />
+<!--
+
 
         <Preference
             android:summary="自动增加=步数+自增变量*倍率，倍率增加=步数*倍率。
