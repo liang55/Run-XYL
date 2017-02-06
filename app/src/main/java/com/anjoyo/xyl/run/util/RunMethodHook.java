@@ -23,7 +23,7 @@ class RunMethodHook extends XC_MethodHook {
     public static final String CODOON = "com.codoon.gps";
     public static final String WEIBO = "com.sina.weibo";
     public static final String ZHIFUBAO = "com.eg.android.AlipayGphone";
-    private static boolean isWeixin = true, isQQ = true,  isLedong = true, isYuedong = true, isPingan = true, isCodoon = true, isWeibo = true, isAlipay = true;
+    public static boolean isWeixin = true, isQQ = true,  isLedong = true, isYuedong = true, isPingan = true, isCodoon = true, isWeibo = true, isAlipay = true;
     final/* synthetic */ LoadPackageParam loadPackageParam;
     final/* synthetic */ MainHook mMainHook;
     final Context mContext;
@@ -47,7 +47,7 @@ class RunMethodHook extends XC_MethodHook {
                 declaredField.setAccessible(true);
                 sensor = ((SensorEvent) ((SparseArray) declaredField
                         .get(param.thisObject)).get(intValue)).sensor;
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 // TODO: handle exception
                 XposedBridge.log("SensorEvent=NULL");
 //				XposedBridge.log(e);

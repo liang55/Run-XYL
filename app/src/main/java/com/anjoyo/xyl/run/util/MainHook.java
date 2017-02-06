@@ -24,13 +24,13 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
     public static float count = 0;
-    public static int m, max = 100000;
+    public static int m=50, max = 100000;
     //    static int mmCount;
 //    static int qqCount;
 //    static int ldlCount;
 //    static int ydCount;
     static int allCount;
-    public static int weixinCount = 0, qqCount = 0, ledongCount = 0, yuedongCount = 0, pinganCount = 0, codoonCount = 0, zhifubaoCount = 0;
+    public static int weixinCount = 1, qqCount = 1, ledongCount = 1, yuedongCount = 1, pinganCount = 1, codoonCount = 1, zhifubaoCount = 1;
 //    static int magnificationValue;
     static long addValue;
     static String userId;
@@ -66,7 +66,7 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                 this.mXSharedPreferences.getString("userid", "");
 
         controlIsFromMockProvider = mXSharedPreferences.getBoolean("controlIsFromMockProvider", false);
-        XposedBridge.log( "incrementValue=" + incrementValue + ";addValue=" + addValue + ";userId=" + userId);
+        XposedBridge.log("m="+m +";isAuto="+isAuto+"incrementValue=" + incrementValue + ";addValue=" + addValue + ";userId=" + userId);
     }
 
     public void handleYDAddNum(Class<?> openSignEL) {
@@ -223,7 +223,7 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                 mXYLHookReceicver = new XYLHookReceicver(this);
                 context.registerReceiver(mXYLHookReceicver, intentFilter);
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             // TODO: handle exception
             XposedBridge.log(e);
         }
@@ -231,22 +231,26 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
         if (BuildConfig.DEBUG)
             Log.d("xyl", controlIsFromMockProvider + "++loadpackageName==" + loadPackageParam.packageName);
         if (TextUtils.equals("com.yuedong.sport", loadPackageParam.packageName)) {
-            final Class<?> openSignEL = XposedHelpers.findClass(
-                    "com.yuedong.common.utils.OpenSign",
-                    loadPackageParam.classLoader);
-            if (openSignEL != null)
-                handleYDAddNum(openSignEL);
-            Class<?> ydConfigs = XposedHelpers.findClass(
-                    "com.yuedong.sport.common.Configs",
-                    loadPackageParam.classLoader);
-            if (ydConfigs != null) {
-                handleYDGetSignkey(ydConfigs);
-            }
-            Class<?> Account = XposedHelpers.findClass(
-                    "com.yuedong.sport.controller.account.Account",
-                    loadPackageParam.classLoader);
-            if (Account != null) {
-                handleYDGetXyy(Account);
+            try{
+                final Class<?> openSignEL = XposedHelpers.findClass(
+                        "com.yuedong.common.utils.OpenSign",
+                        loadPackageParam.classLoader);
+                if (openSignEL != null)
+                    handleYDAddNum(openSignEL);
+                Class<?> ydConfigs = XposedHelpers.findClass(
+                        "com.yuedong.sport.common.Configs",
+                        loadPackageParam.classLoader);
+                if (ydConfigs != null) {
+                    handleYDGetSignkey(ydConfigs);
+                }
+                Class<?> Account = XposedHelpers.findClass(
+                        "com.yuedong.sport.controller.account.Account",
+                        loadPackageParam.classLoader);
+                if (Account != null) {
+                    handleYDGetXyy(Account);
+                }
+            }catch (Throwable e){
+                e.printStackTrace();
             }
         }
         if (!incrementValue) {
@@ -254,26 +258,26 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                 Log.d("xyl", "自动加速关闭");
             return;
         }
-        if (/*loadPackageParam.packageName.equals(YUEDONG) || */loadPackageParam.packageName.equals(RunMethodHook.CODOON)) {
+        if (loadPackageParam.packageName.equals(RunMethodHook.YUEDONG) || loadPackageParam.packageName.equals(RunMethodHook.CODOON)) {
             Thread autoThread = new Thread() {
                 @Override
                 public void run() {
                     while (!isInterrupted()) {
-//                        if (isYuedong) {
-//                            try {
-//                                Thread.sleep(100);
-//                                if (sObject != null) {
-//                                    count++;
-//                                    XposedHelpers.callMethod(sObject, "dispatchSensorEvent", 5, new float[]{count, 0, 0}, 3, System.currentTimeMillis());
-//                                }
-//                                if (count == max) {
-//                                    count = 0;
-//                                }
-//                            } catch (InterruptedException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                        if (RunMethodHook.isCodoon) {
+                        if (RunMethodHook.isYuedong) {
+                            try {
+                                Thread.sleep(100);
+                                if (RunMethodHook.sObject != null) {
+                                    count++;
+                                    XposedHelpers.callMethod(RunMethodHook.sObject, "dispatchSensorEvent", 5, new float[]{count, 0, 0}, 3, System.currentTimeMillis());
+                                }
+                                if (count == max) {
+                                    count = 0;
+                                }
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (RunMethodHook.isCodoon) {
                         try {
                             Thread.sleep(100);
                             if (RunMethodHook.sObject != null) {
@@ -286,7 +290,7 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-//                        }
+                        }
                     }
                 }
             };
@@ -301,14 +305,14 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
         if (sensorEL != null) {
             if (loadPackageParam.packageName.equals(RunMethodHook.ZHIFUBAO) || loadPackageParam.packageName.equals(RunMethodHook.WEIBO) || loadPackageParam.packageName.equals(RunMethodHook.PINGAN) || loadPackageParam.packageName.equals(RunMethodHook.WEXIN) || loadPackageParam.packageName.equals(RunMethodHook.QQ) || loadPackageParam.packageName.equals(RunMethodHook.LEDONG) || loadPackageParam.packageName.equals(RunMethodHook.YUEDONG) || loadPackageParam.packageName.equals(RunMethodHook.CODOON)) {
                 //屏蔽android.location.Location.isFromMockProvider()
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                    Class<?> locationEL = XposedHelpers.findClass(
-                            "android.location.Location",
-                            loadPackageParam.classLoader);
-                    if (locationEL != null) {
-                        handleIsFromMockProvider(locationEL);
-                    }
-                }
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+//                    Class<?> locationEL = XposedHelpers.findClass(
+//                            "android.location.Location",
+//                            loadPackageParam.classLoader);
+//                    if (locationEL != null) {
+//                        handleIsFromMockProvider(locationEL);
+//                    }
+//                }
                 XposedBridge.hookAllMethods(sensorEL, "dispatchSensorEvent",
                         new RunMethodHook(context, this, loadPackageParam));
             }
