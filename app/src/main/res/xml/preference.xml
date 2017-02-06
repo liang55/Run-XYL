@@ -52,6 +52,9 @@
 注意：倍率仅代表修改幅度，不精确修改数值,使用自动增加可能导致QQ不刷新，请自行测试！"
             android:title="使用说明" />-->
         <Preference
+            android:summary="自动修改步数，微信，QQ，悦动圈，乐动力，平安，CODOON，微博，支付宝"
+            android:title="使用说明" />
+        <Preference
             android:summary="关注模拟跑步贴吧"
             android:title="使用教程">
             <intent
