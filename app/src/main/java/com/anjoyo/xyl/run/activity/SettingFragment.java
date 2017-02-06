@@ -100,8 +100,8 @@ public class SettingFragment extends PreferenceFragment
                 .getSharedPreferences().getBoolean("increment", true));
         intent.putExtra("autoincrement", getPreferenceManager()
                 .getSharedPreferences().getBoolean("autoincrement", false));
-        intent.putExtra("allautoincrement", getPreferenceManager()
-                .getSharedPreferences().getBoolean("allautoincrement", true));
+//        intent.putExtra("allautoincrement", getPreferenceManager()
+//                .getSharedPreferences().getBoolean("allautoincrement", true));
         getActivity().sendBroadcast(intent);
     }
 

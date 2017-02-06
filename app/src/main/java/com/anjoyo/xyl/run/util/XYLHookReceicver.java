@@ -27,8 +27,8 @@ public class XYLHookReceicver extends BroadcastReceiver {
                 intent.getExtras().getString("userid", "");
         MainHook.isAuto = intent.getExtras().getBoolean(
                 "autoincrement", false);
-        MainHook.allautoincrementValue = intent.getExtras().getBoolean(
-                "allautoincrement", true);
+//        MainHook.allautoincrementValue = intent.getExtras().getBoolean(
+//                "allautoincrement", true);
         MainHook.incrementValue = intent.getExtras().getBoolean("increment",
                 true);
     }

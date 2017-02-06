@@ -35,7 +35,7 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
     static long addValue;
     static String userId;
     public static boolean isAuto = true;
-    static boolean allautoincrementValue = true;
+//    static boolean allautoincrementValue = true;
     static boolean incrementValue = true;
     XSharedPreferences mXSharedPreferences;
     static Context context = null;
@@ -56,8 +56,8 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                 .intValue();
         isAuto = this.mXSharedPreferences.getBoolean(
                 "autoincrement", false);
-        allautoincrementValue = this.mXSharedPreferences.getBoolean(
-                "allautoincrement", true);
+//        allautoincrementValue = this.mXSharedPreferences.getBoolean(
+//                "allautoincrement", true);
         incrementValue = this.mXSharedPreferences.getBoolean("increment", true);
         addValue = Long.valueOf(
                 this.mXSharedPreferences.getString("addvalue", "0"))
@@ -66,7 +66,7 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                 this.mXSharedPreferences.getString("userid", "");
 
         controlIsFromMockProvider = mXSharedPreferences.getBoolean("controlIsFromMockProvider", false);
-        XposedBridge.log( "allautoincrementValue=" + allautoincrementValue + ";incrementValue=" + incrementValue + ";addValue=" + addValue + ";userId=" + userId);
+        XposedBridge.log( "incrementValue=" + incrementValue + ";addValue=" + addValue + ";userId=" + userId);
     }
 
     public void handleYDAddNum(Class<?> openSignEL) {

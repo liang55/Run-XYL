@@ -27,12 +27,12 @@
             android:summaryOff="关闭"
             android:summaryOn="开启"
             android:title="启动加倍" />
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="allautoincrement"
-            android:summaryOff="关闭"
-            android:summaryOn="开启"
-            android:title="全局加倍" />
+        <!--<CheckBoxPreference-->
+            <!--android:defaultValue="true"-->
+            <!--android:key="allautoincrement"-->
+            <!--android:summaryOff="关闭"-->
+            <!--android:summaryOn="开启"-->
+            <!--android:title="全局加倍" />-->
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="autoincrement"
