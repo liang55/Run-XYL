@@ -230,17 +230,6 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
         initData();
         if (BuildConfig.DEBUG)
             Log.d("xyl", controlIsFromMockProvider + "++loadpackageName==" + loadPackageParam.packageName);
-        //屏蔽android.location.Location.isFromMockProvider()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-
-            Class<?> locationEL = XposedHelpers.findClass(
-                    "android.location.Location",
-                    loadPackageParam.classLoader);
-            if (locationEL != null) {
-                handleIsFromMockProvider(locationEL);
-            }
-        }
-
         if (TextUtils.equals("com.yuedong.sport", loadPackageParam.packageName)) {
             final Class<?> openSignEL = XposedHelpers.findClass(
                     "com.yuedong.common.utils.OpenSign",
@@ -311,6 +300,15 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
         }
         if (sensorEL != null) {
             if (loadPackageParam.packageName.equals(RunMethodHook.ZHIFUBAO) || loadPackageParam.packageName.equals(RunMethodHook.WEIBO) || loadPackageParam.packageName.equals(RunMethodHook.PINGAN) || loadPackageParam.packageName.equals(RunMethodHook.WEXIN) || loadPackageParam.packageName.equals(RunMethodHook.QQ) || loadPackageParam.packageName.equals(RunMethodHook.LEDONG) || loadPackageParam.packageName.equals(RunMethodHook.YUEDONG) || loadPackageParam.packageName.equals(RunMethodHook.CODOON)) {
+                //屏蔽android.location.Location.isFromMockProvider()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                    Class<?> locationEL = XposedHelpers.findClass(
+                            "android.location.Location",
+                            loadPackageParam.classLoader);
+                    if (locationEL != null) {
+                        handleIsFromMockProvider(locationEL);
+                    }
+                }
                 XposedBridge.hookAllMethods(sensorEL, "dispatchSensorEvent",
                         new RunMethodHook(context, this, loadPackageParam));
             }
