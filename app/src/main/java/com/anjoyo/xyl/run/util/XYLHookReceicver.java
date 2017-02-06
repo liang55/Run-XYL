@@ -17,9 +17,9 @@ public class XYLHookReceicver extends BroadcastReceiver {
     }
 
     public void onReceive(Context context, Intent intent) {
-        MainHook.magnificationValue = Integer.valueOf(
-                intent.getExtras().getString("magnification", "100"))
-                .intValue();
+//        MainHook.magnificationValue = Integer.valueOf(
+//                intent.getExtras().getString("magnification", "100"))
+//                .intValue();
         MainHook.addValue = Long.valueOf(
                 intent.getExtras().getString("addvalue", "0"))
                 .intValue();

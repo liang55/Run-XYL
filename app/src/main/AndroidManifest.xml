@@ -33,7 +33,7 @@
             android:value="true" />
         <meta-data
             android:name="xposeddescription"
-            android:value="配合小熊跑步模拟运动步数" />
+            android:value="小熊运动步数修改" />
         <meta-data
             android:name="xposedminversion"
             android:value="30" />
