@@ -175,7 +175,7 @@ public class NaviStartActivity extends AppCompatActivity
         MainApplication.getInstance().addActivity(this);
 
        final AdView mAdView = (AdView) findViewById(R.id.adview);
-        AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("2477B0A81625A7779FB9E71E404DDF43").build();
         mAdView.loadAd(adRequest);
         findViewById(R.id.adview_close).setOnClickListener(new OnClickListener() {
             @Override

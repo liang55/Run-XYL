@@ -58,7 +58,7 @@ public class SplashActivity extends Activity {
 		requestNewInterstitial();
 	}
 	private void requestNewInterstitial() {
-		AdRequest adRequest = new AdRequest.Builder()
+		AdRequest adRequest = new AdRequest.Builder().addTestDevice("2477B0A81625A7779FB9E71E404DDF43")
 				.build();
 		mInterstitialAd.loadAd(adRequest);
 	}
