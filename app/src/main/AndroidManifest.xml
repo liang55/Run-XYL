@@ -57,10 +57,6 @@
             android:value="ea0c0c7b" />
         <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
         <service android:name="com.amap.api.location.APSService" />
-
-        <activity
-            android:name="com.baidu.mobads.AppActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation" />
         <activity
             android:name=".activity.NaviEmulatorActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -85,7 +81,8 @@
             android:name=".activity.NaviStartActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:launchMode="singleTask"/>
 
         <receiver android:name=".activity.SetReceicver">
             <intent-filter>

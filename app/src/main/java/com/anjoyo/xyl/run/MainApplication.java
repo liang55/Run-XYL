@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.Application;
 
+import com.google.firebase.FirebaseApp;
 import com.umeng.analytics.MobclickAgent;
 
 public class MainApplication extends Application {
@@ -17,6 +18,7 @@ public class MainApplication extends Application {
 		super.onCreate();
 		MobclickAgent.setDebugMode(false);
 		MobclickAgent.setCatchUncaughtExceptions(true);
+		FirebaseApp.initializeApp(this);
 		instance = this;
 	}
 	// 单例模式中获取唯一的MyApplication实例

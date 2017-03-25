@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#fdfefa" >
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:background="#fdfefa">
 
     <RelativeLayout
         android:id="@+id/bottomRl"
@@ -17,8 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_margin="20dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/yidonglianmeng" />
+            android:scaleType="centerInside" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -27,5 +27,4 @@
         android:layout_height="fill_parent"
         android:layout_above="@id/bottomRl" >
     </RelativeLayout>
-
 </RelativeLayout>

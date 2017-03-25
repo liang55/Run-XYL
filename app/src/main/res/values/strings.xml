@@ -1,4 +1,8 @@
 <resources>
+    <string name="banner_ad_unit_id">ca-app-pub-6260442262526164/1460100737</string>
+    <string name="video_ad_unit_id">ca-app-pub-6260442262526164/3994764731</string>
+    <string name="splash_ad_unit_id">ca-app-pub-6260442262526164/4413567136</string>
+    <string name="native_ad_unit_id">ca-app-pub-6260442262526164/4134365538</string>
     <string name="app_name">小熊跑步</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>

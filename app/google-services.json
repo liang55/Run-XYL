@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "573701957729",
+    "firebase_url": "https://xyl-run.firebaseio.com",
+    "project_id": "xyl-run",
+    "storage_bucket": "xyl-run.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:573701957729:android:bdb215f1404ec148",
+        "android_client_info": {
+          "package_name": "com.anjoyo.xyl.run"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "573701957729-qi0c78c9tfrkt5kj90bs1vl9ji5f086b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anjoyo.xyl.run",
+            "certificate_hash": "be35b533fdf50bd3849ad2923b8601e45a4be88c"
+          }
+        },
+        {
+          "client_id": "573701957729-dnv7ul22rb8jubomf3r1gi1bfhk4ai0f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-1dAmiA_bzIFRnQcX0PEpWAA2t6DKNn4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "573701957729-dnv7ul22rb8jubomf3r1gi1bfhk4ai0f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -8,11 +8,9 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -48,15 +46,10 @@ import com.amap.api.navi.model.NaviLatLng;
 import com.anjoyo.xyl.run.MainApplication;
 import com.anjoyo.xyl.run.R;
 import com.anjoyo.xyl.run.TTSController;
-import com.baidu.mobads.AdSettings;
-import com.baidu.mobads.AdView;
-import com.baidu.mobads.AdViewListener;
-import com.baidu.mobads.InterstitialAd;
-import com.baidu.mobads.InterstitialAdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,11 +126,9 @@ public class NaviStartActivity extends AppCompatActivity
     private final static int GPSNO = 0;// 使用我的位置进行计算、GPS定位还未成功状态
     private final static int CALCULATEERROR = 1;// 启动路径计算失败状态
     private final static int CALCULATESUCCESS = 2;// 启动路径计算成功状态
-
-    // 定位
-    private InterstitialAd interAd;
     //声明AMapLocationClient类对象
     public AMapLocationClient mLocationClient = null;
+
     //声明定位回调监听器
     public AMapLocationListener mLocationListener = new AMapLocationListener() {
         @Override
@@ -176,105 +167,25 @@ public class NaviStartActivity extends AppCompatActivity
         RelativeLayout your_original_layout = (RelativeLayout) getLayoutInflater()
                 .inflate(R.layout.activity_navistart, null);
         setContentView(your_original_layout);
-        // 人群属性
-        AdSettings.setKey(new String[]{"baidu", "中国"});
-        String adPlaceID = "2354639";
-        final AdView adView = new AdView(this, adPlaceID);
-        adView.setListener(new AdViewListener() {
-
-            @Override
-            public void onAdSwitch() {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onAdShow(JSONObject arg0) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onAdReady(AdView arg0) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onAdFailed(String arg0) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onAdClick(JSONObject arg0) {
-                // TODO Auto-generated method stub
-//				adView.removeAllViews();
-            }
-        });
-        RelativeLayout.LayoutParams rllp = new RelativeLayout.LayoutParams(
-                LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        rllp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        your_original_layout.addView(adView, rllp);
-        final TextView textView = new TextView(this);
-        textView.setText("关闭");
-        textView.setGravity(Gravity.RIGHT);
-        textView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                v.setVisibility(View.GONE);
-                adView.removeAllViews();
-            }
-        });
-        RelativeLayout.LayoutParams rllp0 = new RelativeLayout.LayoutParams(
-                LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        rllp0.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        rllp0.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        your_original_layout.addView(textView, rllp0);
-        // 插屏广告
-        String adPlaceId = "2354641";// 重要：请填上您的广告位ID
-        interAd = new InterstitialAd(this, adPlaceId);
-        interAd.setListener(new InterstitialAdListener() {
-
-            @Override
-            public void onAdReady() {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onAdPresent() {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onAdFailed(String arg0) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onAdDismissed() {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onAdClick(InterstitialAd arg0) {
-                // TODO Auto-generated method stub
-
-            }
-        });
         // 初始化所需资源、控件、事件监听
         initResources();
         initView(savedInstanceState);
         initListener();
         initMapAndNavi();
         MainApplication.getInstance().addActivity(this);
+
+       final AdView mAdView = (AdView) findViewById(R.id.adview);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        findViewById(R.id.adview_close).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                findViewById(R.id.adview_close).setVisibility(View.GONE);
+                mAdView.destroy();
+            }
+        });
+
     }
-    // ----------具体处理方法--------------
 
     /**
      * 算路的方法，根据选择可以进行行车和步行两种方式进行路径规划
@@ -632,7 +543,6 @@ public class NaviStartActivity extends AppCompatActivity
         }
         // 其他情况根据起点、途经点、终点不同逻辑处理不同
         addPointToMap(latLng);
-
     }
 
     /**
@@ -765,34 +675,16 @@ public class NaviStartActivity extends AppCompatActivity
                 @Override
                 public void onCalculateRouteSuccess() {
                     dissmissProgressDialog();
-                    // switch (mNaviMethod) {
-                    // case ROUTE_METHOD :
-                    // if (interAd.isAdReady()) {
-                    // interAd.showAd(NaviStartActivity.this);
-                    // } else {
-                    // interAd.loadAd();
-                    // }
-                    // Intent intent = new Intent(NaviStartActivity.this,
-                    // NaviRouteActivity.class);
-                    // intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                    // startActivity(intent);
-                    //
-                    // break;
-                    // case NAVI_METHOD :
-                    if (interAd.isAdReady()) {
-                        interAd.showAd(NaviStartActivity.this);
-                    } else {
-                        interAd.loadAd();
-                    }
-                    Intent standIntent = new Intent(NaviStartActivity.this,
-                            NaviEmulatorActivity.class);
-                    standIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                    standIntent.putExtra("speedValue", mSpeedText.getText()
-                            .toString());
-                    startActivity(standIntent);
-
-                    // break;
-                    // }
+//                    if (mInterstitialAd.isLoaded()) {
+//                        mInterstitialAd.show();
+//                    } else {
+                        Intent standIntent = new Intent(NaviStartActivity.this,
+                                NaviEmulatorActivity.class);
+                        standIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        standIntent.putExtra("speedValue", mSpeedText.getText()
+                                .toString());
+                        startActivity(standIntent);
+//                    }
                 }
 
                 @Override
@@ -923,11 +815,7 @@ public class NaviStartActivity extends AppCompatActivity
         AMapNavi.getInstance(this).setAMapNaviListener(getAMapNaviListener());
         TTSController.getInstance(this).startSpeaking();
         MobclickAgent.onResume(this);
-        if (interAd.isAdReady()) {
-            interAd.showAd(NaviStartActivity.this);
-        } else {
-            interAd.loadAd();
-        }
+
     }
 
     @Override
