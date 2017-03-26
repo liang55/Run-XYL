@@ -64,10 +64,10 @@
         </Preference>
         <Preference
             android:summary="申请入群"
-            android:title="联系我">
+            android:title="联系我 QQ群:544175265">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="http://shang.qq.com/wpa/qunwpa?idkey=6919b55f9daf042d635b2c3570c9fd629b34bbf70126dface36f85023b291fd9" />
+                android:data="https://jq.qq.com/?_wv=1027&amp;k=46bVkzP" />
         </Preference>
         <Preference
             android:key="versionNumber"
@@ -75,7 +75,7 @@
             android:title="关于">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="http://shang.qq.com/wpa/qunwpa?idkey=6919b55f9daf042d635b2c3570c9fd629b34bbf70126dface36f85023b291fd9" />
+                android:data="https://play.google.com/store/apps/details?id=com.anjoyo.xyl.run" />
         </Preference>
     </PreferenceCategory>
 
