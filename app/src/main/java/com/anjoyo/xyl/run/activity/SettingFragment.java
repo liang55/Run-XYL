@@ -1,5 +1,6 @@
 package com.anjoyo.xyl.run.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -24,7 +25,7 @@ public class SettingFragment extends PreferenceFragment
 //    private EditTextPreference addValueTextPreference;
     private Preference verisionPreference;
     public static boolean isShowToast;
-
+    public Activity activity;
     public SettingFragment() {
     }
 
@@ -46,6 +47,7 @@ public class SettingFragment extends PreferenceFragment
         verisionPreference.setSummary(BuildConfig.VERSION_NAME);
         changeSummary();
         isShowToast = true;
+        activity=getActivity();
     }
 
     public void sendValue() {
@@ -102,7 +104,9 @@ public class SettingFragment extends PreferenceFragment
                 .getSharedPreferences().getBoolean("autoincrement", false));
 //        intent.putExtra("allautoincrement", getPreferenceManager()
 //                .getSharedPreferences().getBoolean("allautoincrement", true));
-        getActivity().sendBroadcast(intent);
+        if (activity!=null) {
+            getActivity().sendBroadcast(intent);
+        }
     }
 
 }
