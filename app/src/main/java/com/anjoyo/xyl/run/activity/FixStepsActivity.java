@@ -78,6 +78,7 @@ public class FixStepsActivity extends AppCompatActivity {
     public void a(Boolean bool) {
         Editor edit = getSharedPreferences("setting", 1).edit();
         edit.putBoolean("isMove", bool.booleanValue());
+        edit.putBoolean("increment", false);
         edit.commit();
     }
 
@@ -94,6 +95,7 @@ public class FixStepsActivity extends AppCompatActivity {
     public void b(Boolean bool) {
         Editor edit = getSharedPreferences("setting", 1).edit();
         edit.putBoolean("isSys", bool.booleanValue());
+        edit.putBoolean("increment", false);
         edit.commit();
     }
 
@@ -108,6 +110,7 @@ public class FixStepsActivity extends AppCompatActivity {
     public void c(Boolean bool) {
         Editor edit = getSharedPreferences("setting", 1).edit();
         edit.putBoolean("isLock", bool.booleanValue());
+        edit.putBoolean("increment", false);
         edit.commit();
     }
 
@@ -118,6 +121,7 @@ public class FixStepsActivity extends AppCompatActivity {
     public void d(Boolean bool) {
         Editor edit = getSharedPreferences("setting", 1).edit();
         edit.putBoolean("isStart", bool.booleanValue());
+        edit.putBoolean("increment", false);
         edit.commit();
     }
 
@@ -128,6 +132,7 @@ public class FixStepsActivity extends AppCompatActivity {
     public void e(Boolean bool) {
         Editor edit = getSharedPreferences("setting", 1).edit();
         edit.putBoolean("isBaoli", bool.booleanValue());
+        edit.putBoolean("increment", false);
         edit.commit();
     }
 
@@ -189,7 +194,7 @@ public class FixStepsActivity extends AppCompatActivity {
                 "_____________\n" +
                 "备注：\n" +
                 "本程序理论通杀所有通过加速度传感器计算步数的软件，如果无效说明本软件可能被检测到，或者改软件使用其他传感器计步。\n" +
-                "作者已测试有效的计步软件:平安好医生、悦动圈、微博运动、春雨计步器。");
+                "作者已测试有效的计步软件:平安好医生、悦动圈、微博运动、春雨计步器。打开暴力模式会关闭步数加倍");
         builder.show();
     }
 
