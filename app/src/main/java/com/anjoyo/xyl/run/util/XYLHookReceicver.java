@@ -26,7 +26,7 @@ public class XYLHookReceicver extends BroadcastReceiver {
         MainHook.userId =
                 intent.getExtras().getString("userid", "");
         MainHook.incrementValue = intent.getExtras().getBoolean("increment",
-                true);
+                false);
 
         MainHook.isWeixin = intent.getExtras().getBoolean("weixin", false);
         MainHook.isQQ = intent.getExtras().getBoolean("qq", false);

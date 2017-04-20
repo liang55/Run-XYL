@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="关于">
+        <Preference
+            android:summary="关注模拟跑步贴吧"
+            android:title="使用教程">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="http://tieba.baidu.com/f?kw=%C4%A3%C4%E2%C5%DC%B2%BD&amp;fr=home" />
+        </Preference>
+        <Preference
+            android:summary="申请入群"
+            android:title="联系我 QQ群:544175265">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://jq.qq.com/?_wv=1027&amp;k=46bVkzP" />
+        </Preference>
+        <Preference
+            android:summary="喜欢就捐赠~"
+            android:title="捐赠">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://qr.alipay.com/a6x02523okegqxsynq2wm42" />
+        </Preference>
+        <Preference
+            android:key="versionNumber"
+            android:summary="1.2.5"
+            android:title="关于">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://xyl-blog.github.io/about/"/>
+        </Preference>
+    </PreferenceCategory>
+
+</PreferenceScreen>

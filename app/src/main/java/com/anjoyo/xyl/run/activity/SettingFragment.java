@@ -88,11 +88,9 @@ public class SettingFragment extends PreferenceFragment
 
     public void getKey() {
         Intent intent = new Intent("com.anjoyo.xyl.run.HOOK_SETTING_CHANGED");
-        intent.putExtra("magnification", getPreferenceManager()
-                .getSharedPreferences().getString("magnification", "50"));
-        intent.putExtra("increment", getPreferenceManager()
-                .getSharedPreferences().getBoolean("increment", false));
-        intent.putExtra("weixin", getPreferenceManager().getSharedPreferences().getBoolean("weiixn", false));
+        intent.putExtra("magnification", getPreferenceManager().getSharedPreferences().getString("magnification", "50"));
+        intent.putExtra("increment", getPreferenceManager() .getSharedPreferences().getBoolean("increment", false));
+        intent.putExtra("weixin", getPreferenceManager().getSharedPreferences().getBoolean("weixin", false));
         intent.putExtra("qq", getPreferenceManager().getSharedPreferences().getBoolean("qq", false));
         intent.putExtra("ledong", getPreferenceManager().getSharedPreferences().getBoolean("ledong", false));
         intent.putExtra("yuedong", getPreferenceManager().getSharedPreferences().getBoolean("yuedong", false));
@@ -102,7 +100,7 @@ public class SettingFragment extends PreferenceFragment
         intent.putExtra("alipay", getPreferenceManager().getSharedPreferences().getBoolean("alipay", false));
         if (activity!=null) {
             getActivity().sendBroadcast(intent);
-            getActivity().getPackageManager().setComponentEnabledSetting(new ComponentName(getActivity(), "com.anjoyo.xyl.run.activity.SportStepsSettingActivity"), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, 1);
+//            getActivity().getPackageManager().setComponentEnabledSetting(new ComponentName(getActivity(), "com.anjoyo.xyl.run.activity.SportStepsSettingActivity"), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, 1);
         }
     }
 

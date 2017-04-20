@@ -41,7 +41,7 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
         m = Integer.valueOf(
                 this.mXSharedPreferences.getString("magnification", "50"))
                 .intValue();
-        incrementValue = this.mXSharedPreferences.getBoolean("increment", true);
+        incrementValue = this.mXSharedPreferences.getBoolean("increment", false);
         addValue = Long.valueOf(
                 this.mXSharedPreferences.getString("addvalue", "0"))
                 .intValue();

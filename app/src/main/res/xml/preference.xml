@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="全局设定">
+    <Preference
+        android:summary="步数模拟功能需要在真机上使用，并且装有X框架成功启动小熊跑步模块"
+        android:title="提示" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="increment"
+        android:summaryOff="关闭"
+        android:summaryOn="开启"
+        android:title="启动加倍" />
+    <EditTextPreference
+        android:defaultValue="50"
+        android:inputType="number"
+        android:key="magnification"
+        android:summary="50"
+        android:title="倍率" />
+    </PreferenceCategory>
     <PreferenceCategory android:title="选择">
         <Preference
             android:key="choose"
-            android:summary="注意可能影响一些应用摇一摇功能"
+            android:summary=""
             android:title="选择要修改的应用" />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="全局设定">
-        <Preference
-            android:summary="步数模拟功能需要在真机上使用，并且装有X框架成功启动小熊跑步模块"
-            android:title="提示" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="increment"
-            android:summaryOff="关闭"
-            android:summaryOn="开启"
-            android:title="启动加倍" />
-        <EditTextPreference
-            android:defaultValue="50"
-            android:inputType="number"
-            android:key="magnification"
-            android:summary="50"
-            android:title="倍率" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="weixin"
@@ -70,6 +70,8 @@
             android:summaryOff="关闭"
             android:summaryOn="打开"
             android:title="支付宝步数修改"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="其它">
         <Preference
             android:summary="关注模拟跑步贴吧"
             android:title="使用教程">

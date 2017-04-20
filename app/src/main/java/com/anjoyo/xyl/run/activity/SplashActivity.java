@@ -2,9 +2,11 @@ package com.anjoyo.xyl.run.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.RelativeLayout;
 
+import com.anjoyo.xyl.run.BuildConfig;
 import com.anjoyo.xyl.run.R;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -55,7 +57,11 @@ public class SplashActivity extends Activity {
 				mInterstitialAd.show();
 			}
 		});
-		requestNewInterstitial();
+		if (BuildConfig.DEBUG){
+			jump();
+		}else{
+			requestNewInterstitial();
+		}
 	}
 	private void requestNewInterstitial() {
 		AdRequest adRequest = new AdRequest.Builder().addTestDevice("2477B0A81625A7779FB9E71E404DDF43")

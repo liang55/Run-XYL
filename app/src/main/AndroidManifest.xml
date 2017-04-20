@@ -97,6 +97,12 @@
             android:name=".activity.SetYoDoNumActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".activity.AboutActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:launchMode="singleTask"/>
     </application>
 
 </manifest>

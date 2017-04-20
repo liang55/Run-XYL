@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -43,6 +45,7 @@ import com.amap.api.navi.model.AMapNaviInfo;
 import com.amap.api.navi.model.AMapNaviLocation;
 import com.amap.api.navi.model.NaviInfo;
 import com.amap.api.navi.model.NaviLatLng;
+import com.anjoyo.xyl.run.BuildConfig;
 import com.anjoyo.xyl.run.MainApplication;
 import com.anjoyo.xyl.run.R;
 import com.anjoyo.xyl.run.TTSController;
@@ -175,8 +178,10 @@ public class NaviStartActivity extends AppCompatActivity
         MainApplication.getInstance().addActivity(this);
 
        final AdView mAdView = (AdView) findViewById(R.id.adview);
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("2477B0A81625A7779FB9E71E404DDF43").build();
-        mAdView.loadAd(adRequest);
+        if (!BuildConfig.DEBUG){
+            AdRequest adRequest = new AdRequest.Builder().addTestDevice("2477B0A81625A7779FB9E71E404DDF43").build();
+            mAdView.loadAd(adRequest);
+        }
         findViewById(R.id.adview_close).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -185,6 +190,21 @@ public class NaviStartActivity extends AppCompatActivity
             }
         });
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu_layout, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.aboutItem:
+                startActivity(new Intent(NaviStartActivity.this,AboutActivity.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
