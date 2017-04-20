@@ -9,7 +9,7 @@ import com.umeng.analytics.MobclickAgent;
 /**
  * 设置界面
  */
-public class NaviSettingActivity extends AppCompatActivity {
+public class SportStepsSettingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

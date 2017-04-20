@@ -1,8 +1,10 @@
 package com.anjoyo.xyl.run.activity;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
@@ -41,9 +43,7 @@ public class SettingFragment extends PreferenceFragment
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mEditTextPreference = (EditTextPreference) findPreference("magnification");
-//        userEditTextPreference = (EditTextPreference) findPreference("userid");
-//        addValueTextPreference = (EditTextPreference) findPreference("addvalue");
-        verisionPreference = (Preference) findPreference("versionNumber");
+        verisionPreference =findPreference("versionNumber");
         verisionPreference.setSummary(BuildConfig.VERSION_NAME);
         changeSummary();
         isShowToast = true;
@@ -67,10 +67,6 @@ public class SettingFragment extends PreferenceFragment
         if (this.mEditTextPreference != null) {
             this.mEditTextPreference.setSummary(getPreferenceManager()
                     .getSharedPreferences().getString("magnification", "50"));
-//            this.userEditTextPreference.setSummary(getPreferenceManager()
-//                    .getSharedPreferences().getString("userid", "默认自己UID"));
-//            this.addValueTextPreference.setSummary(getPreferenceManager()
-//                    .getSharedPreferences().getString("addvalue", "0"));
         }
     }
 
@@ -94,18 +90,19 @@ public class SettingFragment extends PreferenceFragment
         Intent intent = new Intent("com.anjoyo.xyl.run.HOOK_SETTING_CHANGED");
         intent.putExtra("magnification", getPreferenceManager()
                 .getSharedPreferences().getString("magnification", "50"));
-        intent.putExtra("userid", getPreferenceManager()
-                .getSharedPreferences().getString("userid", ""));
-        intent.putExtra("addvalue", getPreferenceManager()
-                .getSharedPreferences().getString("addvalue", "0"));
         intent.putExtra("increment", getPreferenceManager()
-                .getSharedPreferences().getBoolean("increment", true));
-        intent.putExtra("autoincrement", getPreferenceManager()
-                .getSharedPreferences().getBoolean("autoincrement", false));
-//        intent.putExtra("allautoincrement", getPreferenceManager()
-//                .getSharedPreferences().getBoolean("allautoincrement", true));
+                .getSharedPreferences().getBoolean("increment", false));
+        intent.putExtra("weixin", getPreferenceManager().getSharedPreferences().getBoolean("weiixn", false));
+        intent.putExtra("qq", getPreferenceManager().getSharedPreferences().getBoolean("qq", false));
+        intent.putExtra("ledong", getPreferenceManager().getSharedPreferences().getBoolean("ledong", false));
+        intent.putExtra("yuedong", getPreferenceManager().getSharedPreferences().getBoolean("yuedong", false));
+        intent.putExtra("pingan", getPreferenceManager().getSharedPreferences().getBoolean("pingan", false));
+        intent.putExtra("codoon", getPreferenceManager().getSharedPreferences().getBoolean("codoon", false));
+        intent.putExtra("weibo", getPreferenceManager().getSharedPreferences().getBoolean("weibo", false));
+        intent.putExtra("alipay", getPreferenceManager().getSharedPreferences().getBoolean("alipay", false));
         if (activity!=null) {
             getActivity().sendBroadcast(intent);
+            getActivity().getPackageManager().setComponentEnabledSetting(new ComponentName(getActivity(), "com.anjoyo.xyl.run.activity.SportStepsSettingActivity"), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, 1);
         }
     }
 

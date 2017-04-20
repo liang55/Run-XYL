@@ -1,60 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <!--<PreferenceCategory android:title="悦动设定">-->
-        <!--<Preference-->
-            <!--android:summary="直接修改一次悦动发送步数参数，出现多次不成功重启再试"-->
-            <!--android:title="提示" />-->
-        <!--<EditTextPreference-->
-            <!--android:defaultValue=""-->
-            <!--android:inputType="number"-->
-            <!--android:key="userid"-->
-            <!--android:summary=""-->
-            <!--android:title="悦动id" />-->
-        <!--<EditTextPreference-->
-            <!--android:defaultValue="0"-->
-            <!--android:inputType="number"-->
-            <!--android:key="addvalue"-->
-            <!--android:summary="0"-->
-            <!--android:title="增加步数" />-->
-    <!--</PreferenceCategory>-->
+    <PreferenceCategory android:title="选择">
+        <Preference
+            android:key="choose"
+            android:summary="注意可能影响一些应用摇一摇功能"
+            android:title="选择要修改的应用" />
+    </PreferenceCategory>
     <PreferenceCategory android:title="全局设定">
         <Preference
             android:summary="步数模拟功能需要在真机上使用，并且装有X框架成功启动小熊跑步模块"
             android:title="提示" />
         <CheckBoxPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="increment"
             android:summaryOff="关闭"
             android:summaryOn="开启"
             android:title="启动加倍" />
-        <!--<CheckBoxPreference-->
-            <!--android:defaultValue="true"-->
-            <!--android:key="allautoincrement"-->
-            <!--android:summaryOff="关闭"-->
-            <!--android:summaryOn="开启"-->
-            <!--android:title="全局加倍" />-->
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="autoincrement"
-            android:summaryOff="倍率增加"
-            android:summaryOn="自动增加"
-            android:title="修改方式" />
         <EditTextPreference
             android:defaultValue="50"
             android:inputType="number"
             android:key="magnification"
             android:summary="50"
             android:title="倍率" />
-<!--
-
-
-        <Preference
-            android:summary="自动增加=步数+自增变量*倍率，倍率增加=步数*倍率。
-注意：倍率仅代表修改幅度，不精确修改数值,使用自动增加可能导致QQ不刷新，请自行测试！"
-            android:title="使用说明" />-->
-        <Preference
-            android:summary="自动修改步数，微信，QQ，悦动圈，乐动力，平安，CODOON，微博，支付宝"
-            android:title="使用说明" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="weixin"
+            android:summaryOff="关闭"
+            android:summaryOn="开启"
+            android:title="微信运动修改"/>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="qq"
+            android:summaryOff="关闭"
+            android:summaryOn="开启"
+            android:title="QQ健康步数修改"/>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="ledong"
+            android:summaryOff="关闭"
+            android:summaryOn="打开"
+            android:title="乐动力修改"/>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="yuedong"
+            android:summaryOff="关闭"
+            android:summaryOn="打开"
+            android:title="悦动圈步数修改"/>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pingan"
+            android:summaryOff="关闭"
+            android:summaryOn="打开"
+            android:title="平安好医生步数修改"/>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="codoon"
+            android:summaryOff="关闭"
+            android:summaryOn="打开"
+            android:title="咕咚步数修改"/>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="weibo"
+            android:summaryOff="关闭"
+            android:summaryOn="打开"
+            android:title="微博步数修改"/>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="alipay"
+            android:summaryOff="关闭"
+            android:summaryOn="打开"
+            android:title="支付宝步数修改"/>
         <Preference
             android:summary="关注模拟跑步贴吧"
             android:title="使用教程">
@@ -70,12 +85,19 @@
                 android:data="https://jq.qq.com/?_wv=1027&amp;k=46bVkzP" />
         </Preference>
         <Preference
+            android:summary="喜欢就捐赠~"
+            android:title="捐赠">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://qr.alipay.com/a6x02523okegqxsynq2wm42" />
+        </Preference>
+        <Preference
             android:key="versionNumber"
             android:summary="1.2.5"
             android:title="关于">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://play.google.com/store/apps/details?id=com.anjoyo.xyl.run" />
+                android:data="https://xyl-blog.github.io/about/"/>
         </Preference>
     </PreferenceCategory>
 

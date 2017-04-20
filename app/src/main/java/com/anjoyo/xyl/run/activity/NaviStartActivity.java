@@ -451,7 +451,7 @@ public class NaviStartActivity extends AppCompatActivity
         switch (v.getId()) {
             // 步数加倍按钮处理事件
             case R.id.navi_route_button:
-                startActivity(new Intent(this, NaviSettingActivity.class));
+                startActivity(new Intent(this, SportStepsSettingActivity.class));
                 break;
             // 模拟导航处理事件
             case R.id.navi_navi_button:

@@ -10,7 +10,6 @@ import java.lang.reflect.Field;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 class RunMethodHook extends XC_MethodHook {
@@ -23,12 +22,9 @@ class RunMethodHook extends XC_MethodHook {
     public static final String CODOON = "com.codoon.gps";
     public static final String WEIBO = "com.sina.weibo";
     public static final String ZHIFUBAO = "com.eg.android.AlipayGphone";
-    public static boolean isWeixin = true, isQQ = true,  isLedong = true, isYuedong = true, isPingan = true, isCodoon = true, isWeibo = true, isAlipay = true;
     final/* synthetic */ LoadPackageParam loadPackageParam;
     final/* synthetic */ MainHook mMainHook;
     final Context mContext;
-    public static Object sObject;
-
     RunMethodHook(Context context, MainHook mainHook,
                   LoadPackageParam loadPackageParam) {
         this.mMainHook = mainHook;
@@ -50,7 +46,6 @@ class RunMethodHook extends XC_MethodHook {
             } catch (Throwable e) {
                 // TODO: handle exception
                 XposedBridge.log("SensorEvent=NULL");
-//				XposedBridge.log(e);
                 return;
             }
 
@@ -59,74 +54,102 @@ class RunMethodHook extends XC_MethodHook {
                 return;
             }
             if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-                if (isLedong && loadPackageParam.packageName.equals(LEDONG)) {
+                float[] fArr;
+                if (mMainHook.isLedong && loadPackageParam.packageName.equals(LEDONG)) {
                     MainHook.ledongCount += 1;
                     //完美
                     if (MainHook.ledongCount % 3 == 0) {
                         ((float[]) param.args[1])[0] = ((float[]) param.args[1])[0] * 100;
-                        ((float[]) param.args[1])[1] += (float) -10;
+//                        ((float[]) param.args[1])[1] += (float) -10;
+                        fArr = (float[]) param.args[1];
+                        fArr[1] = fArr[1] - 0.4375f;
                     } else if (MainHook.ledongCount % 2 == 0) {
                         ((float[]) param.args[1])[0] = ((float[]) param.args[1])[0] * 1000;
-                        ((float[]) param.args[1])[2] += (float) -20;
-                        ((float[]) param.args[1])[1] += (float) -5;
+//                        ((float[]) param.args[1])[2] += (float) -20;
+//                        ((float[]) param.args[1])[1] += (float) -5;
+                        fArr = (float[]) param.args[1];
+                        fArr[2] = fArr[2] - 0.21875f;
+                        fArr = (float[]) param.args[1];
+                        fArr[1] = fArr[1] - 0.875f;
                     } else {
                         ((float[]) param.args[1])[0] = ((float[]) param.args[1])[0] * 10;
-                        ((float[]) param.args[1])[2] += (float) 20;
-                        ((float[]) param.args[1])[1] += (float) -15;
+//                        ((float[]) param.args[1])[2] += (float) 20;
+//                        ((float[]) param.args[1])[1] += (float) -15;
+                        fArr = (float[]) param.args[1];
+                        fArr[2] = fArr[2] + 20.0f;
+                        fArr = (float[]) param.args[1];
+                        fArr[1] = fArr[1] - 0.28125f;
                     }
                 }
-                if (isAlipay && loadPackageParam.packageName.equals(ZHIFUBAO)) {
+                if (mMainHook.isAlipay && loadPackageParam.packageName.equals(ZHIFUBAO)) {
                     MainHook.zhifubaoCount += 1;
                     //完美
                     if (MainHook.zhifubaoCount % 3 == 0) {
                         ((float[]) param.args[1])[0] = ((float[]) param.args[1])[0] * 100;
-                        ((float[]) param.args[1])[1] += (float) -10;
+                        fArr = (float[]) param.args[1];
+                        fArr[1] = fArr[1] - 0.4375f;
                     } else if (MainHook.zhifubaoCount % 2 == 0) {
                         ((float[]) param.args[1])[0] = ((float[]) param.args[1])[0] * 1000;
-                        ((float[]) param.args[1])[2] += (float) -20;
-                        ((float[]) param.args[1])[1] += (float) -5;
+                        fArr = (float[]) param.args[1];
+                        fArr[2] = fArr[2] - 0.21875f;
+                        fArr = (float[]) param.args[1];
+                        fArr[1] = fArr[1] - 0.875f;
                     } else {
                         ((float[]) param.args[1])[0] = ((float[]) param.args[1])[0] * 10;
-                        ((float[]) param.args[1])[2] += (float) 20;
-                        ((float[]) param.args[1])[1] += (float) -15;
+                        fArr = (float[]) param.args[1];
+                        fArr[2] = fArr[2] + 20.0f;
+                        fArr = (float[]) param.args[1];
+                        fArr[1] = fArr[1] - 0.28125f;
                     }
                 }
-                if (isYuedong && loadPackageParam.packageName.equals(YUEDONG)) {
+                if (mMainHook.isYuedong && loadPackageParam.packageName.equals(YUEDONG)) {
                     MainHook.yuedongCount += 1;
                     ((float[]) param.args[1])[0] = ((float[]) param.args[1])[0] * 1000;
                     if (MainHook.yuedongCount % 2 == 0) {
-                        ((float[]) param.args[1])[2] += (float) -20;
-                        ((float[]) param.args[1])[1] += (float) -5;
+                        fArr = (float[]) param.args[1];
+                        fArr[2] = fArr[2] - 0.21875f;
+                        fArr = (float[]) param.args[1];
+                        fArr[1] = fArr[1] - 0.875f;
                     } else {
-                        ((float[]) param.args[1])[2] += (float) 20;
-                        ((float[]) param.args[1])[1] += (float) -15;
+                        fArr = (float[]) param.args[1];
+                        fArr[2] = fArr[2] + 20.0f;
+                        fArr = (float[]) param.args[1];
+                        fArr[1] = fArr[1] - 0.28125f;
                     }
                 }
-                if (isPingan && loadPackageParam.packageName.equals(PINGAN)) {
+                if (mMainHook.isPingan && loadPackageParam.packageName.equals(PINGAN)) {
                     MainHook.pinganCount += 1;
                     ((float[]) param.args[1])[0] = ((float[]) param.args[1])[0] * 1000;
                     if (MainHook.pinganCount % 2 == 0) {
-                        ((float[]) param.args[1])[2] += (float) -20;
-                        ((float[]) param.args[1])[1] += (float) -5;
+                        fArr = (float[]) param.args[1];
+                        fArr[2] = fArr[2] - 0.21875f;
+                        fArr = (float[]) param.args[1];
+                        fArr[1] = fArr[1] - 0.875f;
                     } else {
-                        ((float[]) param.args[1])[2] += (float) 20;
-                        ((float[]) param.args[1])[1] += (float) -15;
+                        fArr = (float[]) param.args[1];
+                        fArr[2] = fArr[2] + 20.0f;
+                        fArr = (float[]) param.args[1];
+                        fArr[1] = fArr[1] - 0.28125f;
                     }
                 }
-                if (isCodoon && loadPackageParam.packageName.equals(CODOON)) {
+                if (mMainHook.isCodoon && loadPackageParam.packageName.equals(CODOON)) {
                     MainHook.codoonCount += 1;
                     ((float[]) param.args[1])[0] = ((float[]) param.args[1])[0] * 1000;
                     if (MainHook.codoonCount % 2 == 0) {
-                        ((float[]) param.args[1])[2] += (float) -20;
-                        ((float[]) param.args[1])[1] += (float) -5;
+                        fArr = (float[]) param.args[1];
+                        fArr[2] = fArr[2] - 0.21875f;
+                        fArr = (float[]) param.args[1];
+                        fArr[1] = fArr[1] - 0.875f;
                     } else {
-                        ((float[]) param.args[1])[2] += (float) 20;
-                        ((float[]) param.args[1])[1] += (float) -15;
+                        fArr = (float[]) param.args[1];
+                        fArr[2] = fArr[2] + 20.0f;
+                        fArr = (float[]) param.args[1];
+                        fArr[1] = fArr[1] - 0.28125f;
                     }
                 }
             }
             if (sensor.getType() == Sensor.TYPE_STEP_COUNTER || sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
-                if ((isWeixin && loadPackageParam.packageName.equals(WEXIN))) {
+                if ((mMainHook.isWeixin && loadPackageParam.packageName.equals(WEXIN))) {
                     if (MainHook.isAuto) {
                         if (MainHook.m * MainHook.weixinCount <= MainHook.max) {
                             ((float[]) param.args[1])[0] = ((float[]) param.args[1])[0] + MainHook.m * MainHook.weixinCount;
@@ -138,7 +161,7 @@ class RunMethodHook extends XC_MethodHook {
                         ((float[]) param.args[1])[0] = ((float[]) param.args[1])[0] * MainHook.m;
                     }
                 }
-                if ((isQQ && loadPackageParam.packageName.equals(QQ))) {
+                if ((mMainHook.isQQ && loadPackageParam.packageName.equals(QQ))) {
                     if (MainHook.isAuto) {
                         if (MainHook.m * MainHook.qqCount <= MainHook.max) {
                             ((float[]) param.args[1])[0] = ((float[]) param.args[1])[0] + MainHook.m * MainHook.qqCount;
@@ -150,21 +173,20 @@ class RunMethodHook extends XC_MethodHook {
                         ((float[]) param.args[1])[0] = ((float[]) param.args[1])[0] * MainHook.m;
                     }
                 }
-                if (isAlipay && loadPackageParam.packageName.equals(ZHIFUBAO)) {
-                    if (10000 * MainHook.zhifubaoCount <= MainHook.max) {
-                        ((float[]) param.args[1])[0] = ((float[]) param.args[1])[0] + 10000 * MainHook.zhifubaoCount;
+                if (mMainHook.isAlipay && loadPackageParam.packageName.equals(ZHIFUBAO)) {
+                    if (999 * MainHook.zhifubaoCount <= MainHook.max) {
+                        ((float[]) param.args[1])[0] = ((float[]) param.args[1])[0] + 999 * MainHook.zhifubaoCount;
                         MainHook.zhifubaoCount += 1;
                     } else {
                         MainHook.zhifubaoCount = 0;
                     }
                 }
-                if ((isWeibo && loadPackageParam.packageName.equals(WEIBO))) {
+                if ((mMainHook.isWeibo && loadPackageParam.packageName.equals(WEIBO))) {
                     ((float[]) param.args[1])[0] = ((float[]) param.args[1])[0] * MainHook.m;
                 }
-                XposedBridge.log(loadPackageParam.packageName + "传感器类型：" + sensor.getType() + ",修改后：" + ((float[]) param.args[1])[0]);
+                XposedBridge.log("xyl-run:"+loadPackageParam.packageName + "传感器类型：" + sensor.getType() + ",修改后：" + ((float[]) param.args[1])[0]);
                 String motifyContent = this.loadPackageParam.packageName
                         + "修改值" + ((float[]) param.args[1])[0];
-                // Log.d("xxx",motifyContent);
                 XposedBridge.log(motifyContent);
                 Intent intent = new Intent("com.anjoyo.xyl.run.SETTING_CHANGED");
                 intent.putExtra("content", motifyContent);

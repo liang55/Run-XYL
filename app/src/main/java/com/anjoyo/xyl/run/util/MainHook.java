@@ -23,29 +23,16 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
-    public static float count = 0;
-    public static int m=50, max = 100000;
-    //    static int mmCount;
-//    static int qqCount;
-//    static int ldlCount;
-//    static int ydCount;
-    static int allCount;
+    public static int m=50, max = 99990;
     public static int weixinCount = 1, qqCount = 1, ledongCount = 1, yuedongCount = 1, pinganCount = 1, codoonCount = 1, zhifubaoCount = 1;
-//    static int magnificationValue;
+    public static boolean isWeixin, isQQ, isAuto, isLedong, isYuedong, isPingan, isCodoon, isWeibo, isAlipay;
     static long addValue;
     static String userId;
-    public static boolean isAuto = true;
-//    static boolean allautoincrementValue = true;
     static boolean incrementValue = true;
     XSharedPreferences mXSharedPreferences;
     static Context context = null;
     static XYLHookReceicver mXYLHookReceicver;
     static boolean controlIsFromMockProvider;
-
-    static {
-        allCount = 0;
-    }
-
     public MainHook() {
     }
 
@@ -54,19 +41,22 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
         m = Integer.valueOf(
                 this.mXSharedPreferences.getString("magnification", "50"))
                 .intValue();
-        isAuto = this.mXSharedPreferences.getBoolean(
-                "autoincrement", false);
-//        allautoincrementValue = this.mXSharedPreferences.getBoolean(
-//                "allautoincrement", true);
         incrementValue = this.mXSharedPreferences.getBoolean("increment", true);
         addValue = Long.valueOf(
                 this.mXSharedPreferences.getString("addvalue", "0"))
                 .intValue();
         userId =
                 this.mXSharedPreferences.getString("userid", "");
-
         controlIsFromMockProvider = mXSharedPreferences.getBoolean("controlIsFromMockProvider", false);
-        XposedBridge.log("m="+m +";isAuto="+isAuto+"incrementValue=" + incrementValue + ";addValue=" + addValue + ";userId=" + userId);
+        isWeixin = mXSharedPreferences.getBoolean("weixin", false);
+        isQQ = mXSharedPreferences.getBoolean("qq", false);
+        isLedong = mXSharedPreferences.getBoolean("ledong", false);
+        isYuedong = mXSharedPreferences.getBoolean("yuedong", false);
+        isPingan = mXSharedPreferences.getBoolean("pingan", false);
+        isCodoon = mXSharedPreferences.getBoolean("codoon", false);
+        isWeibo = mXSharedPreferences.getBoolean("weibo", false);
+        isAlipay = mXSharedPreferences.getBoolean("alipay", false);
+        XposedBridge.log("xyl-run：magnification="+m +"incrementValue=" + incrementValue + ";addValue=" + addValue + ";userId=" + userId);
     }
 
     public void handleYDAddNum(Class<?> openSignEL) {
@@ -255,46 +245,8 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
         }
         if (!incrementValue) {
             if (BuildConfig.DEBUG)
-                Log.d("xyl", "自动加速关闭");
+                Log.d("xyl", "加速关闭");
             return;
-        }
-        if (loadPackageParam.packageName.equals(RunMethodHook.YUEDONG) || loadPackageParam.packageName.equals(RunMethodHook.CODOON)) {
-            Thread autoThread = new Thread() {
-                @Override
-                public void run() {
-                    while (!isInterrupted()) {
-                        if (RunMethodHook.isYuedong) {
-                            try {
-                                Thread.sleep(100);
-                                if (RunMethodHook.sObject != null) {
-                                    count++;
-                                    XposedHelpers.callMethod(RunMethodHook.sObject, "dispatchSensorEvent", 5, new float[]{count, 0, 0}, 3, System.currentTimeMillis());
-                                }
-                                if (count == max) {
-                                    count = 0;
-                                }
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        if (RunMethodHook.isCodoon) {
-                        try {
-                            Thread.sleep(100);
-                            if (RunMethodHook.sObject != null) {
-                                count++;
-                                XposedHelpers.callMethod(RunMethodHook.sObject, "dispatchSensorEvent", 5, new float[]{count, 0, 0}, 3, System.currentTimeMillis());
-                            }
-                            if (count == Integer.MAX_VALUE) {
-                                count = 0;
-                            }
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        }
-                    }
-                }
-            };
-            autoThread.start();
         }
         Class<?> sensorEL = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {

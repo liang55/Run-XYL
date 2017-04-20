@@ -18,18 +18,23 @@ public class XYLHookReceicver extends BroadcastReceiver {
 
     public void onReceive(Context context, Intent intent) {
         MainHook.m = Integer.valueOf(
-                intent.getExtras().getString("magnification", "100"))
+                intent.getExtras().getString("magnification", "50"))
                 .intValue();
         MainHook.addValue = Long.valueOf(
                 intent.getExtras().getString("addvalue", "0"))
                 .intValue();
         MainHook.userId =
                 intent.getExtras().getString("userid", "");
-        MainHook.isAuto = intent.getExtras().getBoolean(
-                "autoincrement", false);
-//        MainHook.allautoincrementValue = intent.getExtras().getBoolean(
-//                "allautoincrement", true);
         MainHook.incrementValue = intent.getExtras().getBoolean("increment",
                 true);
+
+        MainHook.isWeixin = intent.getExtras().getBoolean("weixin", false);
+        MainHook.isQQ = intent.getExtras().getBoolean("qq", false);
+        MainHook.isLedong = intent.getExtras().getBoolean("ledong", false);
+        MainHook.isYuedong = intent.getExtras().getBoolean("yuedong", false);
+        MainHook.isPingan = intent.getExtras().getBoolean("pingan", false);
+        MainHook.isCodoon = intent.getExtras().getBoolean("codoon", false);
+        MainHook.isWeibo = intent.getExtras().getBoolean("weibo", false);
+        MainHook.isAlipay = intent.getExtras().getBoolean("alipay", false);
     }
 }
