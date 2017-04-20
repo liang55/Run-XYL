@@ -31,6 +31,21 @@ public class SetReceicver extends BroadcastReceiver {
                 }
                 toast.show();
                 break;
+            case 2:
+                 mySharedPreferences = context.getSharedPreferences(
+                        context.getPackageName() + "_preferences",
+                        Activity.MODE_PRIVATE);
+                 editor = mySharedPreferences.edit();
+                editor.putBoolean("isZfbOn", false);
+                editor.commit();
+                if (toast != null) {
+                    toast.cancel();
+                    toast.setText("增加步数步数成功，+"+content);
+                } else {
+                    toast = Toast.makeText(context, "增加步数步数成功，+"+content, Toast.LENGTH_LONG);
+                }
+                toast.show();
+                break;
             default:
                 if (!SettingFragment.isShowToast) {
                     return;

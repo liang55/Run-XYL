@@ -318,8 +318,16 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
             protected void afterHookedMethod(MethodHookParam methodHookParam) throws Throwable {
                 super.afterHookedMethod(methodHookParam);
                 XposedBridge.log("xyl-run:AliSport:hook stepcounter succeed."+zfbSteps);
-                Context context = (Context) methodHookParam.args[0];
+                Context contextTem = (Context) methodHookParam.args[0];
                 methodHookParam.setResult(Boolean.valueOf(true));
+                Intent intent = new Intent("com.anjoyo.xyl.run.SETTING_CHANGED");
+                intent.putExtra("zfbSteps", zfbSteps);
+                intent.putExtra("type", 2);
+                if(context!=null){
+                    context.sendBroadcast(intent);
+                }else if (contextTem != null) {
+                    contextTem.sendBroadcast(intent);
+                }
             }
         };
         XposedHelpers.findAndHookMethod("com.alipay.mobile.base.security.d", loadPackageParam.classLoader, "onClick", new Object[]{DialogInterface.class, Integer.TYPE, xc_methodReplacement});
