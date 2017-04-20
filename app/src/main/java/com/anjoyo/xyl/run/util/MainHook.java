@@ -23,7 +23,7 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
-    public static int m=50, max = 99990;
+    public static int m = 50, max = 99990;
     public static int weixinCount = 1, qqCount = 1, ledongCount = 1, yuedongCount = 1, pinganCount = 1, codoonCount = 1, zhifubaoCount = 1;
     public static boolean isWeixin, isQQ, isAuto, isLedong, isYuedong, isPingan, isCodoon, isWeibo, isAlipay;
     static long addValue;
@@ -33,6 +33,7 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
     static Context context = null;
     static XYLHookReceicver mXYLHookReceicver;
     static boolean controlIsFromMockProvider;
+
     public MainHook() {
     }
 
@@ -56,7 +57,8 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
         isCodoon = mXSharedPreferences.getBoolean("codoon", false);
         isWeibo = mXSharedPreferences.getBoolean("weibo", false);
         isAlipay = mXSharedPreferences.getBoolean("alipay", false);
-        XposedBridge.log("xyl-run：magnification="+m +"incrementValue=" + incrementValue + ";addValue=" + addValue + ";userId=" + userId);
+        if (BuildConfig.DEBUG)
+            Log.d("xyl","xyl-run：magnification=" + m + "incrementValue=" + incrementValue + ";addValue=" + addValue + ";userId=" + userId);
     }
 
     public void handleYDAddNum(Class<?> openSignEL) {
@@ -201,11 +203,12 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 
     public void handleLoadPackage(LoadPackageParam loadPackageParam) {
         try {
-            context = (Context) XposedHelpers.callMethod(XposedHelpers
-                            .callStaticMethod(XposedHelpers.findClass(
-                                    "android.app.ActivityThread", null),
-                                    "currentActivityThread", new Object[0]),
-                    "getSystemContext", new Object[0]);
+//            context = (Context) XposedHelpers.callMethod(XposedHelpers
+//                            .callStaticMethod(XposedHelpers.findClass(
+//                                    "android.app.ActivityThread", null),
+//                                    "currentActivityThread", new Object[0]),
+//                    "getSystemContext", new Object[0]);
+            context = (Context) XposedHelpers.callMethod(XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null), "currentActivityThread", new Object[0]), "getSystemContext", new Object[0]);
             if (mXYLHookReceicver == null) {
                 IntentFilter intentFilter = new IntentFilter();
                 intentFilter
@@ -215,13 +218,13 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
             }
         } catch (Throwable e) {
             // TODO: handle exception
-            XposedBridge.log(e);
+            e.printStackTrace();
         }
         initData();
         if (BuildConfig.DEBUG)
             Log.d("xyl", controlIsFromMockProvider + "++loadpackageName==" + loadPackageParam.packageName);
         if (TextUtils.equals("com.yuedong.sport", loadPackageParam.packageName)) {
-            try{
+            try {
                 final Class<?> openSignEL = XposedHelpers.findClass(
                         "com.yuedong.common.utils.OpenSign",
                         loadPackageParam.classLoader);
@@ -239,7 +242,7 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                 if (Account != null) {
                     handleYDGetXyy(Account);
                 }
-            }catch (Throwable e){
+            } catch (Throwable e) {
                 e.printStackTrace();
             }
         }
