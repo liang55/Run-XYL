@@ -37,6 +37,7 @@ class RunMethodHook extends XC_MethodHook {
         try {
             Sensor sensor = null;
             try {
+                mMainHook.sObject = param.thisObject;
                 int intValue = ((Integer) param.args[0]).intValue();
                 Field declaredField = param.thisObject.getClass()
                         .getDeclaredField("mSensorsEvents");
