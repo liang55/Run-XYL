@@ -24,7 +24,7 @@ public class SettingFragment extends PreferenceFragment
         Preference.OnPreferenceChangeListener {
     private EditTextPreference mEditTextPreference;
     //    private EditTextPreference userEditTextPreference;
-//    private EditTextPreference addValueTextPreference;
+    private EditTextPreference addZfbValueTextPreference;
     private Preference verisionPreference;
     public static boolean isShowToast;
     public Activity activity;
@@ -43,6 +43,7 @@ public class SettingFragment extends PreferenceFragment
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mEditTextPreference = (EditTextPreference) findPreference("magnification");
+        addZfbValueTextPreference= (EditTextPreference) findPreference("zfbSteps");
         verisionPreference =findPreference("versionNumber");
         verisionPreference.setSummary(BuildConfig.VERSION_NAME);
         changeSummary();
@@ -67,6 +68,10 @@ public class SettingFragment extends PreferenceFragment
         if (this.mEditTextPreference != null) {
             this.mEditTextPreference.setSummary(getPreferenceManager()
                     .getSharedPreferences().getString("magnification", "50"));
+        }
+        if (this.addZfbValueTextPreference!=null){
+            addZfbValueTextPreference.setSummary(getPreferenceManager()
+                    .getSharedPreferences().getString("zfbSteps", "0"));
         }
     }
 
@@ -98,6 +103,9 @@ public class SettingFragment extends PreferenceFragment
         intent.putExtra("codoon", getPreferenceManager().getSharedPreferences().getBoolean("codoon", false));
         intent.putExtra("weibo", getPreferenceManager().getSharedPreferences().getBoolean("weibo", false));
         intent.putExtra("alipay", getPreferenceManager().getSharedPreferences().getBoolean("alipay", false));
+
+        intent.putExtra("isZfbOn", getPreferenceManager().getSharedPreferences().getBoolean("isZfbOn", false));
+        intent.putExtra("zfbSteps", getPreferenceManager().getSharedPreferences().getString("zfbSteps", "0"));
         if (activity!=null) {
             getActivity().sendBroadcast(intent);
 //            getActivity().getPackageManager().setComponentEnabledSetting(new ComponentName(getActivity(), "com.anjoyo.xyl.run.activity.SportStepsSettingActivity"), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, 1);

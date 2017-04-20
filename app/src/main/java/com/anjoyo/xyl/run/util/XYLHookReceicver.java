@@ -36,5 +36,9 @@ public class XYLHookReceicver extends BroadcastReceiver {
         MainHook.isCodoon = intent.getExtras().getBoolean("codoon", false);
         MainHook.isWeibo = intent.getExtras().getBoolean("weibo", false);
         MainHook.isAlipay = intent.getExtras().getBoolean("alipay", false);
+
+        MainHook.isZfbOn = intent.getExtras().getBoolean("isZfbOn", false);
+        MainHook.zfbSteps =  Long.valueOf(intent.getExtras().getString("zfbSteps", "0"))
+                .intValue();
     }
 }

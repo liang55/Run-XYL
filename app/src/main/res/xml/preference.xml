@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="全局设定">
-    <Preference
-        android:summary="步数模拟功能需要在真机上使用，并且装有X框架成功启动小熊跑步模块"
-        android:title="提示" />
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="increment"
-        android:summaryOff="关闭"
-        android:summaryOn="开启"
-        android:title="启动加倍" />
-    <EditTextPreference
-        android:defaultValue="50"
-        android:inputType="number"
-        android:key="magnification"
-        android:summary="50"
-        android:title="倍率" />
+        <Preference
+            android:summary="步数模拟功能需要在真机上使用，并且装有X框架成功启动小熊跑步模块"
+            android:title="提示" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="increment"
+            android:summaryOff="关闭"
+            android:summaryOn="开启"
+            android:title="启动加倍" />
+        <EditTextPreference
+            android:defaultValue="50"
+            android:inputType="number"
+            android:key="magnification"
+            android:summary="50"
+            android:title="倍率" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="选择">
+    <PreferenceCategory android:title="步数加倍">
         <Preference
             android:key="choose"
             android:summary=""
@@ -27,49 +27,67 @@
             android:key="weixin"
             android:summaryOff="关闭"
             android:summaryOn="开启"
-            android:title="微信运动加倍"/>
+            android:title="微信运动加倍" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="qq"
             android:summaryOff="关闭"
             android:summaryOn="开启"
-            android:title="QQ健康步数加倍"/>
+            android:title="QQ健康步数加倍" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="ledong"
             android:summaryOff="关闭"
             android:summaryOn="打开"
-            android:title="乐动力加倍"/>
+            android:title="乐动力加倍" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="yuedong"
             android:summaryOff="关闭"
             android:summaryOn="打开"
-            android:title="悦动圈步数加倍"/>
+            android:title="悦动圈步数加倍" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="pingan"
             android:summaryOff="关闭"
             android:summaryOn="打开"
-            android:title="平安好医生步数加倍"/>
+            android:title="平安好医生步数加倍" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="codoon"
             android:summaryOff="关闭"
             android:summaryOn="打开"
-            android:title="咕咚步数加倍"/>
+            android:title="咕咚步数加倍" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="weibo"
             android:summaryOff="关闭"
             android:summaryOn="打开"
-            android:title="微博步数加倍"/>
+            android:title="微博步数加倍" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="alipay"
             android:summaryOff="关闭"
             android:summaryOn="打开"
-            android:title="支付宝步数加倍"/>
+            android:title="支付宝步数加倍" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="支付宝修改步数设定">
+        <Preference
+            android:summary="1.设置步数(范围在0-100000，不然修改无效),建议每天第一次修改5万，至少三小时后再修改10万。\r\n2.打开支付宝，进入运动界面刷新即可看到效果\r\nPS:只能修改越来越大的数值，设置好后每天打开支付宝即可自动修改，不需要每次都打开本程序，也不需要后台运行。"
+            android:title="提示" />
+        <CheckBoxPreference
+            android:key="isZfbOn"
+            android:defaultValue="false"
+            android:summaryOff="支付宝运动修改已关闭"
+            android:summaryOn="支付宝运动修改已开启"
+            android:title="开启支付宝运动修改" />
+        <EditTextPreference
+            android:defaultValue="0"
+            android:dialogMessage="请输入要修改的步数，建议范围[0,100000]超出可能无效或者导致其它问题。"
+            android:key="zfbSteps"
+            android:summary="0"
+            android:title="请输入要修改的步数" />
     </PreferenceCategory>
     <PreferenceCategory android:title="其它">
         <Preference
@@ -99,7 +117,7 @@
             android:title="关于">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://xyl-blog.github.io/about/"/>
+                android:data="https://xyl-blog.github.io/about/" />
         </Preference>
     </PreferenceCategory>
 

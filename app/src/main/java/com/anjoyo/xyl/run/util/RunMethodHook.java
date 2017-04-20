@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
+import android.util.Log;
 import android.util.SparseArray;
+
+import com.anjoyo.xyl.run.BuildConfig;
 
 import java.lang.reflect.Field;
 
@@ -52,6 +55,12 @@ class RunMethodHook extends XC_MethodHook {
 
             if (sensor == null) {
                 XposedBridge.log("sensor=NULL");
+                return;
+            }
+            mMainHook.initData();
+            if (!mMainHook.incrementValue) {
+                if (BuildConfig.DEBUG)
+                    Log.d("xyl", "加速关闭");
                 return;
             }
             if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
@@ -151,28 +160,28 @@ class RunMethodHook extends XC_MethodHook {
             }
             if (sensor.getType() == Sensor.TYPE_STEP_COUNTER || sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
                 if ((mMainHook.isWeixin && loadPackageParam.packageName.equals(WEXIN))) {
-                    if (MainHook.isAuto) {
+//                    if (MainHook.isAuto) {
                         if (MainHook.m * MainHook.weixinCount <= MainHook.max) {
                             ((float[]) param.args[1])[0] = ((float[]) param.args[1])[0] + MainHook.m * MainHook.weixinCount;
                             MainHook.weixinCount += 1;
                         } else {
                             MainHook. weixinCount = 0;
                         }
-                    } else {
-                        ((float[]) param.args[1])[0] = ((float[]) param.args[1])[0] * MainHook.m;
-                    }
+//                    } else {
+//                        ((float[]) param.args[1])[0] = ((float[]) param.args[1])[0] * MainHook.m;
+//                    }
                 }
                 if ((mMainHook.isQQ && loadPackageParam.packageName.equals(QQ))) {
-                    if (MainHook.isAuto) {
+//                    if (MainHook.isAuto) {
                         if (MainHook.m * MainHook.qqCount <= MainHook.max) {
                             ((float[]) param.args[1])[0] = ((float[]) param.args[1])[0] + MainHook.m * MainHook.qqCount;
                             MainHook.qqCount += 1;
                         } else {
                             MainHook.qqCount = 0;
                         }
-                    } else {
-                        ((float[]) param.args[1])[0] = ((float[]) param.args[1])[0] * MainHook.m;
-                    }
+//                    } else {
+//                        ((float[]) param.args[1])[0] = ((float[]) param.args[1])[0] * MainHook.m;
+//                    }
                 }
                 if (mMainHook.isAlipay && loadPackageParam.packageName.equals(ZHIFUBAO)) {
                     if (999 * MainHook.zhifubaoCount <= MainHook.max) {
