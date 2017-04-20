@@ -21,55 +21,55 @@
         <Preference
             android:key="choose"
             android:summary=""
-            android:title="选择要修改的应用" />
+            android:title="选择要步数加倍的应用" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="weixin"
             android:summaryOff="关闭"
             android:summaryOn="开启"
-            android:title="微信运动修改"/>
+            android:title="微信运动加倍"/>
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="qq"
             android:summaryOff="关闭"
             android:summaryOn="开启"
-            android:title="QQ健康步数修改"/>
+            android:title="QQ健康步数加倍"/>
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="ledong"
             android:summaryOff="关闭"
             android:summaryOn="打开"
-            android:title="乐动力修改"/>
+            android:title="乐动力加倍"/>
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="yuedong"
             android:summaryOff="关闭"
             android:summaryOn="打开"
-            android:title="悦动圈步数修改"/>
+            android:title="悦动圈步数加倍"/>
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="pingan"
             android:summaryOff="关闭"
             android:summaryOn="打开"
-            android:title="平安好医生步数修改"/>
+            android:title="平安好医生步数加倍"/>
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="codoon"
             android:summaryOff="关闭"
             android:summaryOn="打开"
-            android:title="咕咚步数修改"/>
+            android:title="咕咚步数加倍"/>
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="weibo"
             android:summaryOff="关闭"
             android:summaryOn="打开"
-            android:title="微博步数修改"/>
+            android:title="微博步数加倍"/>
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="alipay"
             android:summaryOff="关闭"
             android:summaryOn="打开"
-            android:title="支付宝步数修改"/>
+            android:title="支付宝步数加倍"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="其它">
         <Preference
