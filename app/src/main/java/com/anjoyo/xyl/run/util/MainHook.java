@@ -252,44 +252,44 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                 Log.d("xyl", "加速关闭");
             return;
         }
-        if (loadPackageParam.packageName.equals(RunMethodHook.YUEDONG) || loadPackageParam.packageName.equals(RunMethodHook.CODOON)) {
-            Thread autoThread = new Thread() {
-                @Override
-                public void run() {
-                    while (!isInterrupted()) {
-                        if (isYuedong) {
-                            try {
-                                Thread.sleep(100);
-                                if (sObject != null) {
-                                    count++;
-                                    XposedHelpers.callMethod(sObject, "dispatchSensorEvent", 5, new float[]{count, 0, 0}, 3, System.currentTimeMillis());
-                                }
-                                if (count == max) {
-                                    count = 0;
-                                }
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        if (isCodoon) {
-                            try {
-                                Thread.sleep(100);
-                                if (sObject != null) {
-                                    count++;
-                                    XposedHelpers.callMethod(sObject, "dispatchSensorEvent", 5, new float[]{count, 0, 0}, 3, System.currentTimeMillis());
-                                }
-                                if (count == Integer.MAX_VALUE) {
-                                    count = 0;
-                                }
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }
-            };
-            autoThread.start();
-        }
+//        if (loadPackageParam.packageName.equals(RunMethodHook.YUEDONG) || loadPackageParam.packageName.equals(RunMethodHook.CODOON)) {
+//            Thread autoThread = new Thread() {
+//                @Override
+//                public void run() {
+//                    while (!isInterrupted()) {
+//                        if (isYuedong) {
+//                            try {
+//                                Thread.sleep(100);
+//                                if (sObject != null) {
+//                                    count++;
+//                                    XposedHelpers.callMethod(sObject, "dispatchSensorEvent", 5, new float[]{count, 0, 0}, 3, System.currentTimeMillis());
+//                                }
+//                                if (count == max) {
+//                                    count = 0;
+//                                }
+//                            } catch (InterruptedException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                        if (isCodoon) {
+//                            try {
+//                                Thread.sleep(100);
+//                                if (sObject != null) {
+//                                    count++;
+//                                    XposedHelpers.callMethod(sObject, "dispatchSensorEvent", 5, new float[]{count, 0, 0}, 3, System.currentTimeMillis());
+//                                }
+//                                if (count == Integer.MAX_VALUE) {
+//                                    count = 0;
+//                                }
+//                            } catch (InterruptedException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    }
+//                }
+//            };
+//            autoThread.start();
+//        }
         Class<?> sensorEL = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             sensorEL = XposedHelpers.findClass(
