@@ -41,7 +41,22 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
     static boolean controlIsFromMockProvider;
     public static Object sObject;
     private static float count = 0;
+    public static int c;
+    public static int e;
+    public static int f;
+    public final Object b;
+    public int d;
+    public long g;
+    public long h;
+    static {
+        c = 200;
+        e = 1;
+        f = Integer.MAX_VALUE;
+    }
+
     public MainHook() {
+        this.d = 10;
+        this.b = XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null), "currentActivityThread", new Object[0]);
     }
     public void initData() {
         this.mXSharedPreferences.reload();
@@ -323,6 +338,7 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                 Intent intent = new Intent("com.anjoyo.xyl.run.SETTING_CHANGED");
                 intent.putExtra("zfbSteps", zfbSteps);
                 intent.putExtra("type", 2);
+                isZfbOn=false;
                 if(context!=null){
                     context.sendBroadcast(intent);
                 }else if (contextTem != null) {
@@ -342,4 +358,16 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
     public void initZygote(StartupParam startupParam) {
         mXSharedPreferences = new XSharedPreferences("com.anjoyo.xyl.run");
     }
+
+//   static class a extends XC_MethodHook {
+//        final /* synthetic */ MainHook a;
+//
+//        a(MainHook hookSensor) {
+//            this.a = hookSensor;
+//        }
+//
+//        protected void afterHookedMethod(MethodHookParam methodHookParam) {
+//            methodHookParam.setResult(Boolean.valueOf(true));
+//        }
+//    }
 }

@@ -423,6 +423,13 @@ public class NaviStartActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
+        findViewById(R.id.baoli_button).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NaviStartActivity.this, FixStepsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     /**

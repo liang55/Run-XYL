@@ -100,9 +100,11 @@
         <activity
             android:name=".activity.AboutActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.FixStepsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
-            android:launchMode="singleTask"/>
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

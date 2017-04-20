@@ -261,15 +261,24 @@
                     android:gravity="center_horizontal"
                     android:orientation="horizontal">
 
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
                     <Button
                         android:id="@+id/navi_navi_button"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/navibar_button_height"
-                        android:layout_marginRight="@dimen/navibar_margin_right"
                         android:paddingBottom="@dimen/margin_bottom"
                         android:paddingTop="@dimen/margin_top"
                         android:text="@string/navi_navi"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
                     <Button
                         android:id="@+id/navi_route_button"
@@ -277,18 +286,41 @@
                         android:layout_height="@dimen/navibar_button_height"
                         android:paddingBottom="@dimen/margin_bottom"
                         android:paddingTop="@dimen/margin_top"
-                        android:text="模拟步数加倍"
+                        android:text="步数加倍"
                         android:textSize="14sp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
                     <Button
                         android:id="@+id/yodo_button"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/navibar_button_height"
-                        android:layout_marginLeft="@dimen/navibar_margin_left"
                         android:paddingBottom="@dimen/margin_bottom"
                         android:paddingTop="@dimen/margin_top"
                         android:text="增加悦动步数"
                         android:textSize="14sp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <Button
+                        android:id="@+id/baoli_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/navibar_button_height"
+                        android:paddingBottom="@dimen/margin_bottom"
+                        android:paddingTop="@dimen/margin_top"
+                        android:text="暴力模拟"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
@@ -300,22 +332,23 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_below="@id/navibarcontainer" />
+
     <com.google.android.gms.ads.AdView
         android:id="@+id/adview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         ads:adSize="SMART_BANNER"
-        ads:adUnitId="@string/banner_ad_unit_id">
-    </com.google.android.gms.ads.AdView>
+        ads:adUnitId="@string/banner_ad_unit_id"></com.google.android.gms.ads.AdView>
+
     <TextView
         android:id="@+id/adview_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="关闭"
-        android:padding="4dp"
-        android:textColor="@color/white"
         android:layout_alignRight="@+id/adview"
-        android:layout_alignTop="@+id/adview"/>
+        android:layout_alignTop="@+id/adview"
+        android:padding="4dp"
+        android:text="关闭"
+        android:textColor="@color/white" />
 
 </RelativeLayout>
