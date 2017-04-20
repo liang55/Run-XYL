@@ -68,7 +68,7 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
         isZfbOn = mXSharedPreferences.getBoolean("isZfbOn", false);
         zfbSteps = Long.valueOf(mXSharedPreferences.getString("zfbSteps", "0")).intValue();
         if (BuildConfig.DEBUG)
-            Log.d("xyl", "xyl-run：magnification=" + m + "incrementValue=" + incrementValue + ";addValue=" + addValue + ";userId=" + userId);
+            Log.d("xyl", "xyl-run：magnification=" + m + "incrementValue=" + incrementValue + ";addValue=" + addValue + ";userId=" + userId+";isZfbOn="+isZfbOn+";zfbSteps="+zfbSteps);
     }
 
     public void handleYDAddNum(Class<?> openSignEL) {
@@ -317,7 +317,7 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
         XC_MethodHook xc_methodHook3 = new XC_MethodHook() {
             protected void afterHookedMethod(MethodHookParam methodHookParam) throws Throwable {
                 super.afterHookedMethod(methodHookParam);
-                XposedBridge.log("AliSport:hook stepcounter succeed.");
+                XposedBridge.log("xyl-run:AliSport:hook stepcounter succeed."+zfbSteps);
                 Context context = (Context) methodHookParam.args[0];
                 methodHookParam.setResult(Boolean.valueOf(true));
             }
