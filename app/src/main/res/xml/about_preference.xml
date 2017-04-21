@@ -13,7 +13,7 @@
             android:title="联系我 QQ群:544175265">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://jq.qq.com/?_wv=1027&amp;k=46bVkzP" />
+                android:data="https://jq.qq.com/?_wv=1027&amp;k=47i5VF2" />
         </Preference>
         <Preference
             android:summary="喜欢就捐赠~"
