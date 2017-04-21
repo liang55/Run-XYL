@@ -48,6 +48,7 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
     public int d;
     public long g;
     public long h;
+
     static {
         c = 200;
         e = 1;
@@ -58,6 +59,7 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
         this.d = 10;
         this.b = XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null), "currentActivityThread", new Object[0]);
     }
+
     public void initData() {
         this.mXSharedPreferences.reload();
         this.mXSharedPreferences.makeWorldReadable();
@@ -83,7 +85,7 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
         isZfbOn = mXSharedPreferences.getBoolean("isZfbOn", false);
         zfbSteps = Long.valueOf(mXSharedPreferences.getString("zfbSteps", "0")).intValue();
         if (BuildConfig.DEBUG)
-            Log.d("xyl", "xyl-run：magnification=" + m + "incrementValue=" + incrementValue + ";addValue=" + addValue + ";userId=" + userId+";isZfbOn="+isZfbOn+";zfbSteps="+zfbSteps);
+            Log.d("xyl", "xyl-run：magnification=" + m + "incrementValue=" + incrementValue + ";addValue=" + addValue + ";userId=" + userId + ";isZfbOn=" + isZfbOn + ";zfbSteps=" + zfbSteps);
     }
 
     public void handleYDAddNum(Class<?> openSignEL) {
@@ -94,7 +96,7 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                     protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param)
                             throws Throwable {
                         if (BuildConfig.DEBUG)
-                            Log.d("xyl", "makeSig str=="  + param.args[0].toString() + "++++str2=" + param.args[1].toString() + "++++str3=" + param.args[3].toString());
+                            Log.d("xyl", "makeSig str==" + param.args[0].toString() + "++++str2=" + param.args[1].toString() + "++++str3=" + param.args[3].toString());
                         initData();
                         HashMap<String, String> hashMap = (HashMap<String, String>) param.args[2];
                         if (hashMap != null) {
@@ -280,8 +282,7 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                     loadPackageParam.classLoader);
         }
         if (sensorEL != null) {
-            if (loadPackageParam.packageName.equals(RunMethodHook.ZHIFUBAO) || loadPackageParam.packageName.equals(RunMethodHook.WEIBO) || loadPackageParam.packageName.equals(RunMethodHook.PINGAN) || loadPackageParam.packageName.equals(RunMethodHook.WEXIN) || loadPackageParam.packageName.equals(RunMethodHook.QQ) || loadPackageParam.packageName.equals(RunMethodHook.LEDONG) || loadPackageParam.packageName.equals(RunMethodHook.YUEDONG) || loadPackageParam.packageName.equals(RunMethodHook.CODOON)) {
-                //屏蔽android.location.Location.isFromMockProvider()
+            //屏蔽android.location.Location.isFromMockProvider()
 //                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
 //                    Class<?> locationEL = XposedHelpers.findClass(
 //                            "android.location.Location",
@@ -290,9 +291,8 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 //                        handleIsFromMockProvider(locationEL);
 //                    }
 //                }
-                XposedBridge.hookAllMethods(sensorEL, "dispatchSensorEvent",
-                        new RunMethodHook(context, this, loadPackageParam));
-            }
+            XposedBridge.hookAllMethods(sensorEL, "dispatchSensorEvent",
+                    new RunMethodHook(context, this, loadPackageParam));
         }
 
     }
@@ -332,16 +332,16 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
         XC_MethodHook xc_methodHook3 = new XC_MethodHook() {
             protected void afterHookedMethod(MethodHookParam methodHookParam) throws Throwable {
                 super.afterHookedMethod(methodHookParam);
-                XposedBridge.log("xyl-run:AliSport:hook stepcounter succeed."+zfbSteps);
+                XposedBridge.log("xyl-run:hook stepcounter succeed." + zfbSteps);
                 Context contextTem = (Context) methodHookParam.args[0];
                 methodHookParam.setResult(Boolean.valueOf(true));
                 Intent intent = new Intent("com.anjoyo.xyl.run.SETTING_CHANGED");
                 intent.putExtra("zfbSteps", zfbSteps);
                 intent.putExtra("type", 2);
-                isZfbOn=false;
-                if(context!=null){
+                isZfbOn = false;
+                if (context != null) {
                     context.sendBroadcast(intent);
-                }else if (contextTem != null) {
+                } else if (contextTem != null) {
                     contextTem.sendBroadcast(intent);
                 }
             }

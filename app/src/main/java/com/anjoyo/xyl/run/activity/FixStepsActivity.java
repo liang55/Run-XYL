@@ -1,10 +1,12 @@
 package com.anjoyo.xyl.run.activity;
 
+import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.ApplicationInfo.DisplayNameComparator;
@@ -53,7 +55,8 @@ public class FixStepsActivity extends AppCompatActivity {
     private SensorManager i;
     private Vibrator j;
     private SensorEventListener k;
-
+    private SharedPreferences mySharedPreferences =getSharedPreferences(getPackageName() + "_preferences",
+            Activity.MODE_PRIVATE);
     public FixStepsActivity() {
         this.k = new c(this);
     }
@@ -72,28 +75,28 @@ public class FixStepsActivity extends AppCompatActivity {
     }
 
     public Boolean a() {
-        return Boolean.valueOf(getSharedPreferences("setting", 1).getBoolean("isLock", false));
+        return mySharedPreferences.getBoolean("isLock", false);
     }
 
     public void a(Boolean bool) {
-        Editor edit = getSharedPreferences("setting", 1).edit();
+        Editor edit = mySharedPreferences.edit();
         edit.putBoolean("isMove", bool.booleanValue());
         edit.putBoolean("increment", false);
         edit.commit();
     }
 
     public void a(String str) {
-        Editor edit = getSharedPreferences("setting", 1).edit();
+        Editor edit = mySharedPreferences.edit();
         edit.putString("Ban", str);
         edit.commit();
     }
 
     public Boolean b() {
-        return Boolean.valueOf(getSharedPreferences("setting", 1).getBoolean("isStart", false));
+        return Boolean.valueOf(mySharedPreferences.getBoolean("isStart", false));
     }
 
     public void b(Boolean bool) {
-        Editor edit = getSharedPreferences("setting", 1).edit();
+        Editor edit = mySharedPreferences.edit();
         edit.putBoolean("isSys", bool.booleanValue());
         edit.putBoolean("increment", false);
         edit.commit();
@@ -104,44 +107,44 @@ public class FixStepsActivity extends AppCompatActivity {
     }
 
     public Boolean c() {
-        return Boolean.valueOf(getSharedPreferences("setting", 1).getBoolean("isSys", true));
+        return Boolean.valueOf(mySharedPreferences.getBoolean("isSys", true));
     }
 
     public void c(Boolean bool) {
-        Editor edit = getSharedPreferences("setting", 1).edit();
+        Editor edit =mySharedPreferences.edit();
         edit.putBoolean("isLock", bool.booleanValue());
         edit.putBoolean("increment", false);
         edit.commit();
     }
 
     public Boolean d() {
-        return Boolean.valueOf(getSharedPreferences("setting", 1).getBoolean("isMove", false));
+        return Boolean.valueOf(mySharedPreferences.getBoolean("isMove", false));
     }
 
     public void d(Boolean bool) {
-        Editor edit = getSharedPreferences("setting", 1).edit();
+        Editor edit = mySharedPreferences.edit();
         edit.putBoolean("isStart", bool.booleanValue());
         edit.putBoolean("increment", false);
         edit.commit();
     }
 
     public String e() {
-        return getSharedPreferences("setting", 1).getString("Time", "100");
+        return mySharedPreferences.getString("Time", "100");
     }
 
     public void e(Boolean bool) {
-        Editor edit = getSharedPreferences("setting", 1).edit();
+        Editor edit = mySharedPreferences.edit();
         edit.putBoolean("isBaoli", bool.booleanValue());
         edit.putBoolean("increment", false);
         edit.commit();
     }
 
     public String f() {
-        return getSharedPreferences("setting", 1).getString("Ban", "");
+        return mySharedPreferences.getString("Ban", "");
     }
 
     public Boolean g() {
-        return Boolean.valueOf(getSharedPreferences("setting", 1).getBoolean("isBaoli", false));
+        return Boolean.valueOf(mySharedPreferences.getBoolean("isBaoli", false));
     }
 
     protected void onCreate(Bundle bundle) {
@@ -240,7 +243,7 @@ public class FixStepsActivity extends AppCompatActivity {
     }
 
     public void savetime(View view) {
-        Editor edit = getSharedPreferences("setting", 1).edit();
+        Editor edit =mySharedPreferences.edit();
         edit.putString("Time", this.g.getText().toString());
         edit.commit();
     }
