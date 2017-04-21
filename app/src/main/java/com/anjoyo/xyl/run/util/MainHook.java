@@ -225,8 +225,7 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                 }
         );
     }
-
-    public void handleLoadPackage(final LoadPackageParam loadPackageParam) {
+    public void bindReceicver(){
         try {
 //            context = (Context) XposedHelpers.callMethod(XposedHelpers
 //                            .callStaticMethod(XposedHelpers.findClass(
@@ -235,21 +234,23 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 //                    "getSystemContext", new Object[0]);
             context = (Context) XposedHelpers.callMethod(XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null), "currentActivityThread", new Object[0]), "getSystemContext", new Object[0]);
             if (mXYLHookReceicver == null) {
+                mXYLHookReceicver = new XYLHookReceicver(this);
+            }
+            if (context!=null){
                 IntentFilter intentFilter = new IntentFilter();
                 intentFilter
                         .addAction("com.anjoyo.xyl.run.HOOK_SETTING_CHANGED");
-                mXYLHookReceicver = new XYLHookReceicver(this);
-                if (context!=null){
-                    context.registerReceiver(mXYLHookReceicver, intentFilter);
-                }else{
-                    mXSharedPreferences.reload();
-                    mXSharedPreferences.makeWorldReadable();
-                }
+                context.unregisterReceiver(mXYLHookReceicver);
+                context.registerReceiver(mXYLHookReceicver, intentFilter);
             }
         } catch (Throwable e) {
             // TODO: handle exception
             e.printStackTrace();
+            context=null;
         }
+    }
+    public void handleLoadPackage(final LoadPackageParam loadPackageParam) {
+        bindReceicver();
         if (BuildConfig.DEBUG)
             Log.d("xyl", controlIsFromMockProvider + "++loadpackageName==" + loadPackageParam.packageName);
         if (TextUtils.equals("com.yuedong.sport", loadPackageParam.packageName)) {

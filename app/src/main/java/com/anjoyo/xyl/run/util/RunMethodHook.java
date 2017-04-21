@@ -2,6 +2,7 @@ package com.anjoyo.xyl.run.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.util.Log;
@@ -14,6 +15,7 @@ import java.util.Random;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
+import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 class RunMethodHook extends XC_MethodHook {
@@ -39,8 +41,11 @@ class RunMethodHook extends XC_MethodHook {
 
     protected void beforeHookedMethod(MethodHookParam param)
             throws Throwable {
-//        mMainHook.mXSharedPreferences.reload();
-//        mMainHook.mXSharedPreferences.makeWorldReadable();
+        if (mContext == null) {
+            mMainHook.mXSharedPreferences.reload();
+            mMainHook.mXSharedPreferences.makeWorldReadable();
+            mMainHook.bindReceicver();
+        }
         if (mMainHook.mXSharedPreferences.getBoolean("increment", false)) {
             if (loadPackageParam.packageName.equals(RunMethodHook.ZHIFUBAO) || loadPackageParam.packageName.equals(RunMethodHook.WEIBO) || loadPackageParam.packageName.equals(RunMethodHook.PINGAN) || loadPackageParam.packageName.equals(RunMethodHook.WEXIN) || loadPackageParam.packageName.equals(RunMethodHook.QQ) || loadPackageParam.packageName.equals(RunMethodHook.LEDONG) || loadPackageParam.packageName.equals(RunMethodHook.YUEDONG) || loadPackageParam.packageName.equals(RunMethodHook.CODOON)) {
                 mMainHook.initData();
