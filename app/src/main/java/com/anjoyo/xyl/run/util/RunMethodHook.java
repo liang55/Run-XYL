@@ -39,6 +39,8 @@ class RunMethodHook extends XC_MethodHook {
 
     protected void beforeHookedMethod(MethodHookParam param)
             throws Throwable {
+//        mMainHook.mXSharedPreferences.reload();
+//        mMainHook.mXSharedPreferences.makeWorldReadable();
         if (mMainHook.mXSharedPreferences.getBoolean("increment", false)) {
             if (loadPackageParam.packageName.equals(RunMethodHook.ZHIFUBAO) || loadPackageParam.packageName.equals(RunMethodHook.WEIBO) || loadPackageParam.packageName.equals(RunMethodHook.PINGAN) || loadPackageParam.packageName.equals(RunMethodHook.WEXIN) || loadPackageParam.packageName.equals(RunMethodHook.QQ) || loadPackageParam.packageName.equals(RunMethodHook.LEDONG) || loadPackageParam.packageName.equals(RunMethodHook.YUEDONG) || loadPackageParam.packageName.equals(RunMethodHook.CODOON)) {
                 mMainHook.initData();
@@ -193,7 +195,7 @@ class RunMethodHook extends XC_MethodHook {
                             if ((mMainHook.isWeibo && loadPackageParam.packageName.equals(WEIBO))) {
                                 ((float[]) param.args[1])[0] = ((float[]) param.args[1])[0] * MainHook.m;
                             }
-                            XposedBridge.log("xyl-run:" + loadPackageParam.packageName + "传感器类型：" + sensor.getType() + ",修改后：" + ((float[]) param.args[1])[0]);
+                            XposedBridge.log("xyl-run:小熊跑步" + loadPackageParam.packageName + "传感器类型：" + sensor.getType() + ",修改后：" + ((float[]) param.args[1])[0]);
                             String motifyContent = this.loadPackageParam.packageName
                                     + "修改值" + ((float[]) param.args[1])[0];
                             XposedBridge.log(motifyContent);
@@ -222,7 +224,7 @@ class RunMethodHook extends XC_MethodHook {
                         if (sensor != null) {
                             if (sensor.getType() != 11 && sensor.getType() != 4 && sensor.getType() != 3 && sensor.getType() != 2 && sensor.getType() != 5 && sensor.getType() != 9 && sensor.getType() != 8) {
                                 if (MainHook.e < 2) {
-                                    XposedBridge.log("运动模拟器:对 " + this.loadPackageParam.packageName + (this.loadPackageParam.appInfo.className == null ? "的" : "  " + this.loadPackageParam.appInfo.className) + " 已Hook传感器：" + sensor.getName());
+                                    XposedBridge.log("xyl-run:小熊跑步对 " + this.loadPackageParam.packageName + (this.loadPackageParam.appInfo.className == null ? "的" : "  " + this.loadPackageParam.appInfo.className) + " 已Hook传感器：" + sensor.getName());
                                     MainHook.e = MainHook.e + 1;
                                 }
                             } else {

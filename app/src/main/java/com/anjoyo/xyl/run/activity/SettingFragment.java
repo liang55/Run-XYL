@@ -62,6 +62,7 @@ public class SettingFragment extends PreferenceFragment
         // TODO Auto-generated method stub
         super.onDestroy();
         isShowToast = false;
+        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
     }
 
     private void changeSummary() {
@@ -72,6 +73,15 @@ public class SettingFragment extends PreferenceFragment
         if (this.addZfbValueTextPreference!=null){
             addZfbValueTextPreference.setSummary(getPreferenceManager()
                     .getSharedPreferences().getString("zfbSteps", "0"));
+        }
+        if (getPreferenceManager() .getSharedPreferences().getBoolean("increment",false)&&activity!=null){
+            SharedPreferences mySharedPreferences =activity.getSharedPreferences(activity.getPackageName() + "_preferences",
+                    Activity.MODE_PRIVATE);
+            if (mySharedPreferences.getBoolean("isStart",false)){
+                SharedPreferences.Editor edit = mySharedPreferences.edit();
+                edit.putBoolean("isStart", false);
+                edit.commit();
+            }
         }
     }
 
@@ -107,7 +117,7 @@ public class SettingFragment extends PreferenceFragment
         intent.putExtra("isZfbOn", getPreferenceManager().getSharedPreferences().getBoolean("isZfbOn", false));
         intent.putExtra("zfbSteps", getPreferenceManager().getSharedPreferences().getString("zfbSteps", "0"));
         if (activity!=null) {
-            getActivity().sendBroadcast(intent);
+            activity.sendBroadcast(intent);
 //            getActivity().getPackageManager().setComponentEnabledSetting(new ComponentName(getActivity(), "com.anjoyo.xyl.run.activity.SportStepsSettingActivity"), PackageManager.COMPONENT_ENABLED_STATE_ENABLED, 1);
         }
     }

@@ -35,7 +35,7 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
     static long addValue;
     static String userId;
     static boolean incrementValue = true;
-    XSharedPreferences mXSharedPreferences;
+    static XSharedPreferences mXSharedPreferences;
     static Context context = null;
     static XYLHookReceicver mXYLHookReceicver;
     static boolean controlIsFromMockProvider;
@@ -53,6 +53,7 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
         c = 200;
         e = 1;
         f = Integer.MAX_VALUE;
+        mXSharedPreferences = new XSharedPreferences("com.anjoyo.xyl.run");
     }
 
     public MainHook() {
@@ -60,18 +61,15 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
         this.b = XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null), "currentActivityThread", new Object[0]);
     }
 
-    public void initData() {
-        this.mXSharedPreferences.reload();
-        this.mXSharedPreferences.makeWorldReadable();
+    public static void initData() {
+        mXSharedPreferences.reload();
+        mXSharedPreferences.makeWorldReadable();
         m = Integer.valueOf(
-                this.mXSharedPreferences.getString("magnification", "50"))
+                mXSharedPreferences.getString("magnification", "50"))
                 .intValue();
-        incrementValue = this.mXSharedPreferences.getBoolean("increment", false);
-        addValue = Long.valueOf(
-                this.mXSharedPreferences.getString("addvalue", "0"))
-                .intValue();
-        userId =
-                this.mXSharedPreferences.getString("userid", "");
+        incrementValue = mXSharedPreferences.getBoolean("increment", false);
+        addValue = Long.valueOf(mXSharedPreferences.getString("addvalue", "0")) .intValue();
+        userId =mXSharedPreferences.getString("userid", "");
         controlIsFromMockProvider = mXSharedPreferences.getBoolean("controlIsFromMockProvider", false);
         isWeixin = mXSharedPreferences.getBoolean("weixin", false);
         isQQ = mXSharedPreferences.getBoolean("qq", false);
@@ -241,7 +239,12 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                 intentFilter
                         .addAction("com.anjoyo.xyl.run.HOOK_SETTING_CHANGED");
                 mXYLHookReceicver = new XYLHookReceicver(this);
-                context.registerReceiver(mXYLHookReceicver, intentFilter);
+                if (context!=null){
+                    context.registerReceiver(mXYLHookReceicver, intentFilter);
+                }else{
+                    mXSharedPreferences.reload();
+                    mXSharedPreferences.makeWorldReadable();
+                }
             }
         } catch (Throwable e) {
             // TODO: handle exception
@@ -357,6 +360,8 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 
     public void initZygote(StartupParam startupParam) {
         mXSharedPreferences = new XSharedPreferences("com.anjoyo.xyl.run");
+        this.mXSharedPreferences.reload();
+        this.mXSharedPreferences.makeWorldReadable();
     }
 
 //   static class a extends XC_MethodHook {
