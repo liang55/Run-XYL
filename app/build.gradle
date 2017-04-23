@@ -8,8 +8,8 @@ android {
         applicationId "com.anjoyo.xyl.run"
         minSdkVersion 15
         targetSdkVersion 16
-        versionCode 16
-        versionName "1.3.3"
+        versionCode 17
+        versionName "1.3.4"
     }
     dexOptions {
         javaMaxHeapSize "2g"
