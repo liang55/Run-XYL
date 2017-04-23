@@ -12,6 +12,7 @@ import android.preference.PreferenceFragment;
 
 import com.anjoyo.xyl.run.BuildConfig;
 import com.anjoyo.xyl.run.R;
+import com.anjoyo.xyl.run.util.NotiPrefrenceChangeUtil;
 
 /**
  * Created by xyl on 2016/10/5 14:52
@@ -34,7 +35,7 @@ public class SettingFragment extends PreferenceFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getPreferenceManager().setSharedPreferencesMode(1);
+        getPreferenceManager().setSharedPreferencesMode(Activity.MODE_MULTI_PROCESS);
         getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         addPreferencesFromResource(R.xml.preference);
     }
@@ -76,7 +77,7 @@ public class SettingFragment extends PreferenceFragment
         }
         if (getPreferenceManager() .getSharedPreferences().getBoolean("increment",false)&&activity!=null){
             SharedPreferences mySharedPreferences =activity.getSharedPreferences(activity.getPackageName() + "_preferences",
-                    Activity.MODE_PRIVATE);
+                    Activity.MODE_MULTI_PROCESS);
             if (mySharedPreferences.getBoolean("isStart",false)){
                 SharedPreferences.Editor edit = mySharedPreferences.edit();
                 edit.putBoolean("isStart", false);
@@ -98,7 +99,8 @@ public class SettingFragment extends PreferenceFragment
                                           String key) {
         // TODO Auto-generated method stub
         changeSummary();
-        getKey();
+//        getKey();
+        NotiPrefrenceChangeUtil.refreshPrefrence();
     }
 
     public void getKey() {

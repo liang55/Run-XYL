@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -239,19 +240,20 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 //                                    "currentActivityThread", new Object[0]),
 //                    "getSystemContext", new Object[0]);
             context = (Context) XposedHelpers.callMethod(XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null), "currentActivityThread", new Object[0]), "getSystemContext", new Object[0]);
-            if (mXYLHookReceicver == null) {
-                mXYLHookReceicver = new XYLHookReceicver(this);
-            }
-            if (context != null) {
-                IntentFilter intentFilter = new IntentFilter();
-                intentFilter
-                        .addAction("com.anjoyo.xyl.run.HOOK_SETTING_CHANGED");
-                try {
-                    context.unregisterReceiver(mXYLHookReceicver);
-                } catch (Exception e) {
-                }
-                context.registerReceiver(mXYLHookReceicver, intentFilter);
-            }
+//            if (mXYLHookReceicver == null) {
+//                mXYLHookReceicver = new XYLHookReceicver(this);
+//            }
+//            if (context != null) {
+//                IntentFilter intentFilter = new IntentFilter();
+//                intentFilter
+//                        .addAction("com.anjoyo.xyl.run.HOOK_SETTING_CHANGED");
+//                try {
+//                    context.unregisterReceiver(mXYLHookReceicver);
+//                } catch (Exception e) {
+//                }
+//                context.registerReceiver(mXYLHookReceicver, intentFilter);
+//                XposedBridge.log("小熊添加广播接收者");
+//            }
         } catch (Throwable e) {
             // TODO: handle exception
             e.printStackTrace();
@@ -260,9 +262,26 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
     }
 
     public void handleLoadPackage(final LoadPackageParam loadPackageParam) {
-        bindReceicver();
+        if (context == null) {
+            bindReceicver();
+        }
         if (BuildConfig.DEBUG)
             Log.d("xyl", controlIsFromMockProvider + "++loadpackageName==" + loadPackageParam.packageName);
+        if (TextUtils.equals("com.anjoyo.xyl.run", loadPackageParam.packageName)) {
+            final Class<?> NotiPrefrenceChangeUtil = XposedHelpers.findClass(
+                    "com.anjoyo.xyl.run.util.NotiPrefrenceChangeUtil",
+                    loadPackageParam.classLoader);
+            if (NotiPrefrenceChangeUtil != null) {
+                XposedBridge.hookAllMethods(NotiPrefrenceChangeUtil, "refreshPrefrence", new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        super.beforeHookedMethod(param);
+                        XposedBridge.log("xyl-run:收到小熊跑步配置改变消息");
+                        initData();
+                    }
+                });
+            }
+        }
         if (TextUtils.equals("com.yuedong.sport", loadPackageParam.packageName)) {
             try {
                 final Class<?> openSignEL = XposedHelpers.findClass(

@@ -10,6 +10,13 @@
             android:summaryOff="关闭"
             android:summaryOn="开启"
             android:title="启动加倍" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="isSys"
+            android:summaryOff="关闭"
+            android:summaryOn="开启"
+            android:title="排除系统应用"
+            />
         <EditTextPreference
             android:defaultValue="50"
             android:inputType="number"

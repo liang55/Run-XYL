@@ -19,7 +19,7 @@ public class SetReceicver extends BroadcastReceiver {
             case 1:
                 SharedPreferences mySharedPreferences = context.getSharedPreferences(
                         context.getPackageName() + "_preferences",
-                        Activity.MODE_PRIVATE);
+                        Activity.MODE_MULTI_PROCESS);
                 SharedPreferences.Editor editor = mySharedPreferences.edit();
                 editor.putString("addvalue", content);
                 editor.commit();
@@ -34,7 +34,7 @@ public class SetReceicver extends BroadcastReceiver {
             case 2:
                  mySharedPreferences = context.getSharedPreferences(
                         context.getPackageName() + "_preferences",
-                        Activity.MODE_PRIVATE);
+                        Activity.MODE_MULTI_PROCESS);
                 editor = mySharedPreferences.edit();
                 editor.putBoolean("isZfbOn", false);
                 editor.commit();

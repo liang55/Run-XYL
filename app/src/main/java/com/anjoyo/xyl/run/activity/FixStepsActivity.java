@@ -30,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.anjoyo.xyl.run.R;
+import com.anjoyo.xyl.run.util.NotiPrefrenceChangeUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -82,16 +83,14 @@ public class FixStepsActivity extends AppCompatActivity {
         edit.putBoolean("isMove", bool.booleanValue());
         edit.putBoolean("increment", false);
         edit.commit();
-        Intent intent = new Intent("com.anjoyo.xyl.run.HOOK_SETTING_CHANGED");
-        sendBroadcast(intent);
+        NotiPrefrenceChangeUtil.refreshPrefrence();
     }
 
     public void a(String str) {
         Editor edit = mySharedPreferences.edit();
         edit.putString("Ban", str);
         edit.commit();
-        Intent intent = new Intent("com.anjoyo.xyl.run.HOOK_SETTING_CHANGED");
-        sendBroadcast(intent);
+        NotiPrefrenceChangeUtil.refreshPrefrence();
     }
 
     public Boolean b() {
@@ -102,8 +101,7 @@ public class FixStepsActivity extends AppCompatActivity {
         Editor edit = mySharedPreferences.edit();
         edit.putBoolean("isSys", bool.booleanValue());
         edit.commit();
-        Intent intent = new Intent("com.anjoyo.xyl.run.HOOK_SETTING_CHANGED");
-        sendBroadcast(intent);
+        NotiPrefrenceChangeUtil.refreshPrefrence();
     }
 
     public void b(String str) {
@@ -118,8 +116,7 @@ public class FixStepsActivity extends AppCompatActivity {
         Editor edit =mySharedPreferences.edit();
         edit.putBoolean("isLock", bool.booleanValue());
         edit.commit();
-        Intent intent = new Intent("com.anjoyo.xyl.run.HOOK_SETTING_CHANGED");
-        sendBroadcast(intent);
+        NotiPrefrenceChangeUtil.refreshPrefrence();
     }
 
     public Boolean d() {
@@ -131,8 +128,7 @@ public class FixStepsActivity extends AppCompatActivity {
         edit.putBoolean("isStart", bool.booleanValue());
         edit.putBoolean("increment", false);
         edit.commit();
-        Intent intent = new Intent("com.anjoyo.xyl.run.HOOK_SETTING_CHANGED");
-        sendBroadcast(intent);
+        NotiPrefrenceChangeUtil.refreshPrefrence();
     }
 
     public String e() {
@@ -143,8 +139,7 @@ public class FixStepsActivity extends AppCompatActivity {
         Editor edit = mySharedPreferences.edit();
         edit.putBoolean("isBaoli", bool.booleanValue());
         edit.commit();
-        Intent intent = new Intent("com.anjoyo.xyl.run.HOOK_SETTING_CHANGED");
-        sendBroadcast(intent);
+        NotiPrefrenceChangeUtil.refreshPrefrence();
     }
 
     public String f() {
@@ -158,7 +153,7 @@ public class FixStepsActivity extends AppCompatActivity {
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         mySharedPreferences =getSharedPreferences(getPackageName() + "_preferences",
-                Activity.MODE_PRIVATE);
+                Activity.MODE_MULTI_PROCESS);
         setContentView(R.layout.fixsteps_layout);
         this.a = (CheckBox) findViewById(R.id.checkBox_keep_run);
         this.e = (CheckBox) findViewById(R.id.checkBox_lock);

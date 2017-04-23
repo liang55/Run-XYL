@@ -1,5 +1,6 @@
 package com.anjoyo.xyl.run.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -35,7 +36,7 @@ public class AboutActivity extends AppCompatActivity {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            getPreferenceManager().setSharedPreferencesMode(1);
+            getPreferenceManager().setSharedPreferencesMode(Activity.MODE_MULTI_PROCESS);
             addPreferencesFromResource(R.xml.about_preference);
         }
 

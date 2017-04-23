@@ -36,7 +36,7 @@
         android:layout_toRightOf="@+id/hint_tv"
         android:paddingBottom="@dimen/margin_bottom"
         android:paddingTop="@dimen/margin_top"
-        android:text="同步"
+        android:text="获取悦动参数"
         android:textSize="14sp" />
 
     <TextView

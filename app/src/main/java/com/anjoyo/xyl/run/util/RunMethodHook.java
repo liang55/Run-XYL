@@ -2,7 +2,6 @@ package com.anjoyo.xyl.run.util;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.util.Log;
@@ -30,7 +29,7 @@ class RunMethodHook extends XC_MethodHook {
     public static final String ZHIFUBAO = "com.eg.android.AlipayGphone";
     final/* synthetic */ LoadPackageParam loadPackageParam;
     final/* synthetic */ MainHook mMainHook;
-    final Context mContext;
+    static Context mContext;
 
     RunMethodHook(Context context, MainHook mainHook,
                   LoadPackageParam loadPackageParam) {
@@ -42,13 +41,13 @@ class RunMethodHook extends XC_MethodHook {
     protected void beforeHookedMethod(MethodHookParam param)
             throws Throwable {
         if (mContext == null) {
-            mMainHook.mXSharedPreferences.reload();
-            mMainHook.mXSharedPreferences.makeWorldReadable();
             mMainHook.bindReceicver();
+            mContext = MainHook.context;
         }
+        boolean isSystemApp =loadPackageParam.packageName.contains("google")||loadPackageParam.packageName.contains("android");
         if (mMainHook.mXSharedPreferences.getBoolean("increment", false)) {
             if (loadPackageParam.packageName.equals(RunMethodHook.ZHIFUBAO) || loadPackageParam.packageName.equals(RunMethodHook.WEIBO) || loadPackageParam.packageName.equals(RunMethodHook.PINGAN) || loadPackageParam.packageName.equals(RunMethodHook.WEXIN) || loadPackageParam.packageName.equals(RunMethodHook.QQ) || loadPackageParam.packageName.equals(RunMethodHook.LEDONG) || loadPackageParam.packageName.equals(RunMethodHook.YUEDONG) || loadPackageParam.packageName.equals(RunMethodHook.CODOON)) {
-                mMainHook.initData();
+//                mMainHook.initData();
                 if (BuildConfig.DEBUG)
                     Log.d("xyl", "步数加倍开始");
                 try {
@@ -208,7 +207,7 @@ class RunMethodHook extends XC_MethodHook {
                             intent.putExtra("content", motifyContent);
                             if (mContext != null) {
                                 mContext.sendBroadcast(intent);
-                            }else {
+                            } else {
                                 Context context = (Context) XposedHelpers.callMethod(XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null), "currentActivityThread", new Object[0]), "getSystemContext", new Object[0]);
                                 if (context != null) {
                                     context.sendBroadcast(intent);
@@ -223,8 +222,7 @@ class RunMethodHook extends XC_MethodHook {
             }
         } else {
             try {
-                if ((!this.mMainHook.mXSharedPreferences.getBoolean("isSys", true) || (this.loadPackageParam.appInfo.flags & 1) <= 0) && !this.mMainHook.mXSharedPreferences.getString("Ban", "").contains(this.loadPackageParam.packageName) && this.mMainHook.mXSharedPreferences.getBoolean("isStart", false)) {
-                    mMainHook.initData();
+                if ((!this.mMainHook.mXSharedPreferences.getBoolean("isSys", true) || !isSystemApp) && !this.mMainHook.mXSharedPreferences.getString("Ban", "").contains(this.loadPackageParam.packageName) && this.mMainHook.mXSharedPreferences.getBoolean("isStart", false)) {
                     int intValue = ((Integer) param.args[0]).intValue();
                     Field declaredField = param.thisObject.getClass().getDeclaredField("mSensorsEvents");
                     declaredField.setAccessible(true);
