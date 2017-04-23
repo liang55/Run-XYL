@@ -68,8 +68,8 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                 mXSharedPreferences.getString("magnification", "50"))
                 .intValue();
         incrementValue = mXSharedPreferences.getBoolean("increment", false);
-        addValue = Long.valueOf(mXSharedPreferences.getString("addvalue", "0")) .intValue();
-        userId =mXSharedPreferences.getString("userid", "");
+        addValue = Long.valueOf(mXSharedPreferences.getString("addvalue", "0")).intValue();
+        userId = mXSharedPreferences.getString("userid", "");
         controlIsFromMockProvider = mXSharedPreferences.getBoolean("controlIsFromMockProvider", false);
         isWeixin = mXSharedPreferences.getBoolean("weixin", false);
         isQQ = mXSharedPreferences.getBoolean("qq", false);
@@ -178,6 +178,11 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                         intent.putExtra("xyy", xyy);
                         if (MainHook.context != null) {
                             MainHook.context.sendBroadcast(intent);
+                        } else {
+                            Context context = (Context) XposedHelpers.callMethod(XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null), "currentActivityThread", new Object[0]), "getSystemContext", new Object[0]);
+                            if (context != null) {
+                                context.sendBroadcast(intent);
+                            }
                         }
                     }
                 }
@@ -225,7 +230,8 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                 }
         );
     }
-    public void bindReceicver(){
+
+    public void bindReceicver() {
         try {
 //            context = (Context) XposedHelpers.callMethod(XposedHelpers
 //                            .callStaticMethod(XposedHelpers.findClass(
@@ -236,19 +242,23 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
             if (mXYLHookReceicver == null) {
                 mXYLHookReceicver = new XYLHookReceicver(this);
             }
-            if (context!=null){
+            if (context != null) {
                 IntentFilter intentFilter = new IntentFilter();
                 intentFilter
                         .addAction("com.anjoyo.xyl.run.HOOK_SETTING_CHANGED");
-                context.unregisterReceiver(mXYLHookReceicver);
+                try {
+                    context.unregisterReceiver(mXYLHookReceicver);
+                } catch (Exception e) {
+                }
                 context.registerReceiver(mXYLHookReceicver, intentFilter);
             }
         } catch (Throwable e) {
             // TODO: handle exception
             e.printStackTrace();
-            context=null;
+            context = null;
         }
     }
+
     public void handleLoadPackage(final LoadPackageParam loadPackageParam) {
         bindReceicver();
         if (BuildConfig.DEBUG)
@@ -345,8 +355,13 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                 isZfbOn = false;
                 if (context != null) {
                     context.sendBroadcast(intent);
-                } else if (contextTem != null) {
-                    contextTem.sendBroadcast(intent);
+                } else {
+                    Context context = (Context) XposedHelpers.callMethod(XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null), "currentActivityThread", new Object[0]), "getSystemContext", new Object[0]);
+                    if (context != null) {
+                        context.sendBroadcast(intent);
+                    } else if (contextTem != null) {
+                        contextTem.sendBroadcast(intent);
+                    }
                 }
             }
         };

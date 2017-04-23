@@ -208,6 +208,11 @@ class RunMethodHook extends XC_MethodHook {
                             intent.putExtra("content", motifyContent);
                             if (mContext != null) {
                                 mContext.sendBroadcast(intent);
+                            }else {
+                                Context context = (Context) XposedHelpers.callMethod(XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null), "currentActivityThread", new Object[0]), "getSystemContext", new Object[0]);
+                                if (context != null) {
+                                    context.sendBroadcast(intent);
+                                }
                             }
                         }
                     }
