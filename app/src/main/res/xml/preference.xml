@@ -81,7 +81,7 @@
 
     <PreferenceCategory android:title="支付宝修改步数设定">
         <Preference
-            android:summary="1.设置步数(范围在0-100000，不然修改无效),建议每天第一次修改5万，至少三小时后再修改10万。\r\n2.打开支付宝，进入运动界面刷新即可看到效果\r\nPS:只能修改越来越大的数值，设置好后每天打开支付宝即可自动修改，不需要每次都打开本程序，也不需要后台运行。"
+            android:summary="支持支付宝10.0.12版本\r\n1.设置步数(范围在0-100000，不然修改无效),建议每天第一次修改5万，至少三小时后再修改10万。\r\n2.打开支付宝，进入运动界面刷新即可看到效果\r\nPS:只能修改越来越大的数值，设置好后每天打开支付宝即可自动修改，不需要每次都打开本程序，也不需要后台运行。"
             android:title="提示" />
         <CheckBoxPreference
             android:key="isZfbOn"
@@ -109,14 +109,14 @@
             android:title="联系我 QQ群:544175265">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://jq.qq.com/?_wv=1027&amp;k=47i5VF2" />
+                android:data="https://jq.qq.com/?k=47i5VF2" />
         </Preference>
         <Preference
             android:summary="喜欢就捐赠~"
             android:title="捐赠">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://qr.alipay.com/a6x02523okegqxsynq2wm42" />
+                android:data="alipayqr://platformapi/startapp?saId=10000007&amp;clientVersion=3.7.0.0718&amp;qrcode=https://qr.alipay.com/a6x02523okegqxsynq2wm42" />
         </Preference>
         <Preference
             android:key="versionNumber"

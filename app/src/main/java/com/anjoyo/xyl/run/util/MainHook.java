@@ -1,6 +1,7 @@
 package com.anjoyo.xyl.run.util;
 
 import android.app.AndroidAppHelper;
+import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -38,8 +39,6 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
     static boolean incrementValue = true;
     static XSharedPreferences mXSharedPreferences;
     static Context context = null;
-    static XYLHookReceicver mXYLHookReceicver;
-    static boolean controlIsFromMockProvider;
     public static Object sObject;
     private static float count = 0;
     public static int c;
@@ -49,6 +48,7 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
     public int d;
     public long g;
     public long h;
+    private static boolean controlIsFromMockProvider;
 
     static {
         c = 200;
@@ -83,8 +83,10 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 
         isZfbOn = mXSharedPreferences.getBoolean("isZfbOn", false);
         zfbSteps = Long.valueOf(mXSharedPreferences.getString("zfbSteps", "0")).intValue();
+
+        controlIsFromMockProvider = mXSharedPreferences.getBoolean("controlIsFromMockProvider", false);
         if (BuildConfig.DEBUG)
-            Log.d("xyl", "xyl-run：magnification=" + m + "incrementValue=" + incrementValue + ";addValue=" + addValue + ";userId=" + userId + ";isZfbOn=" + isZfbOn + ";zfbSteps=" + zfbSteps);
+            Log.d("xyl", "xyl-run：magnification=" + m + "incrementValue=" + incrementValue + ";addValue=" + addValue + ";userId=" + userId + ";isZfbOn=" + isZfbOn + ";zfbSteps=" + zfbSteps + ";controlIsFromMockProvider=" + controlIsFromMockProvider);
     }
 
     public void handleYDAddNum(Class<?> openSignEL) {
@@ -225,8 +227,8 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                 new XC_MethodHook() {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                        super.afterHookedMethod(param);
                         param.setResult(false);
+                        super.afterHookedMethod(param);
                     }
                 }
         );
@@ -240,20 +242,6 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
 //                                    "currentActivityThread", new Object[0]),
 //                    "getSystemContext", new Object[0]);
             context = (Context) XposedHelpers.callMethod(XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null), "currentActivityThread", new Object[0]), "getSystemContext", new Object[0]);
-//            if (mXYLHookReceicver == null) {
-//                mXYLHookReceicver = new XYLHookReceicver(this);
-//            }
-//            if (context != null) {
-//                IntentFilter intentFilter = new IntentFilter();
-//                intentFilter
-//                        .addAction("com.anjoyo.xyl.run.HOOK_SETTING_CHANGED");
-//                try {
-//                    context.unregisterReceiver(mXYLHookReceicver);
-//                } catch (Exception e) {
-//                }
-//                context.registerReceiver(mXYLHookReceicver, intentFilter);
-//                XposedBridge.log("小熊添加广播接收者");
-//            }
         } catch (Throwable e) {
             // TODO: handle exception
             e.printStackTrace();
@@ -308,6 +296,17 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
         if (loadPackageParam.packageName.equals("com.eg.android.AlipayGphone")) {
             hookZfbSteps(loadPackageParam);
         }
+        if (controlIsFromMockProvider) {
+            //屏蔽android.location.Location.isFromMockProvider()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                Class<?> locationEL = XposedHelpers.findClass(
+                        "android.location.Location",
+                        loadPackageParam.classLoader);
+                if (locationEL != null) {
+                    handleIsFromMockProvider(locationEL);
+                }
+            }
+        }
         Class<?> sensorEL = null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             sensorEL = XposedHelpers.findClass(
@@ -315,15 +314,6 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                     loadPackageParam.classLoader);
         }
         if (sensorEL != null) {
-            //屏蔽android.location.Location.isFromMockProvider()
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-//                    Class<?> locationEL = XposedHelpers.findClass(
-//                            "android.location.Location",
-//                            loadPackageParam.classLoader);
-//                    if (locationEL != null) {
-//                        handleIsFromMockProvider(locationEL);
-//                    }
-//                }
             XposedBridge.hookAllMethods(sensorEL, "dispatchSensorEvent",
                     new RunMethodHook(context, this, loadPackageParam));
         }
@@ -341,56 +331,90 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                 return null;
             }
         };
-        XC_MethodHook xc_methodHook = new XC_MethodHook() {
+        XC_MethodHook xc_methodHook4 = new XC_MethodHook() {
+            Class a;
+            Class b;
+            Class c;
+            Class d;
+            Class e;
+            Class f;
+
             protected void afterHookedMethod(MethodHookParam methodHookParam) {
-                Toast.makeText(AndroidAppHelper.currentApplication().getApplicationContext(), "由于修改步数时hook了支付宝的一些函数,可能提示非法操作,无视即可.", Toast.LENGTH_SHORT).show();
-            }
-        };
-        XC_MethodHook xc_methodHook1 = new XC_MethodHook() {
-            protected void afterHookedMethod(MethodHookParam methodHookParam) {
-                initData();
-                if (isZfbOn) {
-                    XposedHelpers.callStaticMethod(XposedHelpers.findClass("com.alipay.mobile.healthcommon.stepcounter.MainProcessSpUtils", loadPackageParam.classLoader), "a", new Object[]{AndroidAppHelper.currentApplication().getApplicationContext(), "startup", Boolean.valueOf(true)});
+                ClassLoader classLoader = ((Context) methodHookParam.args[0]).getClassLoader();
+                try {
+                    a = classLoader.loadClass("com.alipay.mobile.base.security.CheckInject$1");
+                    b = classLoader.loadClass("com.alipay.mobile.nebulacore.ui.H5Activity");
+                    c = classLoader.loadClass("com.alipay.mobile.quinox.LauncherActivity");
+                    d = classLoader.loadClass("com.alipay.mobile.healthcommon.stepcounter.MainProcessSpUtils");
+                    e = classLoader.loadClass("com.alipay.mobile.healthcommon.stepcounter.MultiProcessSpUtils");
+                    f = classLoader.loadClass("com.alipay.mobile.healthcommon.stepcounter.APMainStepManager");
+                } catch (Exception e) {
+                    XposedBridge.log("xyl-run:Class Not found:" + e.getMessage());
                 }
-            }
-        };
-        XC_MethodHook xc_methodHook2 = new XC_MethodHook() {
-            protected void afterHookedMethod(MethodHookParam methodHookParam) {
-                initData();
-                if (isZfbOn) {
-                    XposedHelpers.callStaticMethod(XposedHelpers.findClass("com.alipay.mobile.healthcommon.stepcounter.MainProcessSpUtils", loadPackageParam.classLoader), "a", new Object[]{AndroidAppHelper.currentApplication().getApplicationContext(), "baseStep", "{\"steps\":" + zfbSteps + ",\"time\":" + System.currentTimeMillis() + "}"});
+                if (a != null) {
+                    XposedHelpers.findAndHookMethod(a, "run", new Object[]{new XC_MethodReplacement() {
+                        protected Object replaceHookedMethod(MethodHookParam methodHookParam) {
+                            return null;
+                        }
+                    }});
                 }
-            }
-        };
-        XC_MethodHook xc_methodHook3 = new XC_MethodHook() {
-            protected void afterHookedMethod(MethodHookParam methodHookParam) throws Throwable {
-                super.afterHookedMethod(methodHookParam);
-                XposedBridge.log("xyl-run:hook stepcounter succeed." + zfbSteps);
-                Context contextTem = (Context) methodHookParam.args[0];
-                methodHookParam.setResult(Boolean.valueOf(true));
-                Intent intent = new Intent("com.anjoyo.xyl.run.SETTING_CHANGED");
-                intent.putExtra("zfbSteps", zfbSteps);
-                intent.putExtra("type", 2);
-                isZfbOn = false;
-                if (context != null) {
-                    context.sendBroadcast(intent);
-                } else {
-                    Context context = (Context) XposedHelpers.callMethod(XposedHelpers.callStaticMethod(XposedHelpers.findClass("android.app.ActivityThread", null), "currentActivityThread", new Object[0]), "getSystemContext", new Object[0]);
-                    if (context != null) {
-                        context.sendBroadcast(intent);
-                    } else if (contextTem != null) {
-                        contextTem.sendBroadcast(intent);
+                if (c != null) {
+                    XposedHelpers.findAndHookMethod(c, "onCreate", new Object[]{Bundle.class, new XC_MethodHook() {
+                        protected void afterHookedMethod(MethodHookParam methodHookParam) {
+
+                        }
+                    }});
+                    XposedHelpers.findAndHookMethod(c, "onResume", new Object[]{new XC_MethodHook() {
+                        protected void afterHookedMethod(MethodHookParam methodHookParam) {
+                            initData();
+                            if (isZfbOn) {
+                                XposedHelpers.callStaticMethod(d, "a", new Object[]{AndroidAppHelper.currentApplication().getApplicationContext(), "startup", Boolean.valueOf(true)});
+                            }
+                        }
+                    }});
+                    if (e != null) {
+                        XposedHelpers.findAndHookMethod(e, "a", new Object[]{Context.class, String.class, String.class, new XC_MethodHook() {
+                            protected void afterHookedMethod(MethodHookParam methodHookParam) throws Throwable {
+                                Context context = (Context) methodHookParam.args[0];
+                                methodHookParam.setResult(Boolean.valueOf(true));
+                                super.afterHookedMethod(methodHookParam);
+                            }
+                        }});
+                    }
+                    if (b != null) {
+                        XposedHelpers.findAndHookMethod(b, "onResume", new Object[]{new XC_MethodHook() {
+                            protected void afterHookedMethod(MethodHookParam methodHookParam) {
+                                initData();
+                                if (isZfbOn) {
+                                    XposedHelpers.callStaticMethod(d, "a", new Object[]{AndroidAppHelper.currentApplication().getApplicationContext(), "baseStep", "{\"steps\":" + zfbSteps + ",\"time\":" + System.currentTimeMillis() + "}"});
+                                }
+                            }
+                        }});
+                    }
+                    if (f != null) {
+                        XposedHelpers.findAndHookMethod(f, "deviceSupport", new Object[]{new XC_MethodHook() {
+
+                            protected void beforeHookedMethod(MethodHookParam methodHookParam) {
+                                methodHookParam.setResult(Boolean.valueOf(true));
+                            }
+                        }});
                     }
                 }
             }
         };
+        XposedHelpers.findAndHookMethod(Application.class, "attach", new Object[]{Context.class, xc_methodHook4});
         XposedHelpers.findAndHookMethod("com.alipay.mobile.base.security.d", loadPackageParam.classLoader, "onClick", new Object[]{DialogInterface.class, Integer.TYPE, xc_methodReplacement});
         XposedHelpers.findAndHookMethod("com.alipay.mobile.base.security.c", loadPackageParam.classLoader, "onClick", new Object[]{DialogInterface.class, Integer.TYPE, xc_methodReplacement1});
-        XposedHelpers.findAndHookMethod("com.alipay.mobile.quinox.LauncherActivity", loadPackageParam.classLoader, "onCreate", new Object[]{Bundle.class, xc_methodHook});
-        XposedHelpers.findAndHookMethod("com.alipay.mobile.quinox.LauncherActivity", loadPackageParam.classLoader, "onResume", new Object[]{xc_methodHook1});
-        XposedHelpers.findAndHookMethod("com.alipay.mobile.nebulacore.ui.H5Activity", loadPackageParam.classLoader, "onResume", new Object[]{xc_methodHook2});
-        XposedHelpers.findAndHookMethod("com.alipay.mobile.healthcommon.stepcounter.MultiProcessSpUtils", loadPackageParam.classLoader, "a", new Object[]{Context.class, String.class, String.class, xc_methodHook3});
-
+        XposedHelpers.findAndHookMethod("com.alipay.mobile.logmonitor.util.sensor.PedometerMonitor", loadPackageParam.classLoader, "c", new Object[]{new XC_MethodHook() {
+            protected void beforeHookedMethod(MethodHookParam methodHookParam) {
+                methodHookParam.setResult(Boolean.valueOf(true));
+                XposedBridge.log("xyl-run:hook sensor succeed.result:" + methodHookParam.getResult());
+            }
+        }});
+        XposedHelpers.findAndHookMethod("com.alipay.mobile.logmonitor.util.sensor.PedometerMonitor", loadPackageParam.classLoader, "a", new Object[]{String.class, Boolean.TYPE, new XC_MethodHook() {
+            protected void afterHookedMethod(MethodHookParam methodHookParam) {
+            }
+        }});
     }
 
     public void initZygote(StartupParam startupParam) {
@@ -398,16 +422,4 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
         this.mXSharedPreferences.reload();
         this.mXSharedPreferences.makeWorldReadable();
     }
-
-//   static class a extends XC_MethodHook {
-//        final /* synthetic */ MainHook a;
-//
-//        a(MainHook hookSensor) {
-//            this.a = hookSensor;
-//        }
-//
-//        protected void afterHookedMethod(MethodHookParam methodHookParam) {
-//            methodHookParam.setResult(Boolean.valueOf(true));
-//        }
-//    }
 }

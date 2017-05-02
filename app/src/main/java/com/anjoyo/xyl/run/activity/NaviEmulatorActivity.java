@@ -30,6 +30,7 @@ import com.anjoyo.xyl.run.MainApplication;
 import com.anjoyo.xyl.run.R;
 import com.anjoyo.xyl.run.TTSController;
 import com.anjoyo.xyl.run.util.Converter;
+import com.anjoyo.xyl.run.util.NotiPrefrenceChangeUtil;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashMap;
@@ -74,6 +75,11 @@ public class NaviEmulatorActivity extends Activity
                     false, false, false, 0, 0);
             mLocationManager.setTestProviderEnabled("gps", true);
             SensorManager sensor_manager_original = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("controlIsFromMockProvider", true);
+            editor.commit();
+            NotiPrefrenceChangeUtil.refreshPrefrence();
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();
@@ -84,10 +90,6 @@ public class NaviEmulatorActivity extends Activity
         init(savedInstanceState);
         MainApplication.getInstance().addActivity(this);
         handler.sendEmptyMessageDelayed(0, 60 * 1000l);
-        SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor=sharedPreferences.edit();
-        editor.putBoolean("controlIsFromMockProvider", true);
-        editor.commit();
     }
 
     /**
@@ -168,10 +170,10 @@ public class NaviEmulatorActivity extends Activity
                 localLocation.setAccuracy(accuracy);
                 localLocation.setTime(System.currentTimeMillis());
 
-                SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(NaviEmulatorActivity.this);
-                SharedPreferences.Editor editor=sharedPreferences.edit();
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(NaviEmulatorActivity.this);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putFloat("latitude", (float) localLocation.getLatitude());
-                editor.putFloat("longtitude",(float) localLocation.getLongitude());
+                editor.putFloat("longtitude", (float) localLocation.getLongitude());
                 editor.commit();
                 return localLocation;
             }
@@ -229,10 +231,10 @@ public class NaviEmulatorActivity extends Activity
                 localLocation.setAccuracy(accuracy);
                 localLocation.setTime(System.currentTimeMillis());
 
-                SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(NaviEmulatorActivity.this);
-                SharedPreferences.Editor editor=sharedPreferences.edit();
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(NaviEmulatorActivity.this);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putFloat("latitude", (float) localLocation.getLatitude());
-                editor.putFloat("longtitude",(float) localLocation.getLongitude());
+                editor.putFloat("longtitude", (float) localLocation.getLongitude());
                 editor.commit();
                 return localLocation;
             }
@@ -404,10 +406,12 @@ public class NaviEmulatorActivity extends Activity
         mAmapAMapNaviView.onDestroy();
         // 界面结束 停止语音播报
         TTSController.getInstance(this).stopSpeaking();
-//        SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(this);
-//        SharedPreferences.Editor editor=sharedPreferences.edit();
-//        editor.putBoolean("controlIsFromMockProvider", false);
-//        editor.commit();
+        SharedPreferences sharedPreferences = getSharedPreferences(getPackageName() + "_preferences",
+                Activity.MODE_MULTI_PROCESS);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("controlIsFromMockProvider", false);
+        editor.commit();
+        NotiPrefrenceChangeUtil.refreshPrefrence();
     }
 
     @Override
