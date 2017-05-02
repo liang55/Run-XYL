@@ -13,14 +13,14 @@
             android:title="联系我 QQ群:544175265">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://jq.qq.com/?_wv=1027&amp;k=47i5VF2" />
+                android:data="https://jq.qq.com/?k=47i5VF2" />
         </Preference>
         <Preference
             android:summary="喜欢就捐赠~"
             android:title="捐赠">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://qr.alipay.com/a6x02523okegqxsynq2wm42" />
+                android:data="alipayqr://platformapi/startapp?saId=10000007&amp;clientVersion=3.7.0.0718&amp;qrcode=https://qr.alipay.com/a6x02523okegqxsynq2wm42" />
         </Preference>
         <Preference
             android:key="versionNumber"
