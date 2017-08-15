@@ -1,16 +1,13 @@
 package com.anjoyo.xyl.run.activity;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 
-import com.anjoyo.xyl.run.BuildConfig;
 import com.anjoyo.xyl.run.R;
 import com.anjoyo.xyl.run.util.NotiPrefrenceChangeUtil;
 
@@ -25,8 +22,8 @@ public class SettingFragment extends PreferenceFragment
         Preference.OnPreferenceChangeListener {
     private EditTextPreference mEditTextPreference;
     //    private EditTextPreference userEditTextPreference;
-    private EditTextPreference addZfbValueTextPreference;
-    private Preference verisionPreference;
+//    private EditTextPreference addZfbValueTextPreference;
+//    private Preference verisionPreference;
     public static boolean isShowToast;
     public Activity activity;
     public SettingFragment() {
@@ -44,9 +41,9 @@ public class SettingFragment extends PreferenceFragment
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mEditTextPreference = (EditTextPreference) findPreference("magnification");
-        addZfbValueTextPreference= (EditTextPreference) findPreference("zfbSteps");
-        verisionPreference =findPreference("versionNumber");
-        verisionPreference.setSummary(BuildConfig.VERSION_NAME);
+//        addZfbValueTextPreference= (EditTextPreference) findPreference("zfbSteps");
+//        verisionPreference =findPreference("versionNumber");
+//        verisionPreference.setSummary(BuildConfig.VERSION_NAME);
         changeSummary();
         isShowToast = true;
         activity=getActivity();
@@ -71,10 +68,10 @@ public class SettingFragment extends PreferenceFragment
             this.mEditTextPreference.setSummary(getPreferenceManager()
                     .getSharedPreferences().getString("magnification", "50"));
         }
-        if (this.addZfbValueTextPreference!=null){
-            addZfbValueTextPreference.setSummary(getPreferenceManager()
-                    .getSharedPreferences().getString("zfbSteps", "0"));
-        }
+//        if (this.addZfbValueTextPreference!=null){
+//            addZfbValueTextPreference.setSummary(getPreferenceManager()
+//                    .getSharedPreferences().getString("zfbSteps", "0"));
+//        }
         if (getPreferenceManager() .getSharedPreferences().getBoolean("increment",false)&&activity!=null){
             SharedPreferences mySharedPreferences =activity.getSharedPreferences(activity.getPackageName() + "_preferences",
                     Activity.MODE_MULTI_PROCESS);

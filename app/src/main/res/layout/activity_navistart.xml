@@ -286,7 +286,8 @@
                         android:paddingBottom="@dimen/margin_bottom"
                         android:paddingTop="@dimen/margin_top"
                         android:text="步数加倍"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        />
 
                     <View
                         android:layout_width="0dp"
@@ -314,12 +315,14 @@
                         android:paddingBottom="@dimen/margin_bottom"
                         android:paddingTop="@dimen/margin_top"
                         android:text="暴力模拟"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:visibility="gone"/>
 
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:visibility="gone"/>
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>

@@ -293,9 +293,9 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
                 e.printStackTrace();
             }
         }
-        if (loadPackageParam.packageName.equals("com.eg.android.AlipayGphone")) {
-            hookZfbSteps(loadPackageParam);
-        }
+//        if (loadPackageParam.packageName.equals("com.eg.android.AlipayGphone")) {
+//            hookZfbSteps(loadPackageParam);
+//        }
         if (controlIsFromMockProvider) {
             //屏蔽android.location.Location.isFromMockProvider()
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {

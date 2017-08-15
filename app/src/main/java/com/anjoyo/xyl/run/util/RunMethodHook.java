@@ -221,61 +221,61 @@ class RunMethodHook extends XC_MethodHook {
                 }
             }
         } else {
-            try {
-                if ((!this.mMainHook.mXSharedPreferences.getBoolean("isSys", true) || !isSystemApp) && !this.mMainHook.mXSharedPreferences.getString("Ban", "").contains(this.loadPackageParam.packageName) && this.mMainHook.mXSharedPreferences.getBoolean("isStart", false)) {
-                    int intValue = ((Integer) param.args[0]).intValue();
-                    Field declaredField = param.thisObject.getClass().getDeclaredField("mSensorsEvents");
-                    declaredField.setAccessible(true);
-                    SparseArray sparseArray = (SparseArray) declaredField.get(param.thisObject);
-                    if (sparseArray != null) {
-                        Sensor sensor = ((SensorEvent) sparseArray.get(intValue)).sensor;
-                        if (sensor != null) {
-                            if (sensor.getType() != 11 && sensor.getType() != 4 && sensor.getType() != 3 && sensor.getType() != 2 && sensor.getType() != 5 && sensor.getType() != 9 && sensor.getType() != 8) {
-                                if (MainHook.e < 2) {
-                                    XposedBridge.log("xyl-run:小熊跑步对 " + this.loadPackageParam.packageName + (this.loadPackageParam.appInfo.className == null ? "的" : "  " + this.loadPackageParam.appInfo.className) + " 已Hook传感器：" + sensor.getName());
-                                    MainHook.e = MainHook.e + 1;
-                                }
-                            } else {
-                                return;
-                            }
-                        }
-                    }
-                    if (this.mMainHook.mXSharedPreferences.getBoolean("isLock", false)) {
-                        ((float[]) param.args[1])[0] = 0.0f;
-                        ((float[]) param.args[1])[2] = 0.0f;
-                        ((float[]) param.args[1])[1] = 0.0f;
-                        return;
-                    }
-                    this.mMainHook.d = Integer.parseInt(this.mMainHook.mXSharedPreferences.getString("Time", "100"));
-                    long currentTimeMillis = System.currentTimeMillis();
-                    if (currentTimeMillis - this.mMainHook.h >= ((long) this.mMainHook.d)) {
-                        long currentTimeMillis2 = System.currentTimeMillis();
-                        long c = currentTimeMillis2 - this.mMainHook.g;
-                        if (this.mMainHook.mXSharedPreferences.getBoolean("isBaoli", false)) {
-                            ((float[]) param.args[1])[0] = (new Random().nextFloat() * 1000.0f) + 10.0f;
-                            ((float[]) param.args[1])[2] = (new Random().nextFloat() * 1000.0f) + 10.0f;
-                            ((float[]) param.args[1])[1] = (new Random().nextFloat() * 1000.0f) + 10.0f;
-                        } else if (!this.loadPackageParam.packageName.equals("com.sina.weibo")) {
-                            ((float[]) param.args[1])[0] = 125.0f + (1200.0f * new Random().nextFloat());
-                        }
-                        if (c >= ((long) MainHook.c)) {
-                            this.mMainHook.g = currentTimeMillis2;
-                            this.mMainHook.h = currentTimeMillis;
-                            if (this.mMainHook.mXSharedPreferences.getBoolean("isBaoli", false)) {
-                                ((float[]) param.args[1])[0] = (new Random().nextFloat() * 1000.0f) + 10.0f;
-                                ((float[]) param.args[1])[2] = (new Random().nextFloat() * 1000.0f) + 10.0f;
-                                ((float[]) param.args[1])[1] = (new Random().nextFloat() * 1000.0f) + 10.0f;
-                            } else if (this.loadPackageParam.packageName.equals("com.sina.weibo")) {
-                                ((float[]) param.args[1])[0] = (float) (((double) ((float[]) param.args[1])[0]) + (Math.random() * 10.0d));
-                            } else {
-                                ((float[]) param.args[1])[0] = 125.0f + (1200.0f * new Random().nextFloat());
-                            }
-                        }
-                    }
-                }
-            } catch (Throwable e) {
-                e.printStackTrace();
-            }
+//            try {
+//                if ((!this.mMainHook.mXSharedPreferences.getBoolean("isSys", true) || !isSystemApp) && !this.mMainHook.mXSharedPreferences.getString("Ban", "").contains(this.loadPackageParam.packageName) && this.mMainHook.mXSharedPreferences.getBoolean("isStart", false)) {
+//                    int intValue = ((Integer) param.args[0]).intValue();
+//                    Field declaredField = param.thisObject.getClass().getDeclaredField("mSensorsEvents");
+//                    declaredField.setAccessible(true);
+//                    SparseArray sparseArray = (SparseArray) declaredField.get(param.thisObject);
+//                    if (sparseArray != null) {
+//                        Sensor sensor = ((SensorEvent) sparseArray.get(intValue)).sensor;
+//                        if (sensor != null) {
+//                            if (sensor.getType() != 11 && sensor.getType() != 4 && sensor.getType() != 3 && sensor.getType() != 2 && sensor.getType() != 5 && sensor.getType() != 9 && sensor.getType() != 8) {
+//                                if (MainHook.e < 2) {
+//                                    XposedBridge.log("xyl-run:小熊跑步对 " + this.loadPackageParam.packageName + (this.loadPackageParam.appInfo.className == null ? "的" : "  " + this.loadPackageParam.appInfo.className) + " 已Hook传感器：" + sensor.getName());
+//                                    MainHook.e = MainHook.e + 1;
+//                                }
+//                            } else {
+//                                return;
+//                            }
+//                        }
+//                    }
+//                    if (this.mMainHook.mXSharedPreferences.getBoolean("isLock", false)) {
+//                        ((float[]) param.args[1])[0] = 0.0f;
+//                        ((float[]) param.args[1])[2] = 0.0f;
+//                        ((float[]) param.args[1])[1] = 0.0f;
+//                        return;
+//                    }
+//                    this.mMainHook.d = Integer.parseInt(this.mMainHook.mXSharedPreferences.getString("Time", "100"));
+//                    long currentTimeMillis = System.currentTimeMillis();
+//                    if (currentTimeMillis - this.mMainHook.h >= ((long) this.mMainHook.d)) {
+//                        long currentTimeMillis2 = System.currentTimeMillis();
+//                        long c = currentTimeMillis2 - this.mMainHook.g;
+//                        if (this.mMainHook.mXSharedPreferences.getBoolean("isBaoli", false)) {
+//                            ((float[]) param.args[1])[0] = (new Random().nextFloat() * 1000.0f) + 10.0f;
+//                            ((float[]) param.args[1])[2] = (new Random().nextFloat() * 1000.0f) + 10.0f;
+//                            ((float[]) param.args[1])[1] = (new Random().nextFloat() * 1000.0f) + 10.0f;
+//                        } else if (!this.loadPackageParam.packageName.equals("com.sina.weibo")) {
+//                            ((float[]) param.args[1])[0] = 125.0f + (1200.0f * new Random().nextFloat());
+//                        }
+//                        if (c >= ((long) MainHook.c)) {
+//                            this.mMainHook.g = currentTimeMillis2;
+//                            this.mMainHook.h = currentTimeMillis;
+//                            if (this.mMainHook.mXSharedPreferences.getBoolean("isBaoli", false)) {
+//                                ((float[]) param.args[1])[0] = (new Random().nextFloat() * 1000.0f) + 10.0f;
+//                                ((float[]) param.args[1])[2] = (new Random().nextFloat() * 1000.0f) + 10.0f;
+//                                ((float[]) param.args[1])[1] = (new Random().nextFloat() * 1000.0f) + 10.0f;
+//                            } else if (this.loadPackageParam.packageName.equals("com.sina.weibo")) {
+//                                ((float[]) param.args[1])[0] = (float) (((double) ((float[]) param.args[1])[0]) + (Math.random() * 10.0d));
+//                            } else {
+//                                ((float[]) param.args[1])[0] = 125.0f + (1200.0f * new Random().nextFloat());
+//                            }
+//                        }
+//                    }
+//                }
+//            } catch (Throwable e) {
+//                e.printStackTrace();
+//            }
         }
     }
 }

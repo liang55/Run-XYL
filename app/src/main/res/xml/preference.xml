@@ -79,23 +79,23 @@
             android:title="支付宝步数加倍" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="支付宝修改步数设定">
-        <Preference
-            android:summary="支持支付宝10.0.12版本\r\n1.设置步数(范围在0-100000，不然修改无效),建议每天第一次修改5万，至少三小时后再修改10万。\r\n2.打开支付宝，进入运动界面刷新即可看到效果\r\nPS:只能修改越来越大的数值，设置好后每天打开支付宝即可自动修改，不需要每次都打开本程序，也不需要后台运行。"
-            android:title="提示" />
-        <CheckBoxPreference
-            android:key="isZfbOn"
-            android:defaultValue="false"
-            android:summaryOff="支付宝运动修改已关闭"
-            android:summaryOn="支付宝运动修改已开启"
-            android:title="开启支付宝运动修改" />
-        <EditTextPreference
-            android:defaultValue="0"
-            android:dialogMessage="请输入要修改的步数，建议范围[0,100000]超出可能无效或者导致其它问题。"
-            android:key="zfbSteps"
-            android:summary="0"
-            android:title="请输入要修改的步数" />
-    </PreferenceCategory>
+    <!--<PreferenceCategory android:title="支付宝修改步数设定">-->
+        <!--<Preference-->
+            <!--android:summary="支持支付宝10.0.12版本\r\n1.设置步数(范围在0-100000，不然修改无效),建议每天第一次修改5万，至少三小时后再修改10万。\r\n2.打开支付宝，进入运动界面刷新即可看到效果\r\nPS:只能修改越来越大的数值，设置好后每天打开支付宝即可自动修改，不需要每次都打开本程序，也不需要后台运行。"-->
+            <!--android:title="提示" />-->
+        <!--<CheckBoxPreference-->
+            <!--android:key="isZfbOn"-->
+            <!--android:defaultValue="false"-->
+            <!--android:summaryOff="支付宝运动修改已关闭"-->
+            <!--android:summaryOn="支付宝运动修改已开启"-->
+            <!--android:title="开启支付宝运动修改" />-->
+        <!--<EditTextPreference-->
+            <!--android:defaultValue="0"-->
+            <!--android:dialogMessage="请输入要修改的步数，建议范围[0,100000]超出可能无效或者导致其它问题。"-->
+            <!--android:key="zfbSteps"-->
+            <!--android:summary="0"-->
+            <!--android:title="请输入要修改的步数" />-->
+    <!--</PreferenceCategory>-->
     <PreferenceCategory android:title="其它">
         <Preference
             android:summary="关注模拟跑步贴吧"
@@ -111,21 +111,5 @@
                 android:action="android.intent.action.VIEW"
                 android:data="https://jq.qq.com/?k=47i5VF2" />
         </Preference>
-        <Preference
-            android:summary="喜欢就捐赠~"
-            android:title="捐赠">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="alipayqr://platformapi/startapp?saId=10000007&amp;clientVersion=3.7.0.0718&amp;qrcode=https://qr.alipay.com/a6x02523okegqxsynq2wm42" />
-        </Preference>
-        <Preference
-            android:key="versionNumber"
-            android:summary="1.2.5"
-            android:title="关于">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://xyl-blog.github.io/about/" />
-        </Preference>
     </PreferenceCategory>
-
 </PreferenceScreen>
