@@ -13,7 +13,7 @@
         android:id="@+id/sendcode_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="8dp"
         android:text="开始测试验证码"
         android:visibility="gone" />
 
@@ -23,20 +23,17 @@
         android:layout_height="wrap_content"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
-        android:text="打开悦动客户端一次，获取请求参数"
+        android:text="打开悦动圈客户端一次\n自动获取悦动圈接口参数"
         android:textStyle="bold" />
 
     <Button
         android:id="@+id/getyd_prama_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/hint_tv"
-        android:layout_alignBottom="@+id/hint_tv"
+        android:layout_alignTop="@+id/hint_tv"
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@+id/hint_tv"
-        android:paddingBottom="@dimen/margin_bottom"
-        android:paddingTop="@dimen/margin_top"
-        android:text="获取悦动参数"
+        android:text="获取接口请求参数"
         android:textSize="14sp" />
 
     <TextView
@@ -44,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/hint_detail_tv"
-        android:hint="获取本地悦动signkey..."
+        android:hint="本地悦动圈signkey..."
         android:padding="8dp" />
 
     <TextView
@@ -52,7 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/signkey_tv"
-        android:hint="获取本地悦动xyy..."
+        android:hint="本地悦动圈xyy..."
         android:padding="8dp" />
 
     <TextView
@@ -60,7 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/xyy_tv"
-        android:hint="获取本地悦动uid..."
+        android:hint="本地悦动圈uid..."
         android:padding="8dp" />
 
     <TextView
@@ -123,6 +120,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/hint_tv"
-        android:hint="(设置步数(建议每次增加步数1000-2000，多了数据会被屏蔽)，多次同步数据不成功，请检查X框架状态、开启模块后是否重启、悦动版本号，具体教程关注模拟跑步吧或入群544175265咨询)"
-        android:textSize="10sp" />
+        android:hint="设置步数(建议每次增加步数1000-2000，多了数据会被屏蔽)，多次同步悦动接口参数不成功，请检查X框架状态、开启模块后是否重启、悦动版本号(悦动圈版本3.1.2.8.366——3.1.2.9.762)，具体教程关注模拟跑步吧或入群544175265咨询"
+        android:textSize="10sp"
+        android:layout_marginTop="10dp"/>
 </RelativeLayout>

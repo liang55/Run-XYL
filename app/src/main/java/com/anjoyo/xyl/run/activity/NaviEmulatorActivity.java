@@ -50,6 +50,7 @@ public class NaviEmulatorActivity extends Activity
     private TextView speedTv;
     private ImageView addBt, desBt;
     private Toast mToast;
+    private boolean controlIsFromMockProvider;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -65,7 +66,9 @@ public class NaviEmulatorActivity extends Activity
             handler.sendEmptyMessageDelayed(0, 60 * 1000l);
         }
     };
-
+    public boolean isactive(){
+        return true;
+    }
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mToast = Toast.makeText(this, "请在手机设置里打开允许模拟位置", Toast.LENGTH_SHORT);
@@ -77,7 +80,8 @@ public class NaviEmulatorActivity extends Activity
             SensorManager sensor_manager_original = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("controlIsFromMockProvider", true);
+            controlIsFromMockProvider=true;
+            editor.putBoolean("controlIsFromMockProvider", controlIsFromMockProvider);
             editor.commit();
             NotiPrefrenceChangeUtil.refreshPrefrence();
         } catch (Exception e) {
@@ -90,6 +94,10 @@ public class NaviEmulatorActivity extends Activity
         init(savedInstanceState);
         MainApplication.getInstance().addActivity(this);
         handler.sendEmptyMessageDelayed(0, 60 * 1000l);
+//        if (isactive()){
+//            mToast.setText("打开框架模块，位置修改更通用");
+//            mToast.show();
+//        }
     }
 
     /**
@@ -406,10 +414,11 @@ public class NaviEmulatorActivity extends Activity
         mAmapAMapNaviView.onDestroy();
         // 界面结束 停止语音播报
         TTSController.getInstance(this).stopSpeaking();
+        controlIsFromMockProvider=false;
         SharedPreferences sharedPreferences = getSharedPreferences(getPackageName() + "_preferences",
                 Activity.MODE_MULTI_PROCESS);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean("controlIsFromMockProvider", false);
+        editor.putBoolean("controlIsFromMockProvider", controlIsFromMockProvider);
         editor.commit();
         NotiPrefrenceChangeUtil.refreshPrefrence();
     }

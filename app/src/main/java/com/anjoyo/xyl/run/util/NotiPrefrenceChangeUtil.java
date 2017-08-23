@@ -9,4 +9,7 @@ public class NotiPrefrenceChangeUtil {
     public static void refreshPrefrence(){
         //通知框架配置更新
     }
+    public static boolean isModuleActive(){
+        return false;
+    }
 }

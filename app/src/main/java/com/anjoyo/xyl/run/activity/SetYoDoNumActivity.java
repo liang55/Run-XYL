@@ -1,7 +1,10 @@
 package com.anjoyo.xyl.run.activity;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
@@ -20,6 +23,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.anjoyo.xyl.run.R;
+import com.anjoyo.xyl.run.util.NotiPrefrenceChangeUtil;
 import com.anjoyo.xyl.run.util.OkHttpClientManager;
 import com.anjoyo.xyl.run.util.OpenSign;
 
@@ -84,6 +88,26 @@ public class SetYoDoNumActivity extends AppCompatActivity {
             }
         };
         registerReceiver(ydInfoReceiver, intentFilter);
+        if (!NotiPrefrenceChangeUtil.isModuleActive()) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setNegativeButton("打开框架", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    try{
+                        ComponentName componentName = new ComponentName("de.robv.android.xposed.installer", "de.robv.android.xposed.installer.WelcomeActivity");
+                        Intent intent = new Intent();
+                        intent.setComponent(componentName);
+                        startActivity(intent);
+                    }catch (Exception e){
+                        Toast.makeText(getApplicationContext(), "打开X框架失败", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            builder.setPositiveButton("忽略",null);
+            builder.setTitle("提示");
+            builder.setMessage("模块尚未激活，前往Xposed框架的模块列表重新勾选并重启手机，否则模块不生效！");
+            builder.show();
+        }
     }
 
     @Override
@@ -135,7 +159,7 @@ public class SetYoDoNumActivity extends AppCompatActivity {
                 try {
                     if (uid == 0 || TextUtils.isEmpty(signkey) || TextUtils.isEmpty(xyy)) {
                         try {
-                            Toast.makeText(SetYoDoNumActivity.this, "参数不合法,需要同步悦动用户信息", Toast.LENGTH_LONG).show();
+                            Toast.makeText(SetYoDoNumActivity.this, "请先打开一次悦动圈App,获取请求所需参数", Toast.LENGTH_LONG).show();
                             Intent intent = getPackageManager().getLaunchIntentForPackage("com.yuedong.sport");
                             startActivity(intent);
                         } catch (Exception e) {
@@ -176,7 +200,7 @@ public class SetYoDoNumActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //打开模拟跑步贴吧
-                Uri uri = Uri.parse("http://tieba.baidu.com/f?kw=%C4%A3%C4%E2%C5%DC%B2%BD&amp;fr=home");
+                Uri uri = Uri.parse("https://jq.qq.com/?k=47i5VF2");
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);
             }

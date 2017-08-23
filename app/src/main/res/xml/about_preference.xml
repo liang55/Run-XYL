@@ -9,8 +9,8 @@
                 android:data="http://tieba.baidu.com/f?kw=%C4%A3%C4%E2%C5%DC%B2%BD&amp;fr=home" />
         </Preference>
         <Preference
-            android:summary="申请入群"
-            android:title="联系我 QQ群:544175265">
+            android:summary="申请入群(进群可下载免广告测试版)"
+            android:title="QQ群:544175265">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://jq.qq.com/?k=47i5VF2" />

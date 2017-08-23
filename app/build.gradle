@@ -6,8 +6,8 @@ android {
 
     defaultConfig {
         applicationId "com.anjoyo.xyl.run"
-        minSdkVersion 15
-        targetSdkVersion 16
+        minSdkVersion 19
+        targetSdkVersion 19
         versionCode 19
         versionName "1.4.0"
     }

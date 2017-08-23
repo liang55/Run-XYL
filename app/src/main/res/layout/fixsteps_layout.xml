@@ -44,11 +44,12 @@
                 android:onClick="savetime"
                 android:text="保存" />
 
-            <Button
+            <TextView
                 android:id="@+id/button2"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:onClick="onHelp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onHelp"
+                android:text="帮助"/>
         </LinearLayout>
 
         <CheckBox
@@ -77,7 +78,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="摇一摇震动反馈" />
+            android:text="摇一摇震动反馈"
+            android:visibility="gone"/>
 
         <CheckBox
             android:id="@+id/checkBox_keep_sys"

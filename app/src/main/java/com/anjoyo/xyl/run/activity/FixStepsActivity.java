@@ -18,6 +18,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.os.Vibrator;
+import android.preference.DialogPreference;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -57,21 +58,20 @@ public class FixStepsActivity extends AppCompatActivity {
     private Vibrator j;
     private SensorEventListener k;
     private SharedPreferences mySharedPreferences;
+
     public FixStepsActivity() {
         this.k = new c(this);
     }
 
     private void h() {
-        ComponentName componentName = new ComponentName("de.robv.android.xposed.installer", "de.robv.android.xposed.installer.WelcomeActivity");
-        Intent intent = new Intent();
-        intent.setComponent(componentName);
-        startActivity(intent);
-    }
-
-    private void i() {
-//        if (!HookMe.isModuleActive()) {
-//            a.a(this, getString(R.string.tips), getString(R.string.module_active_tips), getString(R.string.ignore), null, getString(R.string.open_xposed), new j(this));
-//        }
+        try{
+            ComponentName componentName = new ComponentName("de.robv.android.xposed.installer", "de.robv.android.xposed.installer.WelcomeActivity");
+            Intent intent = new Intent();
+            intent.setComponent(componentName);
+            startActivity(intent);
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(), "打开X框架失败", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public Boolean a() {
@@ -113,7 +113,7 @@ public class FixStepsActivity extends AppCompatActivity {
     }
 
     public void c(Boolean bool) {
-        Editor edit =mySharedPreferences.edit();
+        Editor edit = mySharedPreferences.edit();
         edit.putBoolean("isLock", bool.booleanValue());
         edit.commit();
         NotiPrefrenceChangeUtil.refreshPrefrence();
@@ -152,7 +152,7 @@ public class FixStepsActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        mySharedPreferences =getSharedPreferences(getPackageName() + "_preferences",
+        mySharedPreferences = getSharedPreferences(getPackageName() + "_preferences",
                 Activity.MODE_MULTI_PROCESS);
         setContentView(R.layout.fixsteps_layout);
         this.a = (CheckBox) findViewById(R.id.checkBox_keep_run);
@@ -176,7 +176,19 @@ public class FixStepsActivity extends AppCompatActivity {
         this.b.setOnCheckedChangeListener(new g(this));
         this.c.setOnCheckedChangeListener(new h(this));
         this.a.setOnCheckedChangeListener(new i(this));
-        i();
+        if (!NotiPrefrenceChangeUtil.isModuleActive()) {
+            Builder builder = new Builder(this);
+            builder.setNegativeButton("打开框架", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    h();
+                }
+            });
+            builder.setTitle("提示");
+            builder.setPositiveButton("忽略",null);
+            builder.setMessage("模块尚未激活，前往Xposed框架的模块列表重新勾选并重启手机，否则模块不生效！");
+            builder.show();
+        }
     }
 
     public void onHelp(View view) {
@@ -202,7 +214,7 @@ public class FixStepsActivity extends AppCompatActivity {
                 "_____________\n" +
                 "备注：\n" +
                 "本程序理论通杀所有通过加速度传感器计算步数的软件，如果无效说明本软件可能被检测到，或者改软件使用其他传感器计步。\n" +
-                "作者已测试有效的计步软件:平安好医生、悦动圈、微博运动、春雨计步器。\n打开暴力模式会关闭步数加倍");
+                "已测试有效的计步软件:平安好医生、悦动圈、微博运动、春雨计步器。\n");
         builder.show();
     }
 
@@ -248,7 +260,7 @@ public class FixStepsActivity extends AppCompatActivity {
     }
 
     public void savetime(View view) {
-        Editor edit =mySharedPreferences.edit();
+        Editor edit = mySharedPreferences.edit();
         edit.putString("Time", this.g.getText().toString());
         edit.commit();
     }

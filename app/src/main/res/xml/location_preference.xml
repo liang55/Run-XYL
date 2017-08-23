@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/task1">
+        <EditTextPreference android:defaultValue="google,chrome,facebook,twitter" android:dialogTitle="@string/packagename" android:hint="google,earth,com.google.earth" android:key="keyp0" android:title="@string/packagename" />
+        <ListPreference android:defaultValue="3" android:dialogTitle="@string/location" android:entries="@array/list_entries" android:entryValues="@array/list_entries_value" android:key="location0" android:summary="" android:title="@string/location" />
+        <PreferenceScreen android:title="@string/network">
+            <PreferenceCategory android:title="@string/operators">
+                <EditTextPreference android:defaultValue="us" android:dialogTitle="@string/country" android:key="oc0" android:title="@string/country" />
+                <EditTextPreference android:defaultValue="@string/simoperators_default" android:dialogTitle="@string/simoperators" android:key="os0" android:title="@string/simoperators" />
+                <EditTextPreference android:defaultValue="@string/networkoperators_default" android:dialogTitle="@string/networkoperators" android:key="on0" android:title="@string/networkoperators" />
+                <EditTextPreference android:defaultValue="310410" android:dialogTitle="@string/networkoperatorscode" android:hint="@string/ophit" android:key="onc0" android:numeric="integer" android:title="@string/networkoperatorscode" />
+            </PreferenceCategory>
+            <PreferenceCategory android:title="@string/network">
+                <ListPreference android:defaultValue="3" android:dialogTitle="@string/datanetworktype" android:entries="@array/list_network" android:entryValues="@array/list_network_value" android:key="key300" android:summary="" android:title="@string/datanetworktype" />
+                <ListPreference android:defaultValue="1" android:dialogTitle="@string/phonetype" android:entries="@array/list_phone" android:entryValues="@array/list_phone_value" android:key="key310" android:summary="" android:title="@string/phonetype" />
+                <ListPreference android:defaultValue="-1" android:dialogTitle="@string/networktype" android:entries="@array/list_networktype" android:entryValues="@array/list_networktype_value" android:key="key320" android:summary="" android:title="@string/networktype" />
+                <CheckBoxPreference android:defaultValue="true" android:key="key330" android:summary="@string/wifitip" android:title="@string/wififield" />
+            </PreferenceCategory>
+        </PreferenceScreen>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/task2">
+        <EditTextPreference  android:dialogTitle="@string/packagename" android:hint="google,earth,com.google.earth" android:key="keyp1" android:title="@string/packagename" />
+        <ListPreference android:defaultValue="8" android:dialogTitle="@string/location" android:entries="@array/list_entries" android:entryValues="@array/list_entries_value" android:key="location1" android:summary="" android:title="@string/location" />
+        <PreferenceScreen android:title="@string/network">
+            <PreferenceCategory android:title="@string/operators">
+                <EditTextPreference android:defaultValue="cn" android:dialogTitle="@string/country" android:key="oc1" android:title="@string/country" />
+                <EditTextPreference android:defaultValue="CMCC" android:dialogTitle="@string/simoperators" android:key="os1" android:title="@string/simoperators" />
+                <EditTextPreference android:defaultValue="CHINA MOBILE" android:dialogTitle="@string/networkoperators" android:key="on1" android:title="@string/networkoperators" />
+                <EditTextPreference android:defaultValue="46000" android:dialogTitle="@string/networkoperatorscode" android:hint="@string/ophit" android:key="onc1" android:numeric="integer" android:title="@string/networkoperatorscode" />
+            </PreferenceCategory>
+            <PreferenceCategory android:title="@string/network">
+                <ListPreference android:defaultValue="2" android:dialogTitle="@string/datanetworktype" android:entries="@array/list_network" android:entryValues="@array/list_network_value" android:key="key301" android:summary="" android:title="@string/datanetworktype" />
+                <ListPreference android:defaultValue="1" android:dialogTitle="@string/phonetype" android:entries="@array/list_phone" android:entryValues="@array/list_phone_value" android:key="key311" android:summary="" android:title="@string/phonetype" />
+                <ListPreference android:defaultValue="-1" android:dialogTitle="@string/networktype" android:entries="@array/list_networktype" android:entryValues="@array/list_networktype_value" android:key="key321" android:summary="" android:title="@string/networktype" />
+                <CheckBoxPreference android:defaultValue="true" android:key="key331" android:summary="@string/wifitip" android:title="@string/wififield" />
+            </PreferenceCategory>
+        </PreferenceScreen>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/task3">
+        <EditTextPreference android:defaultValue="." android:dialogTitle="@string/packagename" android:hint="google,earth,com.google.earth" android:key="keyp2" android:title="@string/packagename" />
+        <ListPreference android:defaultValue="99" android:dialogTitle="@string/location" android:entries="@array/list_entries" android:entryValues="@array/list_entries_value" android:key="location2" android:summary="" android:title="@string/location" />
+        <PreferenceScreen android:title="@string/network">
+            <PreferenceCategory android:title="@string/operators">
+                <EditTextPreference  android:dialogTitle="@string/country" android:key="oc2" android:title="@string/country" />
+                <EditTextPreference android:dialogTitle="@string/simoperators" android:key="os2" android:title="@string/simoperators" />
+                <EditTextPreference  android:dialogTitle="@string/networkoperators" android:key="on2" android:title="@string/networkoperators" />
+                <EditTextPreference  android:dialogTitle="@string/networkoperatorscode" android:hint="@string/ophit" android:key="onc2" android:numeric="integer" android:title="@string/networkoperatorscode" />
+            </PreferenceCategory>
+            <PreferenceCategory android:title="@string/network">
+                <ListPreference android:defaultValue="0" android:dialogTitle="@string/datanetworktype" android:entries="@array/list_network" android:entryValues="@array/list_network_value" android:key="key302" android:summary="" android:title="@string/datanetworktype" />
+                <ListPreference android:defaultValue="0" android:dialogTitle="@string/phonetype" android:entries="@array/list_phone" android:entryValues="@array/list_phone_value" android:key="key312" android:summary="" android:title="@string/phonetype" />
+                <ListPreference android:defaultValue="-1" android:dialogTitle="@string/networktype" android:entries="@array/list_networktype" android:entryValues="@array/list_networktype_value" android:key="key322" android:summary="" android:title="@string/networktype" />
+                <CheckBoxPreference android:defaultValue="true" android:key="key332" android:summary="@string/wifitip" android:title="@string/wififield" />
+            </PreferenceCategory>
+        </PreferenceScreen>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/common">
+        <PreferenceScreen android:title="@string/gpsstatus">
+            <EditTextPreference android:defaultValue="0.0213" android:dialogTitle="@string/speed" android:hint="meters/second" android:key="speed" android:numeric="decimal" android:title="@string/speed" />
+            <EditTextPreference android:defaultValue="0.0213" android:dialogTitle="@string/accuracy" android:hint="meters" android:key="accuracy" android:numeric="decimal" android:title="@string/accuracy" />
+            <EditTextPreference android:defaultValue="0.0213" android:dialogTitle="@string/bearing" android:hint="degrees,0..360" android:key="bearing" android:numeric="decimal" android:title="@string/bearing" />
+            <EditTextPreference android:defaultValue="0.0213" android:dialogTitle="@string/altitude" android:hint="meters" android:key="altitude" android:numeric="decimal" android:title="@string/altitude" />
+            <CheckBoxPreference android:defaultValue="true" android:key="gps" android:selectable="true" android:title="@string/gpsstallites" />
+            <CheckBoxPreference android:defaultValue="true" android:dependency="gps" android:key="requestloc" android:selectable="true" android:summary="@string/requestloctip" android:title="@string/requestloc" />
+            <EditTextPreference android:defaultValue="1" android:dialogTitle="@string/ratio" android:hint="* meters/s" android:key="ratio" android:numeric="decimal" android:title="@string/ratio" />
+            <ListPreference android:defaultValue="4" android:dialogTitle="@string/floatingtype" android:entries="@array/list_floating" android:entryValues="@array/list_floating_value" android:key="floatingtype" android:summary="" android:title="@string/floatingtype" />
+            <EditTextPreference android:defaultValue="1" android:dialogTitle="@string/rotationratio" android:hint="* degrees" android:key="rotationratio" android:numeric="decimal" android:title="@string/rotationratio" />
+            <ListPreference android:defaultValue="0" android:dialogTitle="@string/floatingcolor" android:entries="@array/list_colors" android:entryValues="@array/list_colors_value" android:key="floatingcolor" android:summary="" android:title="@string/floatingcolor" />
+        </PreferenceScreen>
+        <EditTextPreference  android:dialogTitle="Mac" android:hint="xx:xx:xx:xx:xx:xx,0-9a-f" android:key="key10" android:title="Mac" />
+        <EditTextPreference android:defaultValue="@string/essid_default" android:dialogTitle="@string/essid" android:key="key9" android:title="@string/essid" />
+        <EditTextPreference android:defaultValue="00:00:00:00:00:00" android:dialogTitle="@string/bssid" android:hint="xx:xx:xx:xx:xx:xx,0-9a-f" android:key="key8" android:title="@string/bssid" />
+        <ListPreference android:defaultValue="2" android:dialogTitle="@string/operatorfix" android:entries="@array/list_operatorfix" android:entryValues="@array/list_operatorfix_value" android:key="operatorfix" android:summary="" android:title="@string/operatorfix" />
+    </PreferenceCategory>
+    <PreferenceScreen android:summary="@string/locationnote" android:title="@string/location">
+        <EditTextPreference android:defaultValue="38.8982235,-77.0362272,1,7997,160434771,just note UMTS.310410.Washington.US" android:hint="@string/locationnote" android:key="key20" android:title="Location 01" />
+        <EditTextPreference android:defaultValue="40.7145209,-74.0021128,1,11921,171757804,UMTS.310410.New York.US" android:hint="@string/locationnote" android:key="key21" android:title="Location 02" />
+        <EditTextPreference android:defaultValue="37.7793817,-122.4167093,1,56965,4316171,UMTS.310410.San Francisco.US" android:hint="@string/locationnote" android:key="key22" android:title="Location 03" />
+        <EditTextPreference android:defaultValue="34.0597059,-118.4121812,1,55546,53479417,UMTS.310410.LosAngeles.US" android:hint="@string/locationnote" android:key="key23" android:title="Location 04" />
+        <EditTextPreference android:defaultValue="41.8769438,-87.6244288,1,21957,68921665,UMTS.310410.Chicago.US" android:hint="@string/locationnote" android:key="key24" android:title="Location 05" />
+        <EditTextPreference android:defaultValue="29.7614442,-95.3680873,1,53534,101257043,UMTS.310410.Houston.US" android:hint="@string/locationnote" android:key="key25" android:title="Location 06" />
+        <EditTextPreference android:defaultValue="47.6018760,-122.3320945,1,42998,7810605,UMTS.310410.Seattle.US" android:hint="@string/locationnote" android:key="key26" android:title="Location 07" />
+        <EditTextPreference android:defaultValue="23.111112,113.248958,1,10313,41015,备注而已 GSM.46000.广州" android:hint="@string/locationnote" android:key="key27" android:title="Location 08" />
+        <EditTextPreference android:defaultValue="31.2365127,121.46861,1,6311,25436164,LTE.46000.上海" android:hint="@string/locationnote" android:key="key28" android:title="Location 09" />
+        <EditTextPreference android:defaultValue="25.037036,102.715966,1,34972,4241,GSM.46000.昆明" android:hint="@string/locationnote" android:key="key29" android:title="Location 10" />
+        <EditTextPreference android:defaultValue="22.301211,114.172402,1,1103,11694794,LTE.45400.香港" android:hint="@string/locationnote" android:key="key210" android:title="Location 11" />
+        <EditTextPreference android:defaultValue="25.019669,121.536602,1,19142,25607701,LTE.46601.台北" android:hint="@string/locationnote" android:key="key211" android:title="Location 12" />
+        <EditTextPreference android:defaultValue="32.043337,118.778953,1,20487,220770049,LTE.46000.南京" android:hint="@string/locationnote" android:key="key212" android:title="Location 13" />
+        <EditTextPreference android:defaultValue="39.9065783,116.4039039,1,4286,18709250,LTE.46000.北京" android:hint="@string/locationnote" android:key="key213" android:title="Location 14" />
+        <EditTextPreference android:defaultValue="39.9147927,116.4051005,1,4213,1473,GSM.46000.王府井" android:hint="@string/locationnote" android:key="key214" android:title="Location 15" />
+        <EditTextPreference android:defaultValue="31.259578,121.520117,1,43014,10909258,UMTS.46001.杨浦" android:hint="@string/locationnote" android:key="key215" android:title="Location 16" />
+        <EditTextPreference android:defaultValue="51.500858,-0.123904,1,1078,9694442,UMTS.23430.London" android:hint="@string/locationnote" android:key="key216" android:title="Location 17" />
+        <EditTextPreference android:defaultValue="21.2806326,-157.8353498,1,34052,128044561,LTE.310410.Hawaii" android:hint="@string/locationnote" android:key="key217" android:title="Location 18" />
+        <EditTextPreference android:defaultValue="-33.8567510,151.2154480,1,211,81997172,UMTS.50503.Sydney" android:hint="@string/locationnote" android:key="key218" android:title="Location 19" />
+        <EditTextPreference android:defaultValue="45.420585,-75.690088,1,11651,108210052,UMTS.302610.Ottawa" android:hint="@string/locationnote" android:key="key219" android:title="Location 20" />
+        <EditTextPreference android:defaultValue="1.3031525,103.8326179,1,22273,20551954,UMTS.52501.Singapore" android:hint="@string/locationnote" android:key="key220" android:title="Location 21" />
+        <EditTextPreference android:defaultValue="22.1892048,113.5432028,1,15,35136,UMTS.45501.Macau" android:hint="@string/locationnote" android:key="key221" android:title="Location 22" />
+        <EditTextPreference android:defaultValue="22.2828260,114.1844500,1,11061,1634009,UMTS.45419.Hong Kong" android:hint="@string/locationnote" android:key="key222" android:title="Location 23" />
+        <EditTextPreference android:defaultValue="31.240449,121.495299,1,43041,11384361,UMTS.46001.Shanghai" android:hint="@string/locationnote" android:key="key223" android:title="Location 24" />
+        <EditTextPreference android:defaultValue="25.0144506,121.4617964,1,12400,30254359,LTE.46692.Taipei" android:hint="@string/locationnote" android:key="key224" android:title="Location 25" />
+        <EditTextPreference android:defaultValue="24.444741,118.062277,1,22817,51555,GSM.46001.鼓浪屿" android:hint="@string/locationnote" android:key="key225" android:title="Location 26" />
+        <EditTextPreference android:defaultValue="22.15061,113.562939,1,5,66999,UMTS.45500.澳门" android:hint="@string/locationnote" android:key="key226" android:title="Location 27" />
+        <EditTextPreference android:defaultValue="25.0087863,121.4510863,1,9313,21806865,UMTS.46601.新北" android:hint="@string/locationnote" android:key="key227" android:title="Location 28" />
+        <EditTextPreference android:defaultValue="22.9773315,120.2168743,1,10611,40103733,UMTS.46692.台南" android:hint="@string/locationnote" android:key="key228" android:title="Location 29" />
+        <EditTextPreference android:defaultValue="24.9928359,121.3074437,1,10311,20391037,UMTS.46692.桃园" android:hint="@string/locationnote" android:key="key229" android:title="Location 30" />
+        <EditTextPreference android:defaultValue="30.2572138,120.1571063,1,22544,23108,GSM.46000.杭州" android:hint="@string/locationnote" android:key="key230" android:title="Location 31" />
+        <EditTextPreference android:defaultValue="31.3041157,120.5771762,1,20502,59413,GSM.46000.苏州" android:hint="@string/locationnote" android:key="key231" android:title="Location 32" />
+        <EditTextPreference android:defaultValue="22.191605,113.5476005,1,5,75759,UMTS.45500.澳门" android:hint="@string/locationnote" android:key="key232" android:title="Location 33" />
+        <EditTextPreference android:defaultValue="18.2393661,109.503304,1,30134,38491,GSM.46000.三亚" android:hint="@string/locationnote" android:key="key233" android:title="Location 34" />
+        <EditTextPreference android:defaultValue="21.282789,-157.838115,1,50995,59340402,UMTS.310410.Hawaii.US" android:hint="@string/locationnote" android:key="key234" android:title="Location 35" />
+        <EditTextPreference android:defaultValue="47.6050256,-122.3325906,1,11316,22270979,LTE.310260.Seattle" android:hint="@string/locationnote" android:key="key235" android:title="Location 36" />
+        <EditTextPreference android:defaultValue="35.7024617,139.7756743,1,5126,34637569,LTE.44010.Akihabara.JP秋叶原" android:hint="@string/locationnote" android:key="key236" android:title="Location 37" />
+        <EditTextPreference android:defaultValue="18.222367,109.517929,1,30040,30821,LTE.46000.三亚.Sanya" android:hint="@string/locationnote" android:key="key237" android:title="Location 38" />
+        <EditTextPreference android:defaultValue="22.4710887,114.2325552,1,12083,1360144,UMTS.46002.香港" android:hint="@string/locationnote" android:key="key238" android:title="Location 39" />
+        <EditTextPreference android:defaultValue="39.154518,117.1624979,1,8448,13861389,LTE.46001.天津" android:hint="@string/locationnote" android:key="key239" android:title="Location 40" />
+        <EditTextPreference android:defaultValue="41.815196,123.433914,1,12546,142,GSM.46020.沈阳" android:hint="@string/locationnote" android:key="key240" android:title="Location 41" />
+        <EditTextPreference android:defaultValue="22.502015,113.944986,1,9518,4095,GSM.46007.深圳" android:hint="@string/locationnote" android:key="key241" android:title="Location 42" />
+        <EditTextPreference android:defaultValue="22.5435327,113.9298311,1,42303,24169270,UMTS.46001.深圳南山" android:hint="@string/locationnote" android:key="key242" android:title="Location 43" />
+        <EditTextPreference android:defaultValue="49.2827299,-123.1206273,1,11001,28184576,LTE.302220.Vancouver.CA" android:hint="@string/locationnote" android:key="key243" android:title="Location 44" />
+        <EditTextPreference android:defaultValue="36.170154,-115.141128,1,36984,34209866,UMTS.310410.Las Vegas.US" android:hint="@string/locationnote" android:key="key244" android:title="Location 45" />
+        <EditTextPreference android:defaultValue="29.9499845,-90.0722654,1,14981,46161680,LTE.310410.New Orleansi" android:hint="@string/locationnote" android:key="key245" android:title="Location 46" />
+        <EditTextPreference android:defaultValue="32.7759609,-96.7966243,1,27196,133906719,LTE.310410.Dallas" android:hint="@string/locationnote" android:key="key246" android:title="Location 47" />
+        <EditTextPreference android:defaultValue="33.7498583,-84.388197,1,4542,226004005,UMTS.310410.Atlanta" android:hint="@string/locationnote" android:key="key247" android:title="Location 48" />
+        <EditTextPreference android:defaultValue="25.7624186,-80.1910292,1,14126,174192407,UMTS.310410.Miami" android:hint="@string/locationnote" android:key="key248" android:title="Location 49" />
+        <EditTextPreference android:defaultValue="39.9529652,-75.1582597,1,290,137732777,LTE.310410.Philadelphia" android:hint="@string/locationnote" android:key="key249" android:title="Location 50" />
+        <EditTextPreference android:defaultValue="42.8859464,-78.8782609,1,3337,206353942,LTE.310410.Buffalo" android:hint="@string/locationnote" android:key="key250" android:title="Location 51" />
+        <EditTextPreference android:defaultValue="42.3615435,-71.0575847,1,1042,132534894,LTE.310410.Boston" android:hint="@string/locationnote" android:key="key251" android:title="Location 52" />
+        <EditTextPreference android:defaultValue="43.6522475,-79.3827667,1,10500,230142611,UMTS.302220.Toronto" android:hint="@string/locationnote" android:key="key252" android:title="Location 53" />
+        <EditTextPreference android:defaultValue="19.4201416,-99.1358415,1,11008,131606528,UMTS.334020.Mexico City" android:hint="@string/locationnote" android:key="key253" android:title="Location 54" />
+        <EditTextPreference android:defaultValue="-22.9067893,-43.1734775,1,2021,16927,GSM.72411.Rio de Janeiro" android:hint="@string/locationnote" android:key="key254" android:title="Location 55" />
+        <EditTextPreference android:defaultValue="-23.5503255,-46.6335152,1,40311,20402693,UMTS.72410.Sao Paulo" android:hint="@string/locationnote" android:key="key255" android:title="Location 56" />
+        <EditTextPreference android:defaultValue="-33.4510388,-70.6686568,1,13002,20942,GSM.73001.Santiago" android:hint="@string/locationnote" android:key="key256" android:title="Location 57" />
+        <EditTextPreference android:defaultValue="-34.6028689,-58.3778729,1,17101,23440517,UMTS.722310,Buenos Aires" android:hint="@string/locationnote" android:key="key257" android:title="Location 58" />
+        <EditTextPreference android:defaultValue="55.6766077,12.5704451,1,2000,15472916,LTE.23801.Copenhagen" android:hint="@string/locationnote" android:key="key258" android:title="Location 59" />
+        <EditTextPreference android:defaultValue="50.0755675,14.4366642,1,10105,25733388,UMTS.23001.Prague" android:hint="@string/locationnote" android:key="key259" android:title="Location 60" />
+        <EditTextPreference android:defaultValue="21.292154,-157.852249,1,34052,59311485,LTE.310410.Honolulu" android:hint="@string/locationnote" android:key="key260" android:title="Location 61" />
+        <EditTextPreference android:defaultValue="52.520062,13.403802,1,20443,41633,GSM.26201.Berlin" android:hint="@string/locationnote" android:key="key261" android:title="Location 62" />
+        <EditTextPreference android:defaultValue="50.1125949,8.6830396,1,24051,26694145,LTE.26201.Frankfurt" android:hint="@string/locationnote" android:key="key262" android:title="Location 63" />
+        <EditTextPreference android:defaultValue="50.9381804,6.9602899,1,13801,26568705,LTE.26201.Cologne" android:hint="@string/locationnote" android:key="key263" android:title="Location 64" />
+        <EditTextPreference android:defaultValue="48.208889,16.373707,1,2010,7305909,UMTS.23210.Vienna" android:hint="@string/locationnote" android:key="key264" android:title="Location 65" />
+        <EditTextPreference android:defaultValue="47.376374,8.539913,1,1616,1063360,UMTS.22801.Zurich" android:hint="@string/locationnote" android:key="key265" android:title="Location 66" />
+        <EditTextPreference android:defaultValue="46.2042654,6.1429464,1,10602,61725,GSM.20810.Geneva" android:hint="@string/locationnote" android:key="key266" android:title="Location 67" />
+        <EditTextPreference android:defaultValue="50.846599,4.353588,1,16100,17189888,LTE.20610.Brussels" android:hint="@string/locationnote" android:key="key267" android:title="Location 68" />
+        <EditTextPreference android:defaultValue="52.369084,4.8940587,1,1019,10308,GSM.20416.Amsterdam" android:hint="@string/locationnote" android:key="key268" android:title="Location 69" />
+        <EditTextPreference android:defaultValue="52.078653,4.312026,1,130,22821,GSM.20416.The Hague" android:hint="@string/locationnote" android:key="key269" android:title="Location 70" />
+        <EditTextPreference android:defaultValue="51.9243418,4.477851,1,1511,13674390,UMTS.20416.Rotterdam" android:hint="@string/locationnote" android:key="key270" android:title="Location 71" />
+        <EditTextPreference android:defaultValue="55.953571,-3.189892,1,118,21464,GSM.23410.Edinburgh" android:hint="@string/locationnote" android:key="key271" android:title="Location 72" />
+        <EditTextPreference android:defaultValue="48.864079,2.337015,1,12102,60471,UMTS.20810.Paris" android:hint="@string/locationnote" android:key="key272" android:title="Location 73" />
+        <EditTextPreference android:defaultValue="40.4187895,-3.6968005,1,12726,8326725,UMTS.21401.Madrid" android:hint="@string/locationnote" android:key="key273" android:title="Location 74" />
+        <EditTextPreference android:defaultValue="41.3837826,2.1771392,1,20551,14686860,UMTS.21401.Barcelona" android:hint="@string/locationnote" android:key="key274" android:title="Location 75" />
+        <EditTextPreference android:defaultValue="45.4642507,9.1865267,1,12035,6999348,LTE.22210.Milan" android:hint="@string/locationnote" android:key="key275" android:title="Location 76" />
+        <EditTextPreference android:defaultValue="41.9027775,12.4883087,1,31009,45913,GSM.22210.Rome" android:hint="@string/locationnote" android:key="key276" android:title="Location 77" />
+        <EditTextPreference android:defaultValue="45.436471,12.326216,1,24056,17510897,UMTS.22288.Venice" android:hint="@string/locationnote" android:key="key277" android:title="Location 78" />
+        <EditTextPreference android:defaultValue="44.786203,20.450899,1,21101,2972852,UMTS.22003.Belgrade" android:hint="@string/locationnote" android:key="key278" android:title="Location 79" />
+        <EditTextPreference android:defaultValue="37.9843502,23.7282282,1,10700,13829117,UMTS.20210.Athens" android:hint="@string/locationnote" android:key="key279" android:title="Location 80" />
+        <EditTextPreference android:defaultValue="55.7534749,37.6211223,1,6401,796170,UMTS.25001.Moscow" android:hint="@string/locationnote" android:key="key280" android:title="Location 81" />
+        <EditTextPreference android:defaultValue="27.7727584,-82.6357666,1,13572,112594234,LTE.310120.St. Petersburg" android:hint="@string/locationnote" android:key="key281" android:title="Location 82" />
+        <EditTextPreference android:defaultValue="33.924419,18.4264968,1,10006,141569,LTE.65510.Cape Town" android:hint="@string/locationnote" android:key="key282" android:title="Location 83" />
+        <EditTextPreference android:defaultValue="28.617258,77.206099,1,159,30413,GSM.40411.New Delhi" android:hint="@string/locationnote" android:key="key283" android:title="Location 84" />
+        <EditTextPreference android:defaultValue="41.802421,123.442341,1,16642,18204163,LTE.46001.Shenyang" android:hint="@string/locationnote" android:key="key284" android:title="Location 85" />
+        <EditTextPreference android:defaultValue="30.582638,114.350363,1,28701,112819462,LTE.46000.Wuhan" android:hint="@string/locationnote" android:key="key285" android:title="Location 86" />
+        <EditTextPreference android:defaultValue="36.0705708,103.8479162,1,37647,46371074,LTE.46001.Lanzhou" android:hint="@string/locationnote" android:key="key286" android:title="Location 87" />
+        <EditTextPreference android:defaultValue="34.3098899,108.9573969,1,37263,5111,GSM.46000.Xi'an" android:hint="@string/locationnote" android:key="key287" android:title="Location 88" />
+        <EditTextPreference android:defaultValue="29.5588121,106.5458651,1,13070,37318913,LTE.46000.Chongqing" android:hint="@string/locationnote" android:key="key288" android:title="Location 89" />
+        <EditTextPreference android:defaultValue="30.5605351,104.0719206,1,33289,100139142,LTE.46000.Chengdu" android:hint="@string/locationnote" android:key="key289" android:title="Location 90" />
+        <EditTextPreference android:defaultValue="22.6267545,120.2948408,1,19803,184340503,LTE.46601.Kaohsiung" android:hint="@string/locationnote" android:key="key290" android:title="Location 91" />
+        <EditTextPreference android:defaultValue="37.56477,126.973059,1,8657,61093668,UMTS.45005.Seoul" android:hint="@string/locationnote" android:key="key291" android:title="Location 92" />
+        <EditTextPreference android:defaultValue="35.179465,129.068641,1,57524,36850690,LTE.45006.Busan" android:hint="@string/locationnote" android:key="key292" android:title="Location 93" />
+        <EditTextPreference android:defaultValue="35.68993,139.691735,1,12311,13138177,LTE.44000.Tokyo" android:hint="@string/locationnote" android:key="key293" android:title="Location 94" />
+        <EditTextPreference android:defaultValue="34.7006363,135.4906176,1,24590,109646338,LTE.44010.Osaka" android:hint="@string/locationnote" android:key="key294" android:title="Location 95" />
+        <EditTextPreference android:defaultValue="35.184219,136.895067,1,16390,67131648,LTE.44010.Nagoya" android:hint="@string/locationnote" android:key="key295" android:title="Location 96" />
+        <EditTextPreference android:defaultValue="35.0109376,135.7619013,1,24966,100915205,LTE.44010.Kyoto" android:hint="@string/locationnote" android:key="key296" android:title="Location 97" />
+        <EditTextPreference android:defaultValue="10.8224084,106.6269557,1,22122,953649,UMTS.45201.Ho Chi Minh City" android:hint="@string/locationnote" android:key="key297" android:title="Location 98" />
+        <EditTextPreference android:defaultValue="13.7542543,100.4981224,1,1007,10142862,UMTS.52000.Bangkok" android:hint="@string/locationnote" android:key="key298" android:title="Location 99" />
+        <EditTextPreference  android:hint="@string/locationnote" android:key="key299" android:title="Location 00" />
+    </PreferenceScreen>
+</PreferenceScreen>

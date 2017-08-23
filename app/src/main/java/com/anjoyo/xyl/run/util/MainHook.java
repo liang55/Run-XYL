@@ -262,10 +262,18 @@ public class MainHook implements IXposedHookLoadPackage, IXposedHookZygoteInit {
             if (NotiPrefrenceChangeUtil != null) {
                 XposedBridge.hookAllMethods(NotiPrefrenceChangeUtil, "refreshPrefrence", new XC_MethodHook() {
                     @Override
-                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                         super.beforeHookedMethod(param);
                         XposedBridge.log("xyl-run:收到小熊跑步配置改变消息");
                         initData();
+                    }
+                });
+                XposedHelpers.findAndHookMethod(NotiPrefrenceChangeUtil, "isModuleActive", new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        super.afterHookedMethod(param);
+                        XposedBridge.log("xyl-run:active");
+                        param.setResult(Boolean.valueOf(true));
                     }
                 });
             }
