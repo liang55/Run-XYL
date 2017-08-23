@@ -220,7 +220,6 @@ class RunMethodHook extends XC_MethodHook {
                 this.mMainHook.mXSharedPreferences.reload();
 //                if ((!this.mMainHook.mXSharedPreferences.getBoolean("isSys", true) || !isSystemApp) && !this.mMainHook.mXSharedPreferences.getString("Ban", "").contains(this.loadPackageParam.packageName) && this.mMainHook.mXSharedPreferences.getBoolean("isStart", false)) {
                 if ((!this.mMainHook.mXSharedPreferences.getBoolean("isSys", true) || (this.loadPackageParam.appInfo.flags & 1) <= 0) && !this.mMainHook.mXSharedPreferences.getString("Ban", "").contains(this.loadPackageParam.packageName) && this.mMainHook.mXSharedPreferences.getBoolean("isStart", false)) {
-                    XposedBridge.log("xyl-run: isStart====="+this.mMainHook.mXSharedPreferences.getBoolean("isStart", false));
                     int intValue = ((Integer) methodHookParam.args[0]).intValue();
                     Field declaredField = methodHookParam.thisObject.getClass().getDeclaredField("mSensorsEvents");
                     declaredField.setAccessible(true);
