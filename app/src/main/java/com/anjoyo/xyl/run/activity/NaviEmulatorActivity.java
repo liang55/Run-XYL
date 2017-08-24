@@ -2,16 +2,19 @@ package com.anjoyo.xyl.run.activity;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.hardware.SensorManager;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.location.LocationProvider;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -47,6 +50,7 @@ public class NaviEmulatorActivity extends Activity
     private LocationManager mLocationManager;
     private int speedValue = 100;
     private int maxSpeedValue = 100;
+    private int minSpeedValue = 0;
     private TextView speedTv;
     private ImageView addBt, desBt;
     private Toast mToast;
@@ -57,7 +61,12 @@ public class NaviEmulatorActivity extends Activity
             // TODO Auto-generated method stub
             super.handleMessage(msg);
             int roomInt = (int) (Math.random() * 1) + 1;
+            int roomInt0 = (int) (Math.random() * 1) + 1;
             if (roomInt + speedValue > maxSpeedValue) {
+                speedValue -= roomInt;
+            } else if (roomInt - speedValue < minSpeedValue) {
+                speedValue += roomInt;
+            } else if (roomInt0 % 2 == 0) {
                 speedValue -= roomInt;
             } else {
                 speedValue += roomInt;
@@ -66,21 +75,43 @@ public class NaviEmulatorActivity extends Activity
             handler.sendEmptyMessageDelayed(0, 60 * 1000l);
         }
     };
-    public boolean isactive(){
+
+    public boolean isactive() {
         return true;
     }
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mToast = Toast.makeText(this, "请在手机设置里打开允许模拟位置", Toast.LENGTH_SHORT);
         try {
             mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            mLocationManager.addTestProvider("gps", false, false, false, false,
-                    false, false, false, 0, 0);
-            mLocationManager.setTestProviderEnabled("gps", true);
+//            mLocationManager.addTestProvider("gps", false, false, false, false,
+//                    false, false, false, 0, 0);
+            String providerStr = LocationManager.GPS_PROVIDER;
+            LocationProvider provider = mLocationManager.getProvider(providerStr);
+            if (provider != null) {
+                mLocationManager.addTestProvider(
+                        provider.getName()
+                        , provider.requiresNetwork()
+                        , provider.requiresSatellite()
+                        , provider.requiresCell()
+                        , provider.hasMonetaryCost()
+                        , provider.supportsAltitude()
+                        , provider.supportsSpeed()
+                        , provider.supportsBearing()
+                        , provider.getPowerRequirement()
+                        , provider.getAccuracy());
+            } else {
+                mLocationManager.addTestProvider(
+                        providerStr
+                        , true, true, false, false, true, true, true
+                        , Criteria.POWER_HIGH, Criteria.ACCURACY_FINE);
+            }
+            mLocationManager.setTestProviderEnabled(providerStr, true);
             SensorManager sensor_manager_original = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            controlIsFromMockProvider=true;
+            controlIsFromMockProvider = true;
             editor.putBoolean("controlIsFromMockProvider", controlIsFromMockProvider);
             editor.commit();
             NotiPrefrenceChangeUtil.refreshPrefrence();
@@ -124,6 +155,7 @@ public class NaviEmulatorActivity extends Activity
                 // TODO: handle exception
                 speedValue = 5;
             }
+            minSpeedValue = speedValue - 2;
             maxSpeedValue = speedValue + 2;
         }
         initSpeedView();
@@ -163,9 +195,25 @@ public class NaviEmulatorActivity extends Activity
             double altitude = 0;
             float bearing = 0;
             float accuracy = 0;
+            float speed = 0;
 
             private Location getLoc(String paramString,
                                     NaviInfo aMapNaviLocation) {
+                speed = speedValue / 3.6f;
+                int roomInt = (int) (Math.random() * 5) + 1;
+                int roomInt0 = (int) (Math.random() * 1) + 1;
+                if (roomInt0 % 2 == 0) {
+                    altitude -= (roomInt / 10.0f);
+                } else {
+                    altitude += (roomInt / 10.0f);
+                }
+                if (altitude < 0 || altitude > 10000) {
+                    altitude = (roomInt / 10.0f);
+                }
+                roomInt = (int) (Math.random() * 360);
+                bearing = roomInt;
+                roomInt = (int) (Math.random() * 100) + 1;
+                accuracy = 0.1f * roomInt;
                 Location localLocation = new Location(paramString);
                 HashMap<String, Double> map = (HashMap<String, Double>) Converter
                         .gcj_decrypt(aMapNaviLocation.getCoord().getLatitude(),
@@ -174,10 +222,12 @@ public class NaviEmulatorActivity extends Activity
                 localLocation.setLongitude(map.get("lon"));
                 localLocation.setAltitude(altitude);
                 localLocation.setBearing(bearing);
-                localLocation.setSpeed(aMapNaviLocation.m_CameraSpeed);
+                localLocation.setSpeed(speed);
                 localLocation.setAccuracy(accuracy);
                 localLocation.setTime(System.currentTimeMillis());
-
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    localLocation.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
+                }
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(NaviEmulatorActivity.this);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putFloat("latitude", (float) localLocation.getLatitude());
@@ -224,9 +274,34 @@ public class NaviEmulatorActivity extends Activity
 
             private Location getLoc(String paramString,
                                     AMapNaviLocation aMapNaviLocation) {
-                altitude = aMapNaviLocation.getAltitude();
-                bearing = aMapNaviLocation.getBearing();
-                accuracy = aMapNaviLocation.getAccuracy();
+                speed = speedValue / 3.6f;
+                if (aMapNaviLocation.getAltitude() <= 0) {
+                    int roomInt = (int) (Math.random() * 5) + 1;
+                    int roomInt0 = (int) (Math.random() * 1) + 1;
+                    if (roomInt0 % 2 == 0) {
+                        altitude -= (roomInt / 10.0f);
+                    } else {
+                        altitude += (roomInt / 10.0f);
+                    }
+                    if (altitude < 0 || altitude > 10000) {
+                        altitude = (roomInt / 10.0f);
+                    }
+
+                } else {
+                    altitude = aMapNaviLocation.getAltitude();
+                }
+                if (aMapNaviLocation.getBearing() <= 0) {
+                    int roomInt = (int) (Math.random() * 360);
+                    bearing = roomInt;
+                } else {
+                    bearing = aMapNaviLocation.getBearing();
+                }
+                if (aMapNaviLocation.getAccuracy() <= 0) {
+                    int roomInt = (int) (Math.random() * 100) + 1;
+                    accuracy = 0.1f * roomInt;
+                } else {
+                    accuracy = aMapNaviLocation.getAccuracy();
+                }
                 Location localLocation = new Location(paramString);
                 HashMap<String, Double> map = (HashMap<String, Double>) Converter
                         .gcj_decrypt(aMapNaviLocation.getCoord().getLatitude(),
@@ -235,10 +310,12 @@ public class NaviEmulatorActivity extends Activity
                 localLocation.setLongitude(map.get("lon"));
                 localLocation.setAltitude(altitude);
                 localLocation.setBearing(bearing);
-                localLocation.setSpeed(aMapNaviLocation.getSpeed());
+                localLocation.setSpeed(speed);
                 localLocation.setAccuracy(accuracy);
                 localLocation.setTime(System.currentTimeMillis());
-
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    localLocation.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
+                }
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(NaviEmulatorActivity.this);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putFloat("latitude", (float) localLocation.getLatitude());
@@ -256,8 +333,9 @@ public class NaviEmulatorActivity extends Activity
                 // + aMapNaviLocation.m_CameraSpeed);
                 if (mLocationManager != null) {
                     try {
-                        Location localLocation = getLoc("gps", aMapNaviLocation);
-                        mLocationManager.setTestProviderLocation("gps",
+                        Location localLocation = getLoc(LocationManager.GPS_PROVIDER, aMapNaviLocation);
+//                        Log.d("xxx", "导航位置更新2-----" + localLocation.toString() + "==" + bearing + "==" + accuracy + "==" + speed + "===" + altitude);
+                        mLocationManager.setTestProviderLocation(LocationManager.GPS_PROVIDER,
                                 localLocation);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -274,8 +352,9 @@ public class NaviEmulatorActivity extends Activity
                 // Log.d("xxx", "导航位置更新1-----" + aMapNaviLocation.toString());
                 try {
                     if (mLocationManager != null) {
-                        Location localLocation = getLoc("gps", aMapNaviLocation);
-                        mLocationManager.setTestProviderLocation("gps",
+                        Location localLocation = getLoc(LocationManager.GPS_PROVIDER, aMapNaviLocation);
+//                        Log.d("xxx", "导航位置更新1-----" + localLocation.toString() + "==" + bearing + "==" + accuracy + "==" + speed + "===" + altitude);
+                        mLocationManager.setTestProviderLocation(LocationManager.GPS_PROVIDER,
                                 localLocation);
                     } else {
                         mToast.show();
@@ -414,7 +493,7 @@ public class NaviEmulatorActivity extends Activity
         mAmapAMapNaviView.onDestroy();
         // 界面结束 停止语音播报
         TTSController.getInstance(this).stopSpeaking();
-        controlIsFromMockProvider=false;
+        controlIsFromMockProvider = false;
         SharedPreferences sharedPreferences = getSharedPreferences(getPackageName() + "_preferences",
                 Activity.MODE_MULTI_PROCESS);
         SharedPreferences.Editor editor = sharedPreferences.edit();
