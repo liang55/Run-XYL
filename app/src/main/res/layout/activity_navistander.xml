@@ -54,5 +54,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:padding="5dp"
-        android:text="关于" />
+        android:text="关于"
+        android:visibility="gone"/>
 </RelativeLayout>
