@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <com.amap.api.navi.AMapNaviView
         android:id="@+id/standernavimap"
@@ -9,13 +9,14 @@
         android:layout_height="match_parent" />
 
     <LinearLayout
+        android:id="@+id/emulator_speed_value_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_marginTop="100dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="5dp" 
-        android:layout_marginTop="100dp">
+        android:padding="5dp">
 
         <ImageView
             android:id="@+id/speed_value_add_bt"
@@ -37,4 +38,21 @@
             android:background="@drawable/speed_value_des_bg_selector" />
     </LinearLayout>
 
+    <CheckBox
+        android:id="@+id/emulator_altitude_cb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/emulator_speed_value_view"
+        android:layout_gravity="center_horizontal"
+        android:text="模拟海拔"
+        android:checked="true"/>
+
+    <TextView
+        android:id="@+id/emulator_about_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:padding="5dp"
+        android:text="关于" />
 </RelativeLayout>

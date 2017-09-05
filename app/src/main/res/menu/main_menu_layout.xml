@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/baoli_button"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="模拟步数"/>
+    <item
+        android:id="@+id/yodo_button"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="悦动步数"/>
+    <item
+        android:id="@+id/samsung_step_button"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="三星健康步数"/>
     <item
         android:id="@+id/aboutItem"
         android:orderInCategory="100"
-        app:showAsAction="always"
+        android:showAsAction="never"
         android:title="关于"/>
 </menu>

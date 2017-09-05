@@ -24,7 +24,7 @@
     <string name="navi_end">"终    点"</string>
     <string name="navi_strategy">"策    略"</string>
     <string name="navi_route">导航模式</string>
-    <string name="navi_navi">模拟跑步</string>
+    <string name="navi_navi">开始模拟跑步</string>
     <string name="start_navi_navi">实时导航</string>
     <string name="navi_strategy_speed">速度最快</string>
     <string name="navi_strategy_cost">避免收费</string>
@@ -337,4 +337,25 @@
     <string name="simoperators_default">AT&amp;T</string>
     <string name="networkoperators_default">AT&amp;T Mobility</string>
     <string name="essid_default">"&quot;Wireless&quot;"</string>
+
+
+    <string name="desc">Daily Step Count</string>
+    <string name="title1">Total</string>
+    <string name="unit1">Steps</string>
+
+    <string name="move_before">Move Day Before</string>
+    <string name="move_next">Move Day Next</string>
+
+    <string name="ok">OK</string>
+
+    <string name="connect_to_shealth">连接三星健康</string>
+
+    <string name="notice">Notice</string>
+    <string name="msg_perm_acquired">All permissions should be acquired</string>
+    <string name="msg_conn_not_available">Connection with Samsung Health is not available</string>
+    <string name="msg_req_install">Please install Samsung Health</string>
+    <string name="msg_req_upgrade">Please upgrade Samsung Health</string>
+    <string name="msg_req_enable">Please enable Samsung Health</string>
+    <string name="msg_req_agree">Please agree with Samsung Health policy</string>
+    <string name="msg_req_available">Please make Samsung Health available</string>
 </resources>

@@ -278,7 +278,7 @@
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/navi_route_button"
@@ -288,40 +288,13 @@
                         android:paddingTop="@dimen/margin_top"
                         android:text="步数加倍"
                         android:textSize="14sp"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
+
 
                     <View
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_weight="1" />
-
-                    <Button
-                        android:id="@+id/yodo_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/navibar_button_height"
-                        android:paddingBottom="@dimen/margin_bottom"
-                        android:paddingTop="@dimen/margin_top"
-                        android:text="增加悦动步数"
-                        android:textSize="14sp" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
-
-                    <Button
-                        android:id="@+id/baoli_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/navibar_button_height"
-                        android:paddingBottom="@dimen/margin_bottom"
-                        android:paddingTop="@dimen/margin_top"
-                        android:text="模拟步数"
-                        android:textSize="14sp"/>
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>

@@ -2,6 +2,7 @@ package com.anjoyo.xyl.run.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.hardware.SensorManager;
 import android.location.Criteria;
@@ -16,8 +17,12 @@ import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +60,8 @@ public class NaviEmulatorActivity extends Activity
     private ImageView addBt, desBt;
     private Toast mToast;
     private boolean controlIsFromMockProvider;
+    private boolean altitudeOpen;
+    private CheckBox altitudeCb;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -137,11 +144,24 @@ public class NaviEmulatorActivity extends Activity
      * @param savedInstanceState
      */
     private void init(Bundle savedInstanceState) {
+        altitudeCb = (CheckBox) findViewById(R.id.emulator_altitude_cb);
+        altitudeCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                altitudeOpen = b;
+            }
+        });
         speedTv = (TextView) findViewById(R.id.speed_value_tv);
         addBt = (ImageView) findViewById(R.id.speed_value_add_bt);
         desBt = (ImageView) findViewById(R.id.speed_value_des_bt);
         addBt.setOnClickListener(this);
         desBt.setOnClickListener(this);
+        findViewById(R.id.emulator_about_tv).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(NaviEmulatorActivity.this, LocationMainActivity.class));
+            }
+        });
         mAmapAMapNaviView = (AMapNaviView) findViewById(R.id.standernavimap);
         mAmapAMapNaviView.onCreate(savedInstanceState);
         mAmapAMapNaviView.setAMapNaviViewListener(this);// 语音播报开始
@@ -200,17 +220,19 @@ public class NaviEmulatorActivity extends Activity
             private Location getLoc(String paramString,
                                     NaviInfo aMapNaviLocation) {
                 speed = speedValue / 3.6f;
-                int roomInt = (int) (Math.random() * 5) + 1;
-                int roomInt0 = (int) (Math.random() * 1) + 1;
-                if (roomInt0 % 2 == 0) {
-                    altitude -= (roomInt / 10.0f);
-                } else {
-                    altitude += (roomInt / 10.0f);
+                if (altitudeOpen) {
+                    int roomInt = (int) (Math.random() * 5) + 1;
+                    int roomInt0 = (int) (Math.random() * 1) + 1;
+                    if (roomInt0 % 2 == 0) {
+                        altitude -= (roomInt / 10.0f);
+                    } else {
+                        altitude += (roomInt / 10.0f);
+                    }
+                    if (altitude < 0 || altitude > 10000) {
+                        altitude = (roomInt / 10.0f);
+                    }
                 }
-                if (altitude < 0 || altitude > 10000) {
-                    altitude = (roomInt / 10.0f);
-                }
-                roomInt = (int) (Math.random() * 360);
+                int roomInt = (int) (Math.random() * 360);
                 bearing = roomInt;
                 roomInt = (int) (Math.random() * 100) + 1;
                 accuracy = 0.1f * roomInt;
@@ -275,7 +297,7 @@ public class NaviEmulatorActivity extends Activity
             private Location getLoc(String paramString,
                                     AMapNaviLocation aMapNaviLocation) {
                 speed = speedValue / 3.6f;
-                if (aMapNaviLocation.getAltitude() <= 0) {
+                if (altitudeOpen&&aMapNaviLocation.getAltitude() <= 0) {
                     int roomInt = (int) (Math.random() * 5) + 1;
                     int roomInt0 = (int) (Math.random() * 1) + 1;
                     if (roomInt0 % 2 == 0) {
@@ -557,5 +579,4 @@ public class NaviEmulatorActivity extends Activity
             desBt.setEnabled(true);
         }
     }
-
 }

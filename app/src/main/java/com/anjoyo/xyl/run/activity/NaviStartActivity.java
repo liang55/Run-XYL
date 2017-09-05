@@ -203,6 +203,18 @@ public class NaviStartActivity extends AppCompatActivity
             case R.id.aboutItem:
                 startActivity(new Intent(NaviStartActivity.this,AboutActivity.class));
                 break;
+            case R.id.yodo_button:
+                Intent intent = new Intent(NaviStartActivity.this, SetYoDoNumActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.baoli_button:
+                intent = new Intent(NaviStartActivity.this, FixStepsActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.samsung_step_button:
+                intent = new Intent(NaviStartActivity.this, SamsungStepActivity.class);
+                startActivity(intent);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -416,20 +428,6 @@ public class NaviStartActivity extends AppCompatActivity
         mAmap.setOnMapClickListener(this);
         // 起点下拉框点击事件监听
         mStartPointText.setOnItemClickListener(getOnItemClickListener());
-        findViewById(R.id.yodo_button).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(NaviStartActivity.this, SetYoDoNumActivity.class);
-                startActivity(intent);
-            }
-        });
-        findViewById(R.id.baoli_button).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(NaviStartActivity.this, FixStepsActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     /**

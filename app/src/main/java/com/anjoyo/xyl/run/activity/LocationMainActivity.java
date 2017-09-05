@@ -5,13 +5,19 @@ package com.anjoyo.xyl.run.activity;
  * TODO
  */
 import android.app.Activity;
-        import android.content.Context;
-        import android.content.SharedPreferences.Editor;
+import android.app.AlertDialog;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences.Editor;
         import android.content.SharedPreferences;
         import android.os.Bundle;
+import android.widget.Toast;
 
 import com.anjoyo.xyl.run.R;
 import com.anjoyo.xyl.run.hookgps.dn;
+import com.anjoyo.xyl.run.util.NotiPrefrenceChangeUtil;
 
 public class LocationMainActivity extends Activity {
     public static int[] a;
@@ -57,6 +63,26 @@ public class LocationMainActivity extends Activity {
         this.d = ((Context)this);
         setContentView(R.layout.activity_main);
         this.getFragmentManager().beginTransaction().replace(R.id.container, new LocationSettingsFragment()).commit();
+        if (!NotiPrefrenceChangeUtil.isModuleActive()) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setNegativeButton("打开框架", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    try{
+                        ComponentName componentName = new ComponentName("de.robv.android.xposed.installer", "de.robv.android.xposed.installer.WelcomeActivity");
+                        Intent intent = new Intent();
+                        intent.setComponent(componentName);
+                        startActivity(intent);
+                    }catch (Exception e){
+                        Toast.makeText(getApplicationContext(), "打开X框架失败", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            builder.setTitle("提示");
+            builder.setPositiveButton("忽略",null);
+            builder.setMessage("模块尚未激活，前往Xposed框架的模块列表重新勾选并重启手机，否则模块不生效！");
+            builder.show();
+        }
     }
 
     protected void onDestroy() {
