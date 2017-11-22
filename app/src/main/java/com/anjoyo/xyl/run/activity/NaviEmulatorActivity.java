@@ -434,7 +434,7 @@ public class NaviEmulatorActivity extends Activity
 //                 + aMapNaviLocation.m_CameraSpeed);
                 if (mLocationManager != null && aMapNaviLocation.getCoord() != null) {
                     Location localLocation = getLoc(LocationManager.GPS_PROVIDER, aMapNaviLocation);
-                    Log.d("xxx", "导航位置更新2-----" + localLocation.toString() + "==" + bearing + "==" + accuracy + "==" + speed + "===" + altitude);
+//                    Log.d("xxx", "导航位置更新2-----" + localLocation.toString() + "==" + bearing + "==" + accuracy + "==" + speed + "===" + altitude);
                     try {
                         mLocationManager.setTestProviderLocation(LocationManager.GPS_PROVIDER,
                                 localLocation);
@@ -449,11 +449,11 @@ public class NaviEmulatorActivity extends Activity
             @Override
             public void onLocationChange(AMapNaviLocation aMapNaviLocation) {
                 // TODO Auto-generated method stub
-                Log.d("xxx", "导航位置更新1-----" + aMapNaviLocation.toString());
+//                Log.d("xxx", "导航位置更新1-----" + aMapNaviLocation.toString());
 
                 if (mLocationManager != null) {
                     Location localLocation = getLoc(LocationManager.GPS_PROVIDER, aMapNaviLocation);
-                    Log.d("xxx", "导航位置更新1-----" + localLocation.toString() + "==" + bearing + "==" + accuracy + "==" + speed + "===" + altitude);
+//                    Log.d("xxx", "导航位置更新1-----" + localLocation.toString() + "==" + bearing + "==" + accuracy + "==" + speed + "===" + altitude);
                     try {
                         mLocationManager.setTestProviderLocation(LocationManager.GPS_PROVIDER,
                                 localLocation);
