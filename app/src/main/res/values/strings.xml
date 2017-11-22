@@ -15,6 +15,7 @@
     <string name="navibar_title">路径规划</string>
     <string name="navi_car">驾车</string>
     <string name="navi_foot">步行</string>
+    <string name="navi_ride">骑行</string>
     <string name="start_hud_navi">HUD显示</string>
     <string name="complex_function">综合展示</string>
     <string name="navi_empty_car">"驾   车"</string>

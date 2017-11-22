@@ -125,7 +125,7 @@ public class NaviStartActivity extends AppCompatActivity
     private int mTravelMethod = DRIVER_NAVI_METHOD;
     private static final int DRIVER_NAVI_METHOD = 0;// 驾车导航
     private static final int WALK_NAVI_METHOD = 1;// 步行导航
-
+    private static final int  RIDE_NAVI_METHOD=2;//骑行导航
     private int mNaviMethod;
     private static final int NAVI_METHOD = 0;// 执行模拟导航操作
     private static final int ROUTE_METHOD = 1;// 执行计算线路操作
@@ -265,9 +265,19 @@ public class NaviStartActivity extends AppCompatActivity
             case WALK_NAVI_METHOD:
                 int walkIndex = calculateWalkRoute();
                 if (walkIndex == CALCULATEERROR) {
-                    showToast("路线计算失败,检查参数情况");
+                    showToast("路线计算失败,检查参数情况,距离超过100公里时会失败。");
                     return;
                 } else if (walkIndex == GPSNO) {
+                    return;
+                }
+                break;
+            // 骑行导航
+            case RIDE_NAVI_METHOD:
+                int ridendex = calculateRideRoute();
+                if (ridendex == CALCULATEERROR) {
+                    showToast("路线计算失败,检查参数情况,距离超过100公里时会失败。");
+                    return;
+                } else if (ridendex == GPSNO) {
                     return;
                 }
                 break;
@@ -300,6 +310,21 @@ public class NaviStartActivity extends AppCompatActivity
     private int calculateWalkRoute() {
         int code = CALCULATEERROR;
         if (mAmapNavi.calculateWalkRoute(mStartPoint, mEndPoint)) {
+            code = CALCULATESUCCESS;
+        } else {
+
+            code = CALCULATEERROR;
+        }
+
+        return code;
+    }
+
+    /**
+     * 对骑行路线进行规划
+     */
+    private int calculateRideRoute() {
+        int code = CALCULATEERROR;
+        if (mAmapNavi.calculateRideRoute(mStartPoint, mEndPoint)) {
             code = CALCULATESUCCESS;
         } else {
 
@@ -555,6 +580,16 @@ public class NaviStartActivity extends AppCompatActivity
             // 步行导航模式
             case R.id.navi_walk_button:
                 mTravelMethod = WALK_NAVI_METHOD;
+                mWayPointText.setEnabled(false);
+                // mStrategyText.setEnabled(false);
+                mWayImage.setEnabled(false);
+                // mStrategyImage.setEnabled(false);
+                mWayMarker.setPosition(null);
+                mWayPoints.clear();
+                break;
+            // 骑行导航模式
+            case R.id.ride_walk_button:
+                mTravelMethod = RIDE_NAVI_METHOD;
                 mWayPointText.setEnabled(false);
                 // mStrategyText.setEnabled(false);
                 mWayImage.setEnabled(false);

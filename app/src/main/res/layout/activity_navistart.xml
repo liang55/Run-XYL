@@ -41,6 +41,15 @@
                     android:text="@string/navi_foot"
                     android:textColor="@color/black"
                     android:textSize="@dimen/navibar_text_size" />
+                <RadioButton
+                    android:id="@+id/ride_walk_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/navibar_margin_method"
+                    android:checked="false"
+                    android:text="@string/navi_ride"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/navibar_text_size" />
             </RadioGroup>
         </RelativeLayout>
 
