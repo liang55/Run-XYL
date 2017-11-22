@@ -1,32 +1,106 @@
 package com.anjoyo.xyl.run;
 
 import android.content.Context;
-import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 
 import com.amap.api.navi.AMapNaviListener;
+import com.amap.api.navi.model.AMapLaneInfo;
+import com.amap.api.navi.model.AMapNaviCameraInfo;
+import com.amap.api.navi.model.AMapNaviCross;
 import com.amap.api.navi.model.AMapNaviInfo;
 import com.amap.api.navi.model.AMapNaviLocation;
+import com.amap.api.navi.model.AMapNaviTrafficFacilityInfo;
+import com.amap.api.navi.model.AMapServiceAreaInfo;
+import com.amap.api.navi.model.AimLessModeCongestionInfo;
+import com.amap.api.navi.model.AimLessModeStat;
 import com.amap.api.navi.model.NaviInfo;
-import com.iflytek.cloud.speech.SpeechConstant;
-import com.iflytek.cloud.speech.SpeechError;
-import com.iflytek.cloud.speech.SpeechListener;
-import com.iflytek.cloud.speech.SpeechSynthesizer;
-import com.iflytek.cloud.speech.SpeechUser;
-import com.iflytek.cloud.speech.SynthesizerListener;
+import com.anjoyo.xyl.run.util.ICallBack;
+import com.anjoyo.xyl.run.util.IFlyTTS;
+import com.anjoyo.xyl.run.util.SystemTTS;
+import com.anjoyo.xyl.run.util.TTS;
+import com.autonavi.tbt.TrafficFacilityInfo;
+
+import java.util.LinkedList;
 
 /**
- * 语音播报组件
- *
+ * 当前DEMO的播报方式是队列模式。其原理就是依次将需要播报的语音放入链表中，播报过程是从头开始依次往后播报。
+ * <p>
+ * 导航SDK原则上是不提供语音播报模块的，如果您觉得此种播报方式不能满足你的需求，请自行优化或改进。
  */
-public class TTSController implements SynthesizerListener, AMapNaviListener {
+public class TTSController implements AMapNaviListener, ICallBack {
+
+
+	@Override
+	public void onCompleted(int code) {
+		if (handler != null) {
+			handler.obtainMessage(1).sendToTarget();
+		}
+	}
+
+	public static enum TTSType {
+		/**
+		 * 讯飞语音
+		 */
+		IFLYTTS,
+		/**
+		 * 系统语音
+		 */
+		SYSTEMTTS;
+	}
 
 	public static TTSController ttsManager;
 	private Context mContext;
-	// 合成对象.
-	private SpeechSynthesizer mSpeechSynthesizer;
+	private TTS tts = null;
+	private SystemTTS systemTTS;
+	private IFlyTTS iflyTTS = null;
+	private LinkedList<String> wordList = new LinkedList<String>();
+	private final int TTS_PLAY = 1;
+	private final int CHECK_TTS_PLAY = 2;
+	private Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			switch (msg.what) {
+				case TTS_PLAY:
+					if (tts != null && wordList.size() > 0) {
+						tts.playText(wordList.removeFirst());
+					}
+					break;
+				case CHECK_TTS_PLAY:
+					if (!tts.isPlaying()) {
+						handler.obtainMessage(1).sendToTarget();
+					}
+					break;
+			}
 
-	TTSController(Context context) {
-		mContext = context;
+		}
+	};
+
+	public void setTTSType(TTSType type) {
+		if (type == TTSType.SYSTEMTTS) {
+			tts = systemTTS;
+		} else {
+			tts = iflyTTS;
+		}
+		tts.setCallback(this);
+	}
+
+	private TTSController(Context context) {
+		mContext = context.getApplicationContext();
+		systemTTS = SystemTTS.getInstance(mContext);
+		iflyTTS = IFlyTTS.getInstance(mContext);
+		tts = iflyTTS;
+	}
+
+	public void init() {
+		if (systemTTS != null) {
+			systemTTS.init();
+		}
+		if (iflyTTS != null) {
+			iflyTTS.init();
+		}
+		tts.setCallback(this);
 	}
 
 	public static TTSController getInstance(Context context) {
@@ -36,216 +110,177 @@ public class TTSController implements SynthesizerListener, AMapNaviListener {
 		return ttsManager;
 	}
 
-	public void init() {
-		SpeechUser.getUser().login(mContext, null, null,
-				"appid=" + mContext.getString(R.string.app_id), listener);
-		// 初始化合成对象.
-		mSpeechSynthesizer = SpeechSynthesizer.createSynthesizer(mContext);
-		initSpeechSynthesizer();
-	}
-
-	/**
-	 * 使用SpeechSynthesizer合成语音，不弹出合成Dialog.
-	 * 
-	 * @param
-	 */
-	public void playText(String playText) {
-		if (!isfinish) {
-			return;
-		}
-		if (null == mSpeechSynthesizer) {
-			// 创建合成对象.
-			mSpeechSynthesizer = SpeechSynthesizer.createSynthesizer(mContext);
-			initSpeechSynthesizer();
-		}
-		// 进行语音合成.
-		mSpeechSynthesizer.startSpeaking(playText, this);
-
-	}
-
 	public void stopSpeaking() {
-		if (mSpeechSynthesizer != null)
-			mSpeechSynthesizer.stopSpeaking();
-	}
-	public void startSpeaking() {
-		 isfinish=true;
-	}
-
-	private void initSpeechSynthesizer() {
-		// 设置发音人
-		mSpeechSynthesizer.setParameter(SpeechConstant.VOICE_NAME,
-				mContext.getString(R.string.preference_default_tts_role));
-		// 设置语速
-		mSpeechSynthesizer.setParameter(SpeechConstant.SPEED,
-				"" + mContext.getString(R.string.preference_key_tts_speed));
-		// 设置音量
-		mSpeechSynthesizer.setParameter(SpeechConstant.VOLUME,
-				"" + mContext.getString(R.string.preference_key_tts_volume));
-		// 设置语调
-		mSpeechSynthesizer.setParameter(SpeechConstant.PITCH,
-				"" + mContext.getString(R.string.preference_key_tts_pitch));
-
-	}
-
-	/**
-	 * 用户登录回调监听器.
-	 */
-	private SpeechListener listener = new SpeechListener() {
-
-		@Override
-		public void onData(byte[] arg0) {
+		if (systemTTS != null) {
+			systemTTS.stopSpeak();
 		}
-
-		@Override
-		public void onCompleted(SpeechError error) {
-			if (error != null) {
-
-			}
+		if (iflyTTS != null) {
+			iflyTTS.stopSpeak();
 		}
-
-		@Override
-		public void onEvent(int arg0, Bundle arg1) {
-		}
-	};
-
-	@Override
-	public void onBufferProgress(int arg0, int arg1, int arg2, String arg3) {
-		// TODO Auto-generated method stub
-
-	}
-
-	boolean isfinish = true;
-
-	@Override
-	public void onCompleted(SpeechError arg0) {
-		// TODO Auto-generated method stub
-		isfinish = true;
-	}
-
-	@Override
-	public void onSpeakBegin() {
-		// TODO Auto-generated method stub
-		isfinish = false;
-
-	}
-
-	@Override
-	public void onSpeakPaused() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onSpeakProgress(int arg0, int arg1, int arg2) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onSpeakResumed() {
-		// TODO Auto-generated method stub
-
+		wordList.clear();
 	}
 
 	public void destroy() {
-		if (mSpeechSynthesizer != null) {
-			mSpeechSynthesizer.stopSpeaking();
+		if (systemTTS != null) {
+			systemTTS.destroy();
 		}
+		if (iflyTTS != null) {
+			iflyTTS.destroy();
+		}
+		ttsManager = null;
 	}
+
+	/****************************************************************************
+	 * 以下都是导航相关接口
+	 ****************************************************************************/
+
 
 	@Override
 	public void onArriveDestination() {
-		// TODO Auto-generated method stub
-		this.playText("到达目的地");
 	}
 
 	@Override
 	public void onArrivedWayPoint(int arg0) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public void onCalculateRouteFailure(int arg0) {
-		 this.playText("路径计算失败，请检查网络或输入参数");
-	}
-
-	@Override
-	public void onCalculateRouteSuccess() {
-		String calculateResult = "路径计算就绪";
-
-		this.playText(calculateResult);
+		if (wordList != null)
+			wordList.addLast("路线规划失败");
 	}
 
 	@Override
 	public void onEndEmulatorNavi() {
-		this.playText("导航结束");
-
 	}
 
 	@Override
 	public void onGetNavigationText(int arg0, String arg1) {
-		// TODO Auto-generated method stub
-		this.playText(arg1);
 	}
+
 
 	@Override
 	public void onInitNaviFailure() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onInitNaviSuccess() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onLocationChange(AMapNaviLocation arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onReCalculateRouteForTrafficJam() {
-		// TODO Auto-generated method stub
-		this.playText("前方路线拥堵，路线重新规划");
+		if (wordList != null)
+			wordList.addLast("前方路线拥堵，路线重新规划");
 	}
 
 	@Override
 	public void onReCalculateRouteForYaw() {
-
-		this.playText("您已偏航");
+		if (wordList != null)
+			wordList.addLast("路线重新规划");
 	}
 
 	@Override
 	public void onStartNavi(int arg0) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onTrafficStatusUpdate() {
-		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void onGpsOpenStatus(boolean enabled) {
+	}
+
+	@Override
+	public void onNaviInfoUpdate(NaviInfo naviinfo) {
 
 	}
 
 	@Override
-	public void onGpsOpenStatus(boolean arg0) {
-		// TODO Auto-generated method stub
+	public void onNaviInfoUpdated(AMapNaviInfo aMapNaviInfo) {
 
 	}
 
 	@Override
-	public void onNaviInfoUpdated(AMapNaviInfo arg0) {
-		// TODO Auto-generated method stub
-		
+	public void updateCameraInfo(AMapNaviCameraInfo[] infoArray) {
+
 	}
 
 	@Override
-	public void onNaviInfoUpdate(NaviInfo arg0) {
-		  
-		// TODO Auto-generated method stub  
-		
+	public void onServiceAreaUpdate(AMapServiceAreaInfo[] infoArray) {
+
+	}
+
+	@Override
+	public void showCross(AMapNaviCross aMapNaviCross) {
+
+	}
+
+	@Override
+	public void hideCross() {
+
+	}
+
+	@Override
+	public void showLaneInfo(AMapLaneInfo[] laneInfos, byte[] laneBackgroundInfo, byte[] laneRecommendedInfo) {
+
+	}
+
+
+	@Override
+	public void hideLaneInfo() {
+
+	}
+
+	@Override
+	public void onCalculateRouteSuccess(int[] routeIds) {
+
+	}
+
+	@Override
+	public void notifyParallelRoad(int parallelRoadType) {
+
+	}
+
+	@Override
+	public void OnUpdateTrafficFacility(AMapNaviTrafficFacilityInfo aMapNaviTrafficFacilityInfo) {
+
+	}
+
+	@Override
+	public void OnUpdateTrafficFacility(AMapNaviTrafficFacilityInfo[] infos) {
+
+	}
+
+
+	@Override
+	public void updateAimlessModeStatistics(AimLessModeStat aimLessModeStat) {
+
+	}
+
+	@Override
+	public void updateAimlessModeCongestionInfo(AimLessModeCongestionInfo aimLessModeCongestionInfo) {
+
+	}
+
+	@Override
+	public void onPlayRing(int type) {
+
+	}
+
+	@Override
+	public void onGetNavigationText(String playText) {
+		if (wordList != null)
+			wordList.addLast(playText);
+		handler.obtainMessage(CHECK_TTS_PLAY).sendToTarget();
+	}
+
+	@Override
+	@Deprecated
+	public void OnUpdateTrafficFacility(TrafficFacilityInfo arg0) {
+
 	}
 }

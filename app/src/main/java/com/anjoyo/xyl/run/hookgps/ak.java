@@ -33,7 +33,7 @@ class ak extends Handler {
                     v1.invoke(this.a.a, ah.a(ah.b(this.a)));
                     v2.invoke(this.a.a, "gps", Integer.valueOf(2), v0);
                 } catch (Exception v0_1) {
-                    dn.a(((Throwable) v0_1));
+                    dn.log(((Throwable) v0_1));
                 }
             }
         }

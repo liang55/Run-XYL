@@ -9,16 +9,21 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.ApplicationInfo;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
+
+import com.anjoyo.xyl.run.R;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,7 +36,7 @@ public class dn {
     private Editor e;
 
     static {
-        b = new int[]{-16777216, -16776961, -16711681, -7829368, -16711936, -65281, -65536, -1, -256};
+        b = new int[]{Color.BLACK,Color.BLUE,Color.CYAN, Color.GRAY,Color.GREEN, Color.MAGENTA, Color.RED, Color.WHITE, Color.YELLOW};
         a = new Locale("en");
     }
 
@@ -58,12 +63,12 @@ public class dn {
 
     public static void a(Context context) {
         Intent intent = new Intent();
-        intent.setAction("xyl");
+        intent.setAction("xyl_fix_location");
         intent.putExtra("changed", "1");
         context.sendBroadcast(intent);
     }
 
-    public static void a(Context context, int i) {
+    public static void showToast(Context context, int i) {
         Toast.makeText(context, i, Toast.LENGTH_SHORT).show();
     }
 
@@ -71,7 +76,7 @@ public class dn {
         ((ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("xyl", str));
     }
 
-    public static void a(Throwable th) {
+    public static void log(Throwable th) {
         Log.e("xyl", Log.getStackTraceString(th));
     }
 
@@ -115,11 +120,13 @@ public class dn {
                 i3 = (i3 != 0 || str.contains(charSequence22)) ? 1 : 0;
             }
         }
+        Log.d("xyl","keyps==="+str+"=="+str2+"=="+str3+"=="+str4);
         if (!(i == 0 && i2 == 0 && i3 == 0)) {
             String str5 = i != 0 ? "0" : i2 != 0 ? "1" : "2";
             strArr[0] = str5;
             String str6 = i != 0 ? "1" : i2 != 0 ? "2" : "3";
             strArr[1] = str6;
+            Log.d("xyl","keyps==="+str5+"=="+str6);
         }
         return strArr;
     }
@@ -445,11 +452,11 @@ public class dn {
             } else if (e(a())) {
                 return true;
             } else {
-                a(this.c, 2131099722);
+                showToast(this.c, R.string.ishasloc);
                 return false;
             }
         }
-        a(this.c, 2131099723);
+        showToast(this.c, R.string.ishasloc);
         return false;
     }
 

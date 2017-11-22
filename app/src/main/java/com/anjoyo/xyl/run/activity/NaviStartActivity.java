@@ -41,14 +41,22 @@ import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.navi.AMapNavi;
 import com.amap.api.navi.AMapNaviListener;
+import com.amap.api.navi.enums.PathPlanningStrategy;
+import com.amap.api.navi.model.AMapLaneInfo;
+import com.amap.api.navi.model.AMapNaviCameraInfo;
+import com.amap.api.navi.model.AMapNaviCross;
 import com.amap.api.navi.model.AMapNaviInfo;
 import com.amap.api.navi.model.AMapNaviLocation;
+import com.amap.api.navi.model.AMapNaviTrafficFacilityInfo;
+import com.amap.api.navi.model.AMapServiceAreaInfo;
+import com.amap.api.navi.model.AimLessModeCongestionInfo;
+import com.amap.api.navi.model.AimLessModeStat;
 import com.amap.api.navi.model.NaviInfo;
 import com.amap.api.navi.model.NaviLatLng;
 import com.anjoyo.xyl.run.BuildConfig;
 import com.anjoyo.xyl.run.MainApplication;
 import com.anjoyo.xyl.run.R;
-import com.anjoyo.xyl.run.TTSController;
+import com.autonavi.tbt.TrafficFacilityInfo;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.umeng.analytics.MobclickAgent;
@@ -308,7 +316,7 @@ public class NaviStartActivity extends AppCompatActivity
         // String strategyMethod = mStrategyText.getText().toString();
         // 速度优先
         // if (mStrategyMethods[0].equals(strategyMethod)) {
-        return AMapNavi.DrivingDefault;
+        return PathPlanningStrategy.DRIVING_DEFAULT;
         // }
         // // 花费最少
         // else if (mStrategyMethods[1].equals(strategyMethod)) {
@@ -692,26 +700,15 @@ public class NaviStartActivity extends AppCompatActivity
                 }
 
                 @Override
-                public void onEndEmulatorNavi() {
-                    // TODO Auto-generated method stub
+                public void onGetNavigationText(String s) {
 
                 }
 
                 @Override
-                public void onCalculateRouteSuccess() {
-                    dissmissProgressDialog();
-//                    if (mInterstitialAd.isLoaded()) {
-//                        mInterstitialAd.show();
-//                    } else {
-                        Intent standIntent = new Intent(NaviStartActivity.this,
-                                NaviEmulatorActivity.class);
-                        standIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                        standIntent.putExtra("speedValue", mSpeedText.getText()
-                                .toString());
-                        startActivity(standIntent);
-//                    }
-                }
+                public void onEndEmulatorNavi() {
+                    // TODO Auto-generated method stub
 
+                }
                 @Override
                 public void onCalculateRouteFailure(int arg0) {
                     dissmissProgressDialog();
@@ -739,6 +736,86 @@ public class NaviStartActivity extends AppCompatActivity
                 @Override
                 public void onNaviInfoUpdated(AMapNaviInfo arg0) {
                     // TODO Auto-generated method stub
+
+                }
+
+                @Override
+                public void updateCameraInfo(AMapNaviCameraInfo[] aMapNaviCameraInfos) {
+
+                }
+
+                @Override
+                public void onServiceAreaUpdate(AMapServiceAreaInfo[] aMapServiceAreaInfos) {
+
+                }
+
+                @Override
+                public void showCross(AMapNaviCross aMapNaviCross) {
+
+                }
+
+                @Override
+                public void hideCross() {
+
+                }
+
+                @Override
+                public void showLaneInfo(AMapLaneInfo[] aMapLaneInfos, byte[] bytes, byte[] bytes1) {
+
+                }
+
+                @Override
+                public void hideLaneInfo() {
+
+                }
+
+                @Override
+                public void onCalculateRouteSuccess(int[] ints) {
+                    dissmissProgressDialog();
+//                    if (mInterstitialAd.isLoaded()) {
+//                        mInterstitialAd.show();
+//                    } else {
+                    Intent standIntent = new Intent(NaviStartActivity.this,
+                            NaviEmulatorActivity.class);
+                    standIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    standIntent.putExtra("speedValue", mSpeedText.getText()
+                            .toString());
+                    startActivity(standIntent);
+//                    }
+                }
+
+                @Override
+                public void notifyParallelRoad(int i) {
+
+                }
+
+                @Override
+                public void OnUpdateTrafficFacility(AMapNaviTrafficFacilityInfo aMapNaviTrafficFacilityInfo) {
+
+                }
+
+                @Override
+                public void OnUpdateTrafficFacility(AMapNaviTrafficFacilityInfo[] aMapNaviTrafficFacilityInfos) {
+
+                }
+
+                @Override
+                public void OnUpdateTrafficFacility(TrafficFacilityInfo trafficFacilityInfo) {
+
+                }
+
+                @Override
+                public void updateAimlessModeStatistics(AimLessModeStat aimLessModeStat) {
+
+                }
+
+                @Override
+                public void updateAimlessModeCongestionInfo(AimLessModeCongestionInfo aimLessModeCongestionInfo) {
+
+                }
+
+                @Override
+                public void onPlayRing(int i) {
 
                 }
 
@@ -838,7 +915,6 @@ public class NaviStartActivity extends AppCompatActivity
         // 以上两句必须重写
         // 以下两句逻辑是为了保证进入首页开启定位和加入导航回调
         AMapNavi.getInstance(this).setAMapNaviListener(getAMapNaviListener());
-        TTSController.getInstance(this).startSpeaking();
         MobclickAgent.onResume(this);
 
     }

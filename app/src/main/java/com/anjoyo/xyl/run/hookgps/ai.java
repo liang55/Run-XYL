@@ -74,7 +74,7 @@ final class ai extends XC_MethodHook {
                 arg13.setResult(v0);
             }
             catch(Exception v0_1) {
-                dn.a(((Throwable)v0_1));
+                dn.log(((Throwable)v0_1));
             }
         }
     }

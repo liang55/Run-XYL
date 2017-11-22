@@ -68,7 +68,7 @@
     <string name="routeinfo_3">"分钟    收费"</string>
     <string name="routeinfo_4">元</string>
     <string name="routeinfo_default">--</string>
-    <string name="app_id">输入您讯飞的appid</string>
+    <string name="app_id">5a14ea97</string>
     <string name="mypoistion">我的位置</string>
     <string name="mappoistion">地图点选</string>
     <string name="positioninfo">位置信息</string>

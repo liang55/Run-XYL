@@ -27,7 +27,7 @@ class an extends Handler {
                         break;
                     }
                 } catch (Throwable e) {
-                    dn.a(e);
+                    dn.log(e);
                     break;
                 }
                 break;

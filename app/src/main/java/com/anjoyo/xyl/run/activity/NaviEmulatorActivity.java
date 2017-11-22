@@ -17,8 +17,6 @@ import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
@@ -31,14 +29,23 @@ import com.amap.api.navi.AMapNavi;
 import com.amap.api.navi.AMapNaviListener;
 import com.amap.api.navi.AMapNaviView;
 import com.amap.api.navi.AMapNaviViewListener;
+import com.amap.api.navi.enums.NaviType;
+import com.amap.api.navi.model.AMapLaneInfo;
+import com.amap.api.navi.model.AMapNaviCameraInfo;
+import com.amap.api.navi.model.AMapNaviCross;
 import com.amap.api.navi.model.AMapNaviInfo;
 import com.amap.api.navi.model.AMapNaviLocation;
+import com.amap.api.navi.model.AMapNaviTrafficFacilityInfo;
+import com.amap.api.navi.model.AMapServiceAreaInfo;
+import com.amap.api.navi.model.AimLessModeCongestionInfo;
+import com.amap.api.navi.model.AimLessModeStat;
 import com.amap.api.navi.model.NaviInfo;
 import com.anjoyo.xyl.run.MainApplication;
 import com.anjoyo.xyl.run.R;
 import com.anjoyo.xyl.run.TTSController;
 import com.anjoyo.xyl.run.util.Converter;
 import com.anjoyo.xyl.run.util.NotiPrefrenceChangeUtil;
+import com.autonavi.tbt.TrafficFacilityInfo;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashMap;
@@ -62,6 +69,7 @@ public class NaviEmulatorActivity extends Activity
     private boolean controlIsFromMockProvider;
     private boolean altitudeOpen;
     private CheckBox altitudeCb;
+    private TTSController mTtsManager;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -165,7 +173,8 @@ public class NaviEmulatorActivity extends Activity
         mAmapAMapNaviView = (AMapNaviView) findViewById(R.id.standernavimap);
         mAmapAMapNaviView.onCreate(savedInstanceState);
         mAmapAMapNaviView.setAMapNaviViewListener(this);// 语音播报开始
-        TTSController.getInstance(this).startSpeaking();
+        mTtsManager = TTSController.getInstance(getApplicationContext());
+        mTtsManager.init();
         if (getIntent().hasExtra("speedValue")) {
             // 设置模拟速度
             try {
@@ -180,8 +189,8 @@ public class NaviEmulatorActivity extends Activity
         }
         initSpeedView();
         // 开启模拟导航
-        AMapNavi.getInstance(this).startNavi(AMapNavi.EmulatorNaviMode);
-        AMapNavi.getInstance(this).setAMapNaviListener(new AMapNaviListener() {
+        AMapNavi.getInstance(this).startNavi(NaviType.EMULATOR);
+        AMapNavi.getInstance(this).addAMapNaviListener(new AMapNaviListener() {
 
             @Override
             public void onTrafficStatusUpdate() {
@@ -210,6 +219,76 @@ public class NaviEmulatorActivity extends Activity
             @Override
             public void onNaviInfoUpdated(AMapNaviInfo aMapNaviInfo) {
                 // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void updateCameraInfo(AMapNaviCameraInfo[] aMapNaviCameraInfos) {
+
+            }
+
+            @Override
+            public void onServiceAreaUpdate(AMapServiceAreaInfo[] aMapServiceAreaInfos) {
+
+            }
+
+            @Override
+            public void showCross(AMapNaviCross aMapNaviCross) {
+
+            }
+
+            @Override
+            public void hideCross() {
+
+            }
+
+            @Override
+            public void showLaneInfo(AMapLaneInfo[] aMapLaneInfos, byte[] bytes, byte[] bytes1) {
+
+            }
+
+            @Override
+            public void hideLaneInfo() {
+
+            }
+
+            @Override
+            public void onCalculateRouteSuccess(int[] ints) {
+
+            }
+
+            @Override
+            public void notifyParallelRoad(int i) {
+
+            }
+
+            @Override
+            public void OnUpdateTrafficFacility(AMapNaviTrafficFacilityInfo aMapNaviTrafficFacilityInfo) {
+
+            }
+
+            @Override
+            public void OnUpdateTrafficFacility(AMapNaviTrafficFacilityInfo[] aMapNaviTrafficFacilityInfos) {
+
+            }
+
+            @Override
+            public void OnUpdateTrafficFacility(TrafficFacilityInfo trafficFacilityInfo) {
+
+            }
+
+            @Override
+            public void updateAimlessModeStatistics(AimLessModeStat aimLessModeStat) {
+
+            }
+
+            @Override
+            public void updateAimlessModeCongestionInfo(AimLessModeCongestionInfo aimLessModeCongestionInfo) {
+
+            }
+
+            @Override
+            public void onPlayRing(int i) {
+
             }
 
             double altitude = 0;
@@ -297,7 +376,7 @@ public class NaviEmulatorActivity extends Activity
             private Location getLoc(String paramString,
                                     AMapNaviLocation aMapNaviLocation) {
                 speed = speedValue / 3.6f;
-                if (altitudeOpen&&aMapNaviLocation.getAltitude() <= 0) {
+                if (altitudeOpen && aMapNaviLocation.getAltitude() <= 0) {
                     int roomInt = (int) (Math.random() * 5) + 1;
                     int roomInt0 = (int) (Math.random() * 1) + 1;
                     if (roomInt0 % 2 == 0) {
@@ -349,21 +428,20 @@ public class NaviEmulatorActivity extends Activity
             @Override
             public void onNaviInfoUpdate(NaviInfo aMapNaviLocation) {
                 // TODO Auto-generated method stub
-                // Log.d("xxx", "导航位置更新0-----"
-                // + aMapNaviLocation.getCoord().getLatitude() + "--"
-                // + aMapNaviLocation.getCoord().getLongitude() + "---"
-                // + aMapNaviLocation.m_CameraSpeed);
-                if (mLocationManager != null) {
+//                 Log.d("xxx", "导航位置更新0-----"
+//                 + aMapNaviLocation.getCoord().getLatitude() + "--"
+//                 + aMapNaviLocation.getCoord().getLongitude() + "---"
+//                 + aMapNaviLocation.m_CameraSpeed);
+                if (mLocationManager != null && aMapNaviLocation.getCoord() != null) {
+                    Location localLocation = getLoc(LocationManager.GPS_PROVIDER, aMapNaviLocation);
+                    Log.d("xxx", "导航位置更新2-----" + localLocation.toString() + "==" + bearing + "==" + accuracy + "==" + speed + "===" + altitude);
                     try {
-                        Location localLocation = getLoc(LocationManager.GPS_PROVIDER, aMapNaviLocation);
-//                        Log.d("xxx", "导航位置更新2-----" + localLocation.toString() + "==" + bearing + "==" + accuracy + "==" + speed + "===" + altitude);
                         mLocationManager.setTestProviderLocation(LocationManager.GPS_PROVIDER,
                                 localLocation);
                     } catch (Exception e) {
                         e.printStackTrace();
+                        mToast.show();
                     }
-                } else {
-                    mToast.show();
                 }
 
             }
@@ -371,18 +449,18 @@ public class NaviEmulatorActivity extends Activity
             @Override
             public void onLocationChange(AMapNaviLocation aMapNaviLocation) {
                 // TODO Auto-generated method stub
-                // Log.d("xxx", "导航位置更新1-----" + aMapNaviLocation.toString());
-                try {
-                    if (mLocationManager != null) {
-                        Location localLocation = getLoc(LocationManager.GPS_PROVIDER, aMapNaviLocation);
-//                        Log.d("xxx", "导航位置更新1-----" + localLocation.toString() + "==" + bearing + "==" + accuracy + "==" + speed + "===" + altitude);
+                Log.d("xxx", "导航位置更新1-----" + aMapNaviLocation.toString());
+
+                if (mLocationManager != null) {
+                    Location localLocation = getLoc(LocationManager.GPS_PROVIDER, aMapNaviLocation);
+                    Log.d("xxx", "导航位置更新1-----" + localLocation.toString() + "==" + bearing + "==" + accuracy + "==" + speed + "===" + altitude);
+                    try {
                         mLocationManager.setTestProviderLocation(LocationManager.GPS_PROVIDER,
                                 localLocation);
-                    } else {
+                    } catch (Exception e) {
+                        e.printStackTrace();
                         mToast.show();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
 
             }
@@ -412,13 +490,12 @@ public class NaviEmulatorActivity extends Activity
             }
 
             @Override
-            public void onEndEmulatorNavi() {
-                // TODO Auto-generated method stub
+            public void onGetNavigationText(String s) {
 
             }
 
             @Override
-            public void onCalculateRouteSuccess() {
+            public void onEndEmulatorNavi() {
                 // TODO Auto-generated method stub
 
             }
@@ -443,7 +520,7 @@ public class NaviEmulatorActivity extends Activity
         });
         // 开启实时导航
         // AMapNavi.getInstance(this).startNavi(AMapNavi.GPSNaviMode);
-
+        AMapNavi.getInstance(this).addAMapNaviListener(mTtsManager);
     }
 
     /**
@@ -453,6 +530,11 @@ public class NaviEmulatorActivity extends Activity
     public void onNaviCancel() {
         MainApplication.getInstance().deleteActivity(this);
         finish();
+    }
+
+    @Override
+    public boolean onNaviBackClick() {
+        return false;
     }
 
     @Override
@@ -501,6 +583,7 @@ public class NaviEmulatorActivity extends Activity
     public void onPause() {
         super.onPause();
         mAmapAMapNaviView.onPause();
+        mTtsManager.stopSpeaking();
         MobclickAgent.onPause(this);
     }
 
@@ -514,7 +597,10 @@ public class NaviEmulatorActivity extends Activity
         }
         mAmapAMapNaviView.onDestroy();
         // 界面结束 停止语音播报
-        TTSController.getInstance(this).stopSpeaking();
+        AMapNavi.getInstance(this).stopNavi();
+        AMapNavi.getInstance(this).removeAMapNaviListener(mTtsManager);
+//        AMapNavi.getInstance(this).destroy();
+        mTtsManager.destroy();
         controlIsFromMockProvider = false;
         SharedPreferences sharedPreferences = getSharedPreferences(getPackageName() + "_preferences",
                 Activity.MODE_MULTI_PROCESS);
@@ -545,6 +631,11 @@ public class NaviEmulatorActivity extends Activity
     public void onLockMap(boolean arg0) {
 
         // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void onNaviViewLoaded() {
 
     }
 

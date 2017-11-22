@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.util.Log;
+
+import java.util.ArrayList;
 
 import de.robv.android.xposed.XSharedPreferences;
 
@@ -188,6 +191,7 @@ public class doClass{
     }
 
     public String a(String arg3) {
+        Log.d("xyl","XSharedPreferences==="+this.K.toString()+"==="+arg3+"=="+this.K.getString(arg3, ""));
         return this.K.getString(arg3, "");
     }
 
@@ -202,7 +206,7 @@ public class doClass{
                     return;
                 }
 
-                arg5.registerReceiver(new LocationChangeBroadcastReceiver(this), new IntentFilter("xyl"));
+                arg5.registerReceiver(new LocationChangeBroadcastReceiver(this), new IntentFilter("xyl_fix_location"));
                 this.L = false;
                 this.H = arg5.getSharedPreferences("prs", 0);
                 this.I = this.H.edit();

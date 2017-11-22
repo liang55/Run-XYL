@@ -6,6 +6,8 @@ import android.location.GpsStatus.Listener;
 import android.location.GpsStatus.NmeaListener;
 import android.location.LocationListener;
 import android.os.Build.VERSION;
+import android.util.Log;
+
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XSharedPreferences;
@@ -35,7 +37,6 @@ public class MainHook implements IXposedHookLoadPackage {
         this.lGpsl = new ArrayList();
         this.lGpsn = new ArrayList();
     }
-
     public void handleLoadPackage(LoadPackageParam loadPackageParam) {
         if (loadPackageParam != null) {
             this.pkg = loadPackageParam.packageName;
@@ -43,15 +44,20 @@ public class MainHook implements IXposedHookLoadPackage {
                 this.pkg = loadPackageParam.processName;
             }
             if (!dn.a(this.pkg, loadPackageParam.appInfo)) {
-                pref = new XSharedPreferences(MainHook.class.getPackage().getName());
+                pref = new XSharedPreferences("com.anjoyo.xyl.run");
                 this.s = new doClass(this.pkg, pref);
-                if (loadPackageParam.packageName.equals("com.anjoyo.xyl")) {
-                    XposedHelpers.findAndHookMethod("om.anjoyo.xyl.activity.NaviEmulatorActivity", loadPackageParam.classLoader, "isactive", new Object[]{new XC_MethodHook(){
+                if (loadPackageParam.packageName.equals("com.anjoyo.xyl.run")) {
+                    XposedHelpers.findAndHookMethod("com.anjoyo.xyl.run.util.NotiPrefrenceChangeUtil", loadPackageParam.classLoader, "isModuleActive", new Object[]{new XC_MethodHook(){
                         protected void afterHookedMethod(MethodHookParam methodHookParam) {
-                            methodHookParam.setResult(Boolean.valueOf(false));
+                            XposedBridge.log("xyl-run:active");
+                            methodHookParam.setResult(Boolean.valueOf(true));
                         }
                     }});
-                } else if (!this.pkg.equals("com.anjoyo.xyl") && !this.s.m.equals("") && dn.e(this.s.k)) {
+                    return;
+                }
+                Log.d("xyl","handleLoadPackage==this.pkg="+this.pkg+"==this.s.m=="+this.s.m+"==this.s.k=="+this.s.k+"==="+dn.e(this.s.k));
+                if (!this.pkg.equals("com.anjoyo.xyl.run") && !this.s.m.equals("") && dn.e(this.s.k)) {
+                    Log.d("xyl","handleLoadPackage==="+this.pkg);
                     this.s.a(AndroidAppHelper.currentApplication());
                     XposedHelpers.findAndHookMethod("android.telephony.TelephonyManager", loadPackageParam.classLoader, "getNetworkOperatorName", new Object[]{new bs(this)});
                     XposedHelpers.findAndHookMethod("android.telephony.TelephonyManager", loadPackageParam.classLoader, "getSimOperatorName", new Object[]{new cd(this)});

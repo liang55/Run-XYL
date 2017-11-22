@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -19,8 +20,9 @@ class LocationChangeBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context arg11, Intent arg12) {
         String[] v0_3;
         String v0_2;
-        if (arg12.getAction().equals("xyl")) {
+        if (arg12.getAction().equals("xyl_fix_location")) {
             Bundle v4 = arg12.getExtras();
+            Log.d("xyl","onReceive==="+v4.toString());
             Set v5 = v4.keySet();
             Iterator v6 = v5.iterator();
             while (v6.hasNext()) {
