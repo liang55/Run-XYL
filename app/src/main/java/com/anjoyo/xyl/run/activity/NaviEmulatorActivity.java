@@ -30,11 +30,14 @@ import com.amap.api.navi.AMapNaviListener;
 import com.amap.api.navi.AMapNaviView;
 import com.amap.api.navi.AMapNaviViewListener;
 import com.amap.api.navi.enums.NaviType;
+import com.amap.api.navi.model.AMapCalcRouteResult;
 import com.amap.api.navi.model.AMapLaneInfo;
+import com.amap.api.navi.model.AMapModelCross;
 import com.amap.api.navi.model.AMapNaviCameraInfo;
 import com.amap.api.navi.model.AMapNaviCross;
 import com.amap.api.navi.model.AMapNaviInfo;
 import com.amap.api.navi.model.AMapNaviLocation;
+import com.amap.api.navi.model.AMapNaviRouteNotifyData;
 import com.amap.api.navi.model.AMapNaviTrafficFacilityInfo;
 import com.amap.api.navi.model.AMapServiceAreaInfo;
 import com.amap.api.navi.model.AimLessModeCongestionInfo;
@@ -227,6 +230,11 @@ public class NaviEmulatorActivity extends Activity
             }
 
             @Override
+            public void updateIntervalCameraInfo(AMapNaviCameraInfo aMapNaviCameraInfo, AMapNaviCameraInfo aMapNaviCameraInfo1, int i) {
+
+            }
+
+            @Override
             public void onServiceAreaUpdate(AMapServiceAreaInfo[] aMapServiceAreaInfos) {
 
             }
@@ -242,7 +250,22 @@ public class NaviEmulatorActivity extends Activity
             }
 
             @Override
+            public void showModeCross(AMapModelCross aMapModelCross) {
+
+            }
+
+            @Override
+            public void hideModeCross() {
+
+            }
+
+            @Override
             public void showLaneInfo(AMapLaneInfo[] aMapLaneInfos, byte[] bytes, byte[] bytes1) {
+
+            }
+
+            @Override
+            public void showLaneInfo(AMapLaneInfo aMapLaneInfo) {
 
             }
 
@@ -288,6 +311,21 @@ public class NaviEmulatorActivity extends Activity
 
             @Override
             public void onPlayRing(int i) {
+
+            }
+
+            @Override
+            public void onCalculateRouteSuccess(AMapCalcRouteResult aMapCalcRouteResult) {
+
+            }
+
+            @Override
+            public void onCalculateRouteFailure(AMapCalcRouteResult aMapCalcRouteResult) {
+
+            }
+
+            @Override
+            public void onNaviRouteNotify(AMapNaviRouteNotifyData aMapNaviRouteNotifyData) {
 
             }
 
@@ -636,6 +674,16 @@ public class NaviEmulatorActivity extends Activity
 
     @Override
     public void onNaviViewLoaded() {
+
+    }
+
+    @Override
+    public void onMapTypeChanged(int i) {
+
+    }
+
+    @Override
+    public void onNaviViewShowMode(int i) {
 
     }
 

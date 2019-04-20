@@ -5,18 +5,20 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.amap.api.navi.AMapNaviListener;
+import com.amap.api.navi.model.AMapCalcRouteResult;
 import com.amap.api.navi.model.AMapLaneInfo;
+import com.amap.api.navi.model.AMapModelCross;
 import com.amap.api.navi.model.AMapNaviCameraInfo;
 import com.amap.api.navi.model.AMapNaviCross;
 import com.amap.api.navi.model.AMapNaviInfo;
 import com.amap.api.navi.model.AMapNaviLocation;
+import com.amap.api.navi.model.AMapNaviRouteNotifyData;
 import com.amap.api.navi.model.AMapNaviTrafficFacilityInfo;
 import com.amap.api.navi.model.AMapServiceAreaInfo;
 import com.amap.api.navi.model.AimLessModeCongestionInfo;
 import com.amap.api.navi.model.AimLessModeStat;
 import com.amap.api.navi.model.NaviInfo;
 import com.anjoyo.xyl.run.util.ICallBack;
-import com.anjoyo.xyl.run.util.IFlyTTS;
 import com.anjoyo.xyl.run.util.SystemTTS;
 import com.anjoyo.xyl.run.util.TTS;
 import com.autonavi.tbt.TrafficFacilityInfo;
@@ -53,7 +55,6 @@ public class TTSController implements AMapNaviListener, ICallBack {
 	private Context mContext;
 	private TTS tts = null;
 	private SystemTTS systemTTS;
-	private IFlyTTS iflyTTS = null;
 	private LinkedList<String> wordList = new LinkedList<String>();
 	private final int TTS_PLAY = 1;
 	private final int CHECK_TTS_PLAY = 2;
@@ -80,8 +81,6 @@ public class TTSController implements AMapNaviListener, ICallBack {
 	public void setTTSType(TTSType type) {
 		if (type == TTSType.SYSTEMTTS) {
 			tts = systemTTS;
-		} else {
-			tts = iflyTTS;
 		}
 		tts.setCallback(this);
 	}
@@ -89,16 +88,12 @@ public class TTSController implements AMapNaviListener, ICallBack {
 	private TTSController(Context context) {
 		mContext = context.getApplicationContext();
 		systemTTS = SystemTTS.getInstance(mContext);
-		iflyTTS = IFlyTTS.getInstance(mContext);
-		tts = iflyTTS;
+		tts = systemTTS;
 	}
 
 	public void init() {
 		if (systemTTS != null) {
 			systemTTS.init();
-		}
-		if (iflyTTS != null) {
-			iflyTTS.init();
 		}
 		tts.setCallback(this);
 	}
@@ -114,18 +109,12 @@ public class TTSController implements AMapNaviListener, ICallBack {
 		if (systemTTS != null) {
 			systemTTS.stopSpeak();
 		}
-		if (iflyTTS != null) {
-			iflyTTS.stopSpeak();
-		}
 		wordList.clear();
 	}
 
 	public void destroy() {
 		if (systemTTS != null) {
 			systemTTS.destroy();
-		}
-		if (iflyTTS != null) {
-			iflyTTS.destroy();
 		}
 		ttsManager = null;
 	}
@@ -210,6 +199,11 @@ public class TTSController implements AMapNaviListener, ICallBack {
 	}
 
 	@Override
+	public void updateIntervalCameraInfo(AMapNaviCameraInfo aMapNaviCameraInfo, AMapNaviCameraInfo aMapNaviCameraInfo1, int i) {
+
+	}
+
+	@Override
 	public void onServiceAreaUpdate(AMapServiceAreaInfo[] infoArray) {
 
 	}
@@ -225,7 +219,22 @@ public class TTSController implements AMapNaviListener, ICallBack {
 	}
 
 	@Override
+	public void showModeCross(AMapModelCross aMapModelCross) {
+
+	}
+
+	@Override
+	public void hideModeCross() {
+
+	}
+
+	@Override
 	public void showLaneInfo(AMapLaneInfo[] laneInfos, byte[] laneBackgroundInfo, byte[] laneRecommendedInfo) {
+
+	}
+
+	@Override
+	public void showLaneInfo(AMapLaneInfo aMapLaneInfo) {
 
 	}
 
@@ -268,6 +277,21 @@ public class TTSController implements AMapNaviListener, ICallBack {
 
 	@Override
 	public void onPlayRing(int type) {
+
+	}
+
+	@Override
+	public void onCalculateRouteSuccess(AMapCalcRouteResult aMapCalcRouteResult) {
+
+	}
+
+	@Override
+	public void onCalculateRouteFailure(AMapCalcRouteResult aMapCalcRouteResult) {
+
+	}
+
+	@Override
+	public void onNaviRouteNotify(AMapNaviRouteNotifyData aMapNaviRouteNotifyData) {
 
 	}
 

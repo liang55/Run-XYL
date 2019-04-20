@@ -42,11 +42,14 @@ import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.navi.AMapNavi;
 import com.amap.api.navi.AMapNaviListener;
 import com.amap.api.navi.enums.PathPlanningStrategy;
+import com.amap.api.navi.model.AMapCalcRouteResult;
 import com.amap.api.navi.model.AMapLaneInfo;
+import com.amap.api.navi.model.AMapModelCross;
 import com.amap.api.navi.model.AMapNaviCameraInfo;
 import com.amap.api.navi.model.AMapNaviCross;
 import com.amap.api.navi.model.AMapNaviInfo;
 import com.amap.api.navi.model.AMapNaviLocation;
+import com.amap.api.navi.model.AMapNaviRouteNotifyData;
 import com.amap.api.navi.model.AMapNaviTrafficFacilityInfo;
 import com.amap.api.navi.model.AMapServiceAreaInfo;
 import com.amap.api.navi.model.AimLessModeCongestionInfo;
@@ -61,6 +64,9 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
+import com.hjq.permissions.OnPermission;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -198,6 +204,28 @@ public class NaviStartActivity extends AppCompatActivity
             }
         });
 
+        XXPermissions.with(NaviStartActivity.this)
+                .permission(Permission.Group.LOCATION)
+                .request(new OnPermission() {
+                    @Override
+                    public void hasPermission(List<String> granted, boolean isAll) {
+                        if (isAll){
+                            mLocationClient.startLocation();
+                        }
+                    }
+
+                    @Override
+                    public void noPermission(List<String> denied, boolean quick) {
+                        if(quick) {
+                            Toast.makeText(NaviStartActivity.this, "请打开定位权限", Toast.LENGTH_SHORT).show();
+                            //如果是被永久拒绝就跳转到应用权限系统设置页面
+                            XXPermissions.gotoPermissionSettings(NaviStartActivity.this);
+                        }else {
+                            Toast.makeText(NaviStartActivity.this,"收到打开定位权限", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -248,6 +276,14 @@ public class NaviStartActivity extends AppCompatActivity
             showGPSProgressDialog();
             return;
 
+        }
+        if (mStartPoint==null){
+            showToast("请选择起点");
+            return;
+        }
+        if (mEndPoint==null){
+            showToast("请选择终点");
+            return;
         }
         mIsGetGPS = false;
         switch (mTravelMethod) {
@@ -780,6 +816,11 @@ public class NaviStartActivity extends AppCompatActivity
                 }
 
                 @Override
+                public void updateIntervalCameraInfo(AMapNaviCameraInfo aMapNaviCameraInfo, AMapNaviCameraInfo aMapNaviCameraInfo1, int i) {
+
+                }
+
+                @Override
                 public void onServiceAreaUpdate(AMapServiceAreaInfo[] aMapServiceAreaInfos) {
 
                 }
@@ -795,7 +836,22 @@ public class NaviStartActivity extends AppCompatActivity
                 }
 
                 @Override
+                public void showModeCross(AMapModelCross aMapModelCross) {
+
+                }
+
+                @Override
+                public void hideModeCross() {
+
+                }
+
+                @Override
                 public void showLaneInfo(AMapLaneInfo[] aMapLaneInfos, byte[] bytes, byte[] bytes1) {
+
+                }
+
+                @Override
+                public void showLaneInfo(AMapLaneInfo aMapLaneInfo) {
 
                 }
 
@@ -851,6 +907,21 @@ public class NaviStartActivity extends AppCompatActivity
 
                 @Override
                 public void onPlayRing(int i) {
+
+                }
+
+                @Override
+                public void onCalculateRouteSuccess(AMapCalcRouteResult aMapCalcRouteResult) {
+
+                }
+
+                @Override
+                public void onCalculateRouteFailure(AMapCalcRouteResult aMapCalcRouteResult) {
+
+                }
+
+                @Override
+                public void onNaviRouteNotify(AMapNaviRouteNotifyData aMapNaviRouteNotifyData) {
 
                 }
 
