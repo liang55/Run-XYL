@@ -1,12 +1,15 @@
 package com.anjoyo.xyl.run;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.app.Application;
 
-import com.google.firebase.FirebaseApp;
+import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.ads.MobileAds;
 import com.umeng.analytics.MobclickAgent;
+
+import java.util.ArrayList;
+
+import io.fabric.sdk.android.Fabric;
 
 public class MainApplication extends Application {
 
@@ -18,7 +21,9 @@ public class MainApplication extends Application {
 		super.onCreate();
 		MobclickAgent.setDebugMode(false);
 		MobclickAgent.setCatchUncaughtExceptions(true);
-		FirebaseApp.initializeApp(this);
+
+		MobileAds.initialize(this,"ca-app-pub-6260442262526164~8983367539");
+		Fabric.with(this, new Crashlytics());
 		instance = this;
 	}
 	// 单例模式中获取唯一的MyApplication实例
